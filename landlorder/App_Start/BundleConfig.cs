@@ -7,13 +7,7 @@ namespace landlorder
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
-        {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
-            
+        {            
 
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
                 "~/scripts/jquery-1.11.1.min.js",
@@ -21,12 +15,7 @@ namespace landlorder
                 "~/scripts/jquery.easing.1.3.js",
                 "~/scripts/bootstrap/js/bootstrap.min.js",
                 "~/scripts/jquery-scrollTo/jquery.scrollTo.min.js",
-                "~/scripts/main.js"));
-
-
-
-
-          
+                "~/scripts/main.js"));          
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -38,9 +27,9 @@ namespace landlorder
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/scripts/bootstrap/css/bootstrap.min.css",
-                      "~/Content/site.css",
-                      "~/content/font-awesome/css/font-awesome.css"));
+                      "~/scripts/bootstrap/css/bootstrap.min.css",                      
+                      "~/content/font-awesome/css/font-awesome.css",
+                      "~/Content/site.css"));
         }
     }
 }

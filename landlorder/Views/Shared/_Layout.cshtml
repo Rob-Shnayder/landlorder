@@ -1,15 +1,22 @@
 ﻿<!DOCTYPE html>
-<html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width">
-    <title>@ViewBag.Title | landlorder</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
 
     @Styles.Render("~/Content/css")
 
 </head>
-<body>
-    
+<body data-spy="scroll">
+
     <header id="header" class="header">
         <div class="container">
             <h1 class="logo pull-left">
@@ -42,11 +49,14 @@
 
 
 
-    <div class="container body-content">
+    <div>
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer>            
+            <div class="container text-center">
+                <p>&copy; @DateTime.Now.Year - Rob Shnayder</p>
+                <small class="copyright">Design by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a></small>
+            </div><!--//container-->
         </footer>
     </div>
 
