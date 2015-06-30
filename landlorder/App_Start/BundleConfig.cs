@@ -30,6 +30,9 @@ namespace landlorder
                       "~/scripts/bootstrap/css/bootstrap.min.css",                      
                       "~/content/font-awesome/css/font-awesome.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/googleaddressJS").Include(
+                       "~/Scripts/googleaddress.js"));
         }
     }
 }

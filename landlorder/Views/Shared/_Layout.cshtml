@@ -16,7 +16,6 @@
 
 </head>
 <body data-spy="scroll">
-
     <header id="header" class="header">
         <div class="container">
             <h1 class="logo pull-left">
@@ -50,8 +49,9 @@
 
 
     <div>
+        <!--//beginning body-->
         @RenderBody()
-        <hr />
+        <hr /> <!--//end body-->
         <footer>            
             <div class="container text-center">
                 <p>&copy; @DateTime.Now.Year - Rob Shnayder</p>
@@ -61,6 +61,8 @@
     </div>
 
     @Scripts.Render("~/bundles/plugins")
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
+    @Scripts.Render("~/bundles/googleaddressJS")
     @RenderSection("scripts", required: false)
 
 
