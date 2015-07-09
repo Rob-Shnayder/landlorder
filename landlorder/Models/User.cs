@@ -12,21 +12,16 @@ namespace landlorder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Property
+    public partial class User
     {
-        public Property()
+        public User()
         {
             this.Reviews = new HashSet<Review>();
         }
     
-        public int propertyID { get; set; }
-        public string streetaddress { get; set; }
-        public string city { get; set; }
-        public string zip { get; set; }
-        public string state { get; set; }
-        public string country { get; set; }
-        public string apartmentnum { get; set; }
-        public string landlordname { get; set; }
+        public int userID { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
     
         public virtual ICollection<Review> Reviews { get; set; }
     }
