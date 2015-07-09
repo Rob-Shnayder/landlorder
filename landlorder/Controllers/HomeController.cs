@@ -27,6 +27,13 @@ namespace landlorder.Controllers
             return View();
         }
 
+        public ActionResult Search(string locationinput)
+        {
+            ViewBag.Message = "Your contact page.";
+            ViewBag.location = locationinput;
+
+            return View();
+        }
 
     }
 }

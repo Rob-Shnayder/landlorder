@@ -14,8 +14,7 @@ namespace landlorder
                 "~/scripts/jquery-migrate-1.2.1.min.js",
                 "~/scripts/jquery.easing.1.3.js",
                 "~/scripts/bootstrap/js/bootstrap.min.js",
-                "~/scripts/jquery-scrollTo/jquery.scrollTo.min.js",
-                "~/scripts/main.js"));          
+                "~/scripts/jquery-scrollTo/jquery.scrollTo.min.js"));          
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -33,6 +32,9 @@ namespace landlorder
 
             bundles.Add(new ScriptBundle("~/bundles/googleaddressJS").Include(
                        "~/Scripts/googleaddress.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/googlemapsJS").Include(
+                       "~/Scripts/googlemaps.js"));
         }
     }
 }
