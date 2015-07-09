@@ -26,5 +26,7 @@ namespace landlorder.Controllers
 
             return View();
         }
+
+
     }
 }
