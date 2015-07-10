@@ -1,5 +1,7 @@
-﻿body {
-  font-family: 'Lato', arial, sans-serif;
+﻿@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:400,300,600);
+
+body {
+  font-family: 'open sans', helvetica, arial, sans;
   color: #444444;
   font-size: 16px;
   height:100%;
@@ -8,12 +10,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 h1,
-h2,
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #17baef;
+}   
+
 h3,
 h4,
 h5,
 h6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'open sans';
   font-weight: 700;
   color: #17baef;
 }
@@ -133,7 +140,7 @@ pre code {
   padding: 0;
 }
 .header .main-nav .nav .nav-item {
-  font-weight: normal;
+  font-weight: bold;
   margin-right: 30px;
   font-family: 'Montserrat', sans-serif;
 }
@@ -151,7 +158,7 @@ pre code {
   padding: 15px 10px;
 }
 .header .main-nav .nav .nav-item a:hover {
-  color: #074f66;
+  color: #17baef;
   background: none;
 }
 .header .main-nav .nav .nav-item a:focus {
@@ -171,6 +178,8 @@ pre code {
 /* ======= Promo Section ======= */
 .promo {
   background-image: url("../images/housefront-blur.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: top center; 
   color: #fff;
   padding-top: 200px;  
@@ -179,15 +188,18 @@ pre code {
   font-size: 98px;
   color: #074f66;
   margin-top: 0;
+
 }
 .promo .title .highlight {
   color: #eebf3f;
+  -webkit-text-stroke-width: 0.8px;
+  -webkit-text-stroke-color: #074f66;
 }
 .promo .intro {
   font-size: 28px;
   max-width: 680px;
   margin: 0 auto;
-  margin-bottom: 75px;
+  margin-bottom: 40px;
 }
 .promo .btns .btn {
   margin-right: 15px;
@@ -208,19 +220,43 @@ pre code {
 .promo .meta a:hover {
   color: #074f66;
 }
-.promo .social-media {
-  background: #0c86ae;
-  padding: 10px 0;
-  margin: 0 auto;
+
+
+
+.subscribe.form-control {
+    width: 500px;
+    height: 50px;
+    background: white;
+    border: none;
+    font-size: 10pt;
+    color: black;
+    float:center;    
+    margin-bottom: 180px;
+    font-size: 1.3em;    
+
 }
-.promo .social-media li {
-  margin-top: 15px;
+
+.subscribe.form-control:focus {
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
 }
-.promo .social-media li.facebook-like {
-  margin-top: 0;
-  position: relative;
-  top: -5px;
+
+.submit-icon {
+    background-color: #17baef;
+    border: 0 none;
+    border-radius: 5;
+    color: white;
+    padding: 14px 20px;
+    position: absolute;
+    overflow: hidden;
+    transition: all 0.3s ease 0s;
 }
+
+.submit-icon:hover{
+    background-color: #0F789B;
+}
+
 /* ======= About Section ======= */
 .about {
   padding: 80px 0;
@@ -605,37 +641,3 @@ pre code {
 /* Medium devices (desktops, 992px and up) */
 /* Large devices (large desktops, 1200px and up) */
 
-
-
-.subscribe.form-control {
-     width: 500px;
-    height: 50px;
-    background: white;
-    border: none;
-    font-size: 10pt;
-    color: black;
-    float:center;    
-    margin-bottom: 150px;
-    font-size: 1.3em;
-}
-
-.subscribe.form-control:focus {
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
-}
-
-.submit-icon {
-    background-color: #17baef;
-    border: 0 none;
-    border-radius: 5;
-    color: white;
-    padding: 13px 20px;
-    position: absolute;
-    overflow: hidden;
-    transition: all 0.3s ease 0s;
-}
-
-.submit-icon:hover{
-    background-color: #0F789B;
-}
