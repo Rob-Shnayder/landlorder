@@ -13,10 +13,10 @@ namespace landlorder.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class landlorderEntities1 : DbContext
+    public partial class landlorderEntities2 : DbContext
     {
-        public landlorderEntities1()
-            : base("name=landlorderEntities1")
+        public landlorderEntities2()
+            : base("name=landlorderEntities2")
         {
         }
     

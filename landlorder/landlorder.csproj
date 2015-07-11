@@ -167,31 +167,31 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GeneralModels.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralModels.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GeneralModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GeneralModels.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralModels.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\landlordermodels.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>landlordermodels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\landlordermodels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>landlordermodels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\landlordermodels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>landlordermodels.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Property.cs">
-      <DependentUpon>landlordermodels.tt</DependentUpon>
+      <DependentUpon>GeneralModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Review.cs">
-      <DependentUpon>landlordermodels.tt</DependentUpon>
+      <DependentUpon>GeneralModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>landlordermodels.tt</DependentUpon>
+      <DependentUpon>GeneralModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -247,22 +247,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\landlordermodels.edmx">
+    <EntityDeploy Include="Models\GeneralModels.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>landlordermodels.Designer.cs</LastGenOutput>
+      <LastGenOutput>GeneralModels.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\landlordermodels.Context.tt">
+    <Content Include="Models\GeneralModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>landlordermodels.edmx</DependentUpon>
-      <LastGenOutput>landlordermodels.Context.cs</LastGenOutput>
+      <DependentUpon>GeneralModels.edmx</DependentUpon>
+      <LastGenOutput>GeneralModels.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\landlordermodels.edmx.diagram">
-      <DependentUpon>landlordermodels.edmx</DependentUpon>
+    <Content Include="Models\GeneralModels.edmx.diagram">
+      <DependentUpon>GeneralModels.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\landlordermodels.tt">
+    <Content Include="Models\GeneralModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>landlordermodels.edmx</DependentUpon>
-      <LastGenOutput>landlordermodels.cs</LastGenOutput>
+      <DependentUpon>GeneralModels.edmx</DependentUpon>
+      <LastGenOutput>GeneralModels.cs</LastGenOutput>
     </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Views\Home\Search.cshtml" />

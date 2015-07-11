@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="landlorderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="landlorderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Property">
           <Key>
             <PropertyRef Name="propertyID" />
@@ -33,8 +33,11 @@
             <PropertyRef Name="userID" />
           </Key>
           <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="lockoutenabled" Type="bit" Nullable="false" />
+          <Property Name="lockoutEndDateUTC" Type="datetime" />
+          <Property Name="accessfailedcount" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="fk_review_propertyid">
           <End Role="Property" Type="Self.Property" Multiplicity="1" />
@@ -73,8 +76,7 @@
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="landlorderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -102,16 +104,7 @@
           <Property Name="propertyID" Type="Int32" Nullable="false" />
           <Property Name="userID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Property" Relationship="Self.fk_review_propertyid" FromRole="Review" ToRole="Property" />
-          <NavigationProperty Name="User" Relationship="Self.fk_review_userid" FromRole="Review" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Reviews" Relationship="Self.fk_review_userid" FromRole="Users" ToRole="Review" />
+          <NavigationProperty Name="User" Relationship="landlorderModel.fk_review_userid" FromRole="Review" ToRole="User" />
         </EntityType>
         <Association Name="fk_review_propertyid">
           <End Role="Property" Type="Self.Property" Multiplicity="1" />
@@ -125,11 +118,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="landlorderEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Properties" EntityType="Self.Property" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <AssociationSet Name="fk_review_propertyid" Association="Self.fk_review_propertyid">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="landlorderModel.User" />
+          <AssociationSet Name="fk_review_userid" Association="landlorderModel.fk_review_userid">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="lockoutenabled" Type="Boolean" Nullable="false" />
+          <Property Name="lockoutEndDateUTC" Type="DateTime" Precision="3" />
+          <Property Name="accessfailedcount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Reviews" Relationship="landlorderModel.fk_review_userid" FromRole="User" ToRole="Review" />
+        </EntityType>
         <Association Name="fk_review_userid">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <End Type="landlorderModel.User" Role="User" Multiplicity="1" />
+          <End Type="landlorderModel.Review" Role="Review" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="userID" />
             </Principal>
             <Dependent Role="Review">
@@ -137,25 +155,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="landlorderEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Properties" EntityType="Self.Property" />
-          <EntitySet Name="Reviews" EntityType="Self.Review" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="fk_review_propertyid" Association="Self.fk_review_propertyid">
-            <End Role="Property" EntitySet="Properties" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-          <AssociationSet Name="fk_review_userid" Association="Self.fk_review_userid">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="landlorderModelStoreContainer" CdmEntityContainer="landlorderEntities1">
+        <EntityContainerMapping StorageEntityContainer="landlorderModelStoreContainer" CdmEntityContainer="landlorderEntities2">
           <EntitySetMapping Name="Properties">
             <EntityTypeMapping TypeName="landlorderModel.Property">
               <MappingFragment StoreEntitySet="Property">
@@ -184,9 +189,12 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="landlorderModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="userID" ColumnName="userID" />
-                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="accessfailedcount" ColumnName="accessfailedcount" />
+                <ScalarProperty Name="lockoutEndDateUTC" ColumnName="lockoutEndDateUTC" />
+                <ScalarProperty Name="lockoutenabled" ColumnName="lockoutenabled" />
                 <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

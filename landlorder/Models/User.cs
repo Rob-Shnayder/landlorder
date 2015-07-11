@@ -20,8 +20,11 @@ namespace landlorder.Models
         }
     
         public int userID { get; set; }
-        public string username { get; set; }
+        public string email { get; set; }
         public string password { get; set; }
+        public bool lockoutenabled { get; set; }
+        public Nullable<System.DateTime> lockoutEndDateUTC { get; set; }
+        public int accessfailedcount { get; set; }
     
         public virtual ICollection<Review> Reviews { get; set; }
     }
