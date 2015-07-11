@@ -1,7 +1,7 @@
-﻿jQuery(document).ready(function ($) {
-    tab = $('.tabs h3 a');
+﻿jQuery(document).ready(function ($) {   
 
-    tab.on('click', function (event) {
+    $('.tabs h3 a').on('click', function (event) {
+        tab = $('.tabs h3 a');
         event.preventDefault();
         tab.removeClass('active');
         $(this).addClass('active');
@@ -12,14 +12,7 @@
     });
 
 
-    $('#login').click(function () {
-        $('#login-tab').addClass('class=active');
-        $('#login-tab-content').addClass('class=active');
-    });
-    $('#signup').click(function () {
-        $('#login-tab').addClass('class=active');
-        $('#login-tab-content').addClass('class=active');
-    });
+   
 });
 
 

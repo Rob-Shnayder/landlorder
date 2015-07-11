@@ -48,14 +48,22 @@
   .form-wrap form .button {
     width: 100%;
     padding: .8em 0 10px .8em;
-    background-color: #28A55F;
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -webkit-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+    background-color: #0a7396;
     border: none;
     color: #fff;
     cursor: pointer;
-    text-transform: uppercase; }
+    text-transform: uppercase; 
+    margin-top: 30px;
+  }
+    
+  
 
     .form-wrap form .button:hover {
-      background-color: #4FDA8C; }
+      background-color: #17baef; }
 
   .form-wrap form .checkbox {
     visibility: hidden;

@@ -266,7 +266,7 @@
     </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Views\Home\Search.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\LoginModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

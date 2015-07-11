@@ -6,7 +6,7 @@ namespace landlorder.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Username")]
         public string Email { get; set; }
     }
 
