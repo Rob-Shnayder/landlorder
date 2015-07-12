@@ -1,4 +1,4 @@
-﻿@model landlorder.Models.User
+﻿@model landlorder.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register | landlorder";
 }
@@ -15,11 +15,12 @@
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="signup-form">
-                    @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
-                    @Html.TextBoxFor(m => m.email, new { @class = "input", @placeholder = "Email" })
-                    @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
-                    @Html.PasswordFor(m => m.password, new { @class = "input", @placeholder = "Password" })
-
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input", @placeholder = "Confirm Password", @autocomplete = "off" })
 
                     <input type="submit" value="Sign Up" class="button" />
                 </div>

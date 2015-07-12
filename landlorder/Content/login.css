@@ -45,6 +45,11 @@
     padding-right: 2em;
     width: 100%; }
 
+   .form-wrap form .input:focus {
+      box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+      border: 1px solid rgba(81, 203, 238, 1); 
+   }
+
   .form-wrap form .button {
     width: 100%;
     padding: .8em 0 10px .8em;
