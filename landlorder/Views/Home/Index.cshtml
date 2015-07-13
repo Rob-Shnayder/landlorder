@@ -2,29 +2,29 @@
     ViewBag.Title = "landlorder | Search and Submit Landlord Reviews";
 }
 
-    <!-- ******PROMO****** -->
+    <!-- ******PROMO****** -->   
 
     <section id="promo" class="promo section offset-header">
-        <div class="container text-center">
-            <h2 class="title">land<span class="highlight">lorder</span></h2>
-            <p class="intro"></p>
-            <form action="/Home/Search" method="get" class="subscribe-form wow animated fadeInUp">
-                <div class="col-md-3 column"></div>
-                <div class="col-md-3 column">
-                    <div class="input-group">
-                        <input type="text" id="locationinput" name="locationinput" class="subscribe form-control" autofocus placeholder="Search address, city or zip">
-                        <span class="input-group-btn-lg">
-                            <button type="submit" class="submit-icon">
-                                <i class="fa fa-search fa-lg"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-3 column"></div>
-            </form>
-        </div><!--//container-->
+        <div class=" container text-center">
+    <h2 class="title">land<span class="highlight">lorder</span></h2>
+    <p class="intro"></p>
+    <form action="/Home/Search" method="get">
+        <div class="col-md-3 column"></div>
+        <div class="col-md-3 column">
+            <div class="input-group">
+                <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip">
+                <span class="input-group-btn-lg">
+                    <button type="submit" class="submit-icon">
+                        <i class="fa fa-search fa-lg"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 column"></div>
+    </form>
+    </div><!--//container-->
 
-    </section><!--//promo-->
+</section><!--//promo-->
     <!-- ******ABOUT****** -->
     <section id="about" class="about section">
         <div class="container">
@@ -62,5 +62,4 @@
         </div><!--//container-->
     </section><!--//about-->
 
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
 @Scripts.Render("~/bundles/googleaddressJS")
