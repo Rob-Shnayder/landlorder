@@ -20,9 +20,10 @@ function initialize() {
         { types: ['geocode'] });
     // When the user selects an address from the dropdown,
     // populate the address fields in the form.
-    google.maps.event.addListener(autocomplete, 'place_changed', function () {
-        fillInAddress();
-    });
+
+    //google.maps.event.addListener(locationbtn, 'click', function () {
+    //    fillInAddress();
+    //});
 }
 
 // [START region_fillform]
@@ -30,15 +31,20 @@ function fillInAddress() {
     // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
 
-    // Get each component of the address from the place details
-    // and fill the corresponding field on the form.
+    if (place.address_components.length > 0) {
+        sendlocationData(place);
+    }
+
+
+    /*Sends data piece by piece
     for (var i = 0; i < place.address_components.length; i++) {
         var addressType = place.address_components[i].types[0];
         if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]];
-            document.getElementById(addressType).value = val;
+            var val = place.address_components[i][componentForm[addressType]]; 
+            //document.getElementById(addressType).value = val;
         }
     }
+    */
 }
 // [END region_fillform]
 
@@ -58,4 +64,35 @@ function geolocate() {
         });
     }
 }
+
+function sendlocationData(array) {
+
+    var data = {
+        street_number: "10323",
+        route: "sunstream lane",
+    };
+    console.log(data);
+
+    $.ajax({
+        url: "/Home/GetLocationData",
+        type: 'POST',
+        traditional: true,
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: 'application/json; charset=utf-8',
+        success: window.location = '/Home/Search',
+        error: function (jqXHR, exception) {
+            alert('Error message.');
+            console.log(jqXHR.statusText);
+        }
+    });
+}
 // [END region_geolocation]
+
+
+function checkEnterBtnKeyDown(e) {
+    if (e.keyCode == 13) {
+        fillInAddress()
+        return false;
+    }
+}

@@ -183,6 +183,7 @@
       <DependentUpon>GeneralModels.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LocationInfo.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Property.cs">
       <DependentUpon>GeneralModels.tt</DependentUpon>
