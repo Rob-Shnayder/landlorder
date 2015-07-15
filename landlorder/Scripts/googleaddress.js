@@ -12,6 +12,16 @@ var componentForm = {
     postal_code: 'short_name'
 };
 
+var POSTcomponentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    city: 'long_name',
+    state: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name',
+    postal_code_suffix: 'short_name'
+};
+
 function initialize() {
     // Create the autocomplete object, restricting the search
     // to geographical location types.
@@ -30,13 +40,37 @@ function initialize() {
 function fillInAddress() {
     // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
-
-    if (place.address_components.length > 0) {
-        sendlocationData(place);
+    
+    var locationData = {};
+    for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+        if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+                        
+            if (addressType == "administrative_area_level_1") {
+                locationData["state"] = val;
+            }
+            else if (addressType == "locality") {
+                locationData["city"] = val;
+            }
+            else {
+                locationData[addressType] = val;
+            }
+        }
+    }
+   
+    if (Object.keys(locationData).length > 0) {
+        var type = place.address_components[0].types[0];
+        sendlocationData(locationData, type);
     }
 
 
     /*Sends data piece by piece
+
+    if (place.address_components.length > 0) {
+        var type = place.address_components[0].types[0];
+        sendlocationData(place, type);
+    }
     for (var i = 0; i < place.address_components.length; i++) {
         var addressType = place.address_components[i].types[0];
         if (componentForm[addressType]) {
@@ -65,14 +99,8 @@ function geolocate() {
     }
 }
 
-function sendlocationData(array) {
-
-    var data = {
-        street_number: "10323",
-        route: "sunstream lane",
-    };
-    console.log(data);
-
+function sendlocationData(data, type) {
+    
     $.ajax({
         url: "/Home/GetLocationData",
         type: 'POST',

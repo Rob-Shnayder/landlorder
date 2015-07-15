@@ -28,7 +28,7 @@ namespace landlorder.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetLocationData(LocationInfo array)
+        public JsonResult GetLocationData(StreetAddressModel array)
         {
             var myArrayInt = array;
             return null;
