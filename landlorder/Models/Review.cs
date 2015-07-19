@@ -41,10 +41,10 @@ namespace landlorder.Models
         [DataType(DataType.MultilineText)]
         public string review1 { get; set; }
 
-        [Display(Name = "Landlord Name")]
+        [Display(Name = "Landlord Name (Optional)")]
         public string landlordname { get; set; }
 
-        [Display(Name = "Apartment Number(if applicable)")]
+        [Display(Name = "Apartment Number (Optional)")]
         public string apartmentnum { get; set; }
 
         

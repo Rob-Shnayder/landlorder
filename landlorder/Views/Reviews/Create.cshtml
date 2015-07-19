@@ -4,99 +4,121 @@
     ViewBag.Title = "Write A Review | landlorder";
 }
 
-<div class="container-fluid">
+
+
+<div class="container">
     <div class="row">
 
         <div class="container">
             <div class="heading">
                 <div class="heading-wrap">
-                    <h3 class="title text-center">Write A Review</h3>
+                    <h3 class="logintitle text-center">Write A Review</h3>
                     <h4 class="title text-center">Address</h4>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3"></div>
-        <div class="col-md-5">
+
+        <div class="col-lg-8">
 
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    <div class="formalignment">
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <!-- Inputs not needed
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="ratingsection well">
+                        <h4>Rating</h4>
+                        <hr />
+                        <div class="form-group overallrating">
+                                <label class="control-label col-md-5" for="rating">Overall Rating<br><span class="subtext"> </span></label>
+                                <div class="col-md-6">
+                                    <div class="stars">
+                                        <input type="radio" name="overallstar" class="star-1" id="overall_star-1" />
+                                        <label class="star-1" for="overall_star-1">1</label>
+                                        <input type="radio" name="overallstar" class="star-2" id="overall_star-2" />
+                                        <label class="star-2" for="overall_star-2">2</label>
+                                        <input type="radio" name="overallstar" class="star-3" id="overall_star-3" />
+                                        <label class="star-3" for="overall_star-3">3</label>
+                                        <input type="radio" name="overallstar" class="star-4" id="overall_star-4" />
+                                        <label class="star-4" for="overall_star-4">4</label>
+                                        <input type="radio" name="overallstar" class="star-5" id="overall_star-5" />
+                                        <label class="star-5" for="overall_star-5">5</label>
+                                        <span></span>
+                                    </div>
+                                </div>
+                        </div>
+
                         <div class="form-group">
-                            @Html.LabelFor(model => model.propertyID, "propertyID", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <label class="control-label col-md-5" for="rating">Repair:<br><span class="subtext">Maintence & repairs are completed in a timely manner.</span></label>
+
                             <div class="col-md-6">
-                                @Html.DropDownList("propertyID", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.propertyID, "", new { @class = "text-danger" })
+                                <div class="stars">
+                                    <input type="radio" name="repairstar" class="star-1" id="repair_star-1" />
+                                    <label class="star-1" for="repair_star-1">1</label>
+                                    <input type="radio" name="repairstar" class="star-2" id="repair_star-2" />
+                                    <label class="star-2" for="repair_star-2">2</label>
+                                    <input type="radio" name="repairstar" class="star-3" id="repair_star-3" />
+                                    <label class="star-3" for="repair_star-3">3</label>
+                                    <input type="radio" name="repairstar" class="star-4" id="repair_star-4" />
+                                    <label class="star-4" for="repair_star-4">4</label>
+                                    <input type="radio" name="repairstar" class="star-5" id="repair_star-5" />
+                                    <label class="star-5" for="repair_star-5">5</label>
+                                    <span></span>
+                                </div>                                @Html.ValidationMessageFor(model => model.repairrating, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.userID, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <label class="control-label col-md-5" for="rating">Communication:<br><span class="subtext">Responds to tenant's needs timely and effectively; Communicates in a respectful manner.</span></label>
                             <div class="col-md-6">
-                                @Html.EditorFor(model => model.userID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.userID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                            -->
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.rating, htmlAttributes: new { @class = "control-label col-md-5" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.repairrating, htmlAttributes: new { @class = "control-label col-md-5" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.repairrating, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.repairrating, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.communicationrating, htmlAttributes: new { @class = "control-label col-md-5" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.communicationrating, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="stars">
+                                    <input type="radio" name="communicationstar" class="star-1" id="star-1" />
+                                    <label class="star-1" for="star-1">1</label>
+                                    <input type="radio" name="communicationstar" class="star-2" id="star-2" />
+                                    <label class="star-2" for="star-2">2</label>
+                                    <input type="radio" name="communicationstar" class="star-3" id="star-3" />
+                                    <label class="star-3" for="star-3">3</label>
+                                    <input type="radio" name="communicationstar" class="star-4" id="star-4" />
+                                    <label class="star-4" for="star-4">4</label>
+                                    <input type="radio" name="communicationstar" class="star-5" id="star-5" />
+                                    <label class="star-5" for="star-5">5</label>
+                                    <span></span>
+                                </div>
                                 @Html.ValidationMessageFor(model => model.communicationrating, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.review1, htmlAttributes: new { @class = "control-label col-md-5" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.review1, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.review1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.landlordname, htmlAttributes: new { @class = "control-label col-md-5" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.landlordname, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.landlordname, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.apartmentnum, htmlAttributes: new { @class = "control-label col-md-5" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.apartmentnum, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.apartmentnum, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
                     </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.review1, htmlAttributes: new { @class = "control-label col-md-5" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.review1, new { htmlAttributes = new { @class = "reviewbox" } })
+                            @Html.ValidationMessageFor(model => model.review1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.landlordname, htmlAttributes: new { @class = "control-label col-md-5" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.landlordname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.landlordname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.apartmentnum, htmlAttributes: new { @class = "control-label col-md-5" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.apartmentnum, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.apartmentnum, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
                 </div>
 
             }
@@ -105,29 +127,7 @@
         </div>
 
         <div class="col-md-4">
-            <ul class="pagination">
-                <li>
-                    <a href="#">Prev</a>
-                </li>
-                <li>
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">4</a>
-                </li>
-                <li>
-                    <a href="#">5</a>
-                </li>
-                <li>
-                    <a href="#">Next</a>
-                </li>
-            </ul>
+
         </div>
 
 
@@ -150,3 +150,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+
