@@ -25,8 +25,6 @@ namespace landlorder.Models
         public string zip { get; set; }
         public string state { get; set; }
         public string country { get; set; }
-        public string apartmentnum { get; set; }
-        public string landlordname { get; set; }
     
         public virtual ICollection<Review> Reviews { get; set; }
     }

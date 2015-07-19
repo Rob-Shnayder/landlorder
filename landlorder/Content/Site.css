@@ -649,3 +649,45 @@ pre code {
   font-weight: 700;
   color: #0a7396;
 }
+
+
+
+/* ************************************* */
+/*            New Review Page            */
+/* ************************************* */
+
+.heading{
+  border-top: 4px solid #1386d7;
+  background: #f3f9fd;
+  margin: 30px 0 20px;
+}
+
+.heading-wrap{
+  border: 1px solid #cfcfcf;
+  border-top: 0;
+  overflow: hidden;
+  padding: 14px 15px;
+}
+
+.form-horizontal .control-label{
+   text-align:left !important; 
+}
+
+.sideview {
+    width: 303px;
+    padding: 30px 14px 36px 37px;
+    background-color: #E9E8E2;
+    box-shadow: inset 8px 0 9px -8px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    float: none;
+}
+
+
+
+
+/* ************************************* */
+/*          End New Review Page          */
+/* ************************************* */

@@ -31,15 +31,17 @@ function initialize() {
     // When the user selects an address from the dropdown,
     // populate the address fields in the form.
 
-    //google.maps.event.addListener(locationbtn, 'click', function () {
-    //    fillInAddress();
-    //});
+    google.maps.event.addListener(autocomplete, 'places_changed', function () {
+        console.log(autocomplete.getPlaces()[0]);
+        fillInAddress()
+    });
 }
 
 // [START region_fillform]
 function fillInAddress() {
     // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
+    console.log(document.getElementById('autocomplete'));
     
     var locationData = {};
     for (var i = 0; i < place.address_components.length; i++) {
@@ -110,17 +112,9 @@ function sendlocationData(data, type) {
         contentType: 'application/json; charset=utf-8',
         success: window.location = '/Home/Search',
         error: function (jqXHR, exception) {
-            alert('Error message.');
             console.log(jqXHR.statusText);
         }
     });
 }
 // [END region_geolocation]
 
-
-function checkEnterBtnKeyDown(e) {
-    if (e.keyCode == 13) {
-        fillInAddress()
-        return false;
-    }
-}

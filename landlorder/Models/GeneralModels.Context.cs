@@ -27,6 +27,5 @@ namespace landlorder.Models
     
         public virtual DbSet<Property> Properties { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-        public virtual DbSet<User> Users { get; set; }
     }
 }

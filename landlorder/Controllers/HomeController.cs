@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using landlorder.Models;
+using System.Data.SqlClient;
+using System.Data;
+using System.Data.Sql;
 
 namespace landlorder.Controllers
 {
@@ -30,7 +33,6 @@ namespace landlorder.Controllers
         [HttpPost]
         public JsonResult GetLocationData(StreetAddressModel array)
         {
-            var myArrayInt = array;
             return null;
         }
 

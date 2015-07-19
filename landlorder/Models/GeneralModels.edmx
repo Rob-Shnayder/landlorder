@@ -10,36 +10,27 @@
             <PropertyRef Name="propertyID" />
           </Key>
           <Property Name="propertyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="streetaddress" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="city" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="streetaddress" Type="varchar(max)" Nullable="false" />
+          <Property Name="city" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="zip" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="state" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="country" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="apartmentnum" Type="varchar" MaxLength="10" />
-          <Property Name="landlordname" Type="varchar" MaxLength="200" />
+          <Property Name="state" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="country" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
             <PropertyRef Name="reviewID" />
           </Key>
           <Property Name="reviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="propertyID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="rating" Type="int" Nullable="false" />
           <Property Name="review" Type="varchar(max)" />
-          <Property Name="propertyID" Type="int" Nullable="false" />
-          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="apartmentnum" Type="varchar" MaxLength="15" />
+          <Property Name="landlordname" Type="varchar" MaxLength="100" />
+          <Property Name="repairrating" Type="int" Nullable="false" />
+          <Property Name="communicationrating" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="lockoutenabled" Type="bit" Nullable="false" />
-          <Property Name="lockoutEndDateUTC" Type="datetime" />
-          <Property Name="accessfailedcount" Type="int" Nullable="false" />
-        </EntityType>
-        <Association Name="fk_review_propertyid">
+        <Association Name="fk_Review_propertyID">
           <End Role="Property" Type="Self.Property" Multiplicity="1" />
           <End Role="Review" Type="Self.Review" Multiplicity="*" />
           <ReferentialConstraint>
@@ -51,28 +42,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_review_userid">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="userID" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="userID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="landlorderModelStoreContainer">
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="fk_review_propertyid" Association="Self.fk_review_propertyid">
+          <AssociationSet Name="fk_Review_propertyID" Association="Self.fk_Review_propertyID">
             <End Role="Property" EntitySet="Property" />
-            <End Role="Review" EntitySet="Review" />
-          </AssociationSet>
-          <AssociationSet Name="fk_review_userid" Association="Self.fk_review_userid">
-            <End Role="Users" EntitySet="Users" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
         </EntityContainer>
@@ -80,78 +54,50 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="landlorderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="landlorderEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Properties" EntityType="landlorderModel.Property" />
+          <EntitySet Name="Reviews" EntityType="landlorderModel.Review" />
+          <AssociationSet Name="fk_Review_propertyID" Association="landlorderModel.fk_Review_propertyID">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Property">
           <Key>
             <PropertyRef Name="propertyID" />
           </Key>
           <Property Name="propertyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="streetaddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="zip" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="state" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="country" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="apartmentnum" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="landlordname" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Reviews" Relationship="Self.fk_review_propertyid" FromRole="Property" ToRole="Review" />
+          <Property Name="streetaddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="zip" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Reviews" Relationship="landlorderModel.fk_Review_propertyID" FromRole="Property" ToRole="Review" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
             <PropertyRef Name="reviewID" />
           </Key>
           <Property Name="reviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="propertyID" Type="Int32" Nullable="false" />
+          <Property Name="userID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="rating" Type="Int32" Nullable="false" />
           <Property Name="review1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="propertyID" Type="Int32" Nullable="false" />
-          <Property Name="userID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Property" Relationship="Self.fk_review_propertyid" FromRole="Review" ToRole="Property" />
-          <NavigationProperty Name="User" Relationship="landlorderModel.fk_review_userid" FromRole="Review" ToRole="User" />
+          <Property Name="apartmentnum" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="landlordname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Property" Relationship="landlorderModel.fk_Review_propertyID" FromRole="Review" ToRole="Property" />
+          <Property Name="repairrating" Type="Int32" Nullable="false" />
+          <Property Name="communicationrating" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="fk_review_propertyid">
-          <End Role="Property" Type="Self.Property" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+        <Association Name="fk_Review_propertyID">
+          <End Type="landlorderModel.Property" Role="Property" Multiplicity="1" />
+          <End Type="landlorderModel.Review" Role="Review" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Property">
               <PropertyRef Name="propertyID" />
             </Principal>
             <Dependent Role="Review">
               <PropertyRef Name="propertyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="landlorderEntities2" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Properties" EntityType="Self.Property" />
-          <EntitySet Name="Reviews" EntityType="Self.Review" />
-          <AssociationSet Name="fk_review_propertyid" Association="Self.fk_review_propertyid">
-            <End Role="Property" EntitySet="Properties" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-          <EntitySet Name="Users" EntityType="landlorderModel.User" />
-          <AssociationSet Name="fk_review_userid" Association="landlorderModel.fk_review_userid">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="lockoutenabled" Type="Boolean" Nullable="false" />
-          <Property Name="lockoutEndDateUTC" Type="DateTime" Precision="3" />
-          <Property Name="accessfailedcount" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Reviews" Relationship="landlorderModel.fk_review_userid" FromRole="User" ToRole="Review" />
-        </EntityType>
-        <Association Name="fk_review_userid">
-          <End Type="landlorderModel.User" Role="User" Multiplicity="1" />
-          <End Type="landlorderModel.Review" Role="Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="userID" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="userID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -164,37 +110,27 @@
           <EntitySetMapping Name="Properties">
             <EntityTypeMapping TypeName="landlorderModel.Property">
               <MappingFragment StoreEntitySet="Property">
-                <ScalarProperty Name="propertyID" ColumnName="propertyID" />
-                <ScalarProperty Name="streetaddress" ColumnName="streetaddress" />
-                <ScalarProperty Name="city" ColumnName="city" />
-                <ScalarProperty Name="zip" ColumnName="zip" />
-                <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="apartmentnum" ColumnName="apartmentnum" />
-                <ScalarProperty Name="landlordname" ColumnName="landlordname" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="zip" ColumnName="zip" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="streetaddress" ColumnName="streetaddress" />
+                <ScalarProperty Name="propertyID" ColumnName="propertyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reviews">
             <EntityTypeMapping TypeName="landlorderModel.Review">
               <MappingFragment StoreEntitySet="Review">
-                <ScalarProperty Name="reviewID" ColumnName="reviewID" />
-                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="communicationrating" ColumnName="communicationrating" />
+                <ScalarProperty Name="repairrating" ColumnName="repairrating" />
+                <ScalarProperty Name="landlordname" ColumnName="landlordname" />
+                <ScalarProperty Name="apartmentnum" ColumnName="apartmentnum" />
                 <ScalarProperty Name="review1" ColumnName="review" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="propertyID" ColumnName="propertyID" />
-                <ScalarProperty Name="userID" ColumnName="userID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="landlorderModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="accessfailedcount" ColumnName="accessfailedcount" />
-                <ScalarProperty Name="lockoutEndDateUTC" ColumnName="lockoutEndDateUTC" />
-                <ScalarProperty Name="lockoutenabled" ColumnName="lockoutenabled" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="reviewID" ColumnName="reviewID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

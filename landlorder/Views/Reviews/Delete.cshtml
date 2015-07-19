@@ -1,0 +1,88 @@
+﻿@model landlorder.Models.Review
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Review</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.userID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.review1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.review1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apartmentnum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apartmentnum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.landlordname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.landlordname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.repairrating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.repairrating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.communicationrating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.communicationrating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Property.streetaddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Property.streetaddress)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

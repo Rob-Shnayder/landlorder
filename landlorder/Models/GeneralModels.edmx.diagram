@@ -5,11 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="22f927e967d844cdb625789915e9444c" Name="Diagram1">
-        <EntityTypeShape EntityType="landlorderModel.Property" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="landlorderModel.Review" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="landlorderModel.fk_review_propertyid" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="landlorderModel.User" Width="1.5" PointX="0.75" PointY="5" />
-        <AssociationConnector Association="landlorderModel.fk_review_userid" />
+        <EntityTypeShape EntityType="landlorderModel.Property" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="landlorderModel.Review" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="landlorderModel.fk_Review_propertyID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

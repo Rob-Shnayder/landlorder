@@ -1,0 +1,152 @@
+﻿@model landlorder.Models.Review
+
+@{
+    ViewBag.Title = "Write A Review | landlorder";
+}
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="container">
+            <div class="heading">
+                <div class="heading-wrap">
+                    <h3 class="title text-center">Write A Review</h3>
+                    <h4 class="title text-center">Address</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3"></div>
+        <div class="col-md-5">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <div class="formalignment">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <!-- Inputs not needed
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.propertyID, "propertyID", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.DropDownList("propertyID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.propertyID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userID, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.userID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.userID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                            -->
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.rating, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.repairrating, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.repairrating, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.repairrating, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.communicationrating, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.communicationrating, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.communicationrating, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.review1, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.review1, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.review1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.landlordname, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.landlordname, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.landlordname, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.apartmentnum, htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.apartmentnum, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.apartmentnum, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            }
+
+
+        </div>
+
+        <div class="col-md-4">
+            <ul class="pagination">
+                <li>
+                    <a href="#">Prev</a>
+                </li>
+                <li>
+                    <a href="#">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+                <li>
+                    <a href="#">Next</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
