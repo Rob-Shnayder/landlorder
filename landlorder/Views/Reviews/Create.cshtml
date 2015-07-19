@@ -37,15 +37,15 @@
                                 <label class="control-label col-md-5" for="rating">Overall Rating<br><span class="subtext"> </span></label>
                                 <div class="col-md-6">
                                     <div class="stars">
-                                        <input type="radio" name="overallstar" class="star-1" id="overall_star-1" />
+                                        <input type="radio" value="1" name="rating" class="star-1" id="overall_star-1" />
                                         <label class="star-1" for="overall_star-1">1</label>
-                                        <input type="radio" name="overallstar" class="star-2" id="overall_star-2" />
+                                        <input type="radio" value="2" name="rating" class="star-2" id="overall_star-2" />
                                         <label class="star-2" for="overall_star-2">2</label>
-                                        <input type="radio" name="overallstar" class="star-3" id="overall_star-3" />
+                                        <input type="radio" value="3" name="rating" class="star-3" id="overall_star-3" />
                                         <label class="star-3" for="overall_star-3">3</label>
-                                        <input type="radio" name="overallstar" class="star-4" id="overall_star-4" />
+                                        <input type="radio" value="4" name="rating" class="star-4" id="overall_star-4" />
                                         <label class="star-4" for="overall_star-4">4</label>
-                                        <input type="radio" name="overallstar" class="star-5" id="overall_star-5" />
+                                        <input type="radio" value="5" name="rating" class="star-5" id="overall_star-5" />
                                         <label class="star-5" for="overall_star-5">5</label>
                                         <span></span>
                                     </div>
@@ -57,15 +57,15 @@
 
                             <div class="col-md-6">
                                 <div class="stars">
-                                    <input type="radio" name="repairstar" class="star-1" id="repair_star-1" />
+                                    <input type="radio" value="1" name="repairrating" class="star-1" id="repair_star-1" />
                                     <label class="star-1" for="repair_star-1">1</label>
-                                    <input type="radio" name="repairstar" class="star-2" id="repair_star-2" />
+                                    <input type="radio" value="2" name="repairrating" class="star-2" id="repair_star-2" />
                                     <label class="star-2" for="repair_star-2">2</label>
-                                    <input type="radio" name="repairstar" class="star-3" id="repair_star-3" />
+                                    <input type="radio" value="3" name="repairrating" class="star-3" id="repair_star-3" />
                                     <label class="star-3" for="repair_star-3">3</label>
-                                    <input type="radio" name="repairstar" class="star-4" id="repair_star-4" />
+                                    <input type="radio" value="4" name="repairrating" class="star-4" id="repair_star-4" />
                                     <label class="star-4" for="repair_star-4">4</label>
-                                    <input type="radio" name="repairstar" class="star-5" id="repair_star-5" />
+                                    <input type="radio" value="5" name="repairrating" class="star-5" id="repair_star-5" />
                                     <label class="star-5" for="repair_star-5">5</label>
                                     <span></span>
                                 </div>                                @Html.ValidationMessageFor(model => model.repairrating, "", new { @class = "text-danger" })
@@ -76,15 +76,15 @@
                             <label class="control-label col-md-5" for="rating">Communication:<br><span class="subtext">Responds to tenant's needs timely and effectively; Communicates in a respectful manner.</span></label>
                             <div class="col-md-6">
                                 <div class="stars">
-                                    <input type="radio" name="communicationstar" class="star-1" id="star-1" />
+                                    <input type="radio" value="1" name="communicationrating" class="star-1" id="star-1" />
                                     <label class="star-1" for="star-1">1</label>
-                                    <input type="radio" name="communicationstar" class="star-2" id="star-2" />
+                                    <input type="radio" value="2" name="communicationrating" class="star-2" id="star-2" />
                                     <label class="star-2" for="star-2">2</label>
-                                    <input type="radio" name="communicationstar" class="star-3" id="star-3" />
+                                    <input type="radio" value="3" name="communicationrating" class="star-3" id="star-3" />
                                     <label class="star-3" for="star-3">3</label>
-                                    <input type="radio" name="communicationstar" class="star-4" id="star-4" />
+                                    <input type="radio" value="4" name="communicationrating" class="star-4" id="star-4" />
                                     <label class="star-4" for="star-4">4</label>
-                                    <input type="radio" name="communicationstar" class="star-5" id="star-5" />
+                                    <input type="radio" value="5" name="communicationrating" class="star-5" id="star-5" />
                                     <label class="star-5" for="star-5">5</label>
                                     <span></span>
                                 </div>
@@ -96,7 +96,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.review1, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-6">
-                            @Html.EditorFor(model => model.review1, new { htmlAttributes = new { @class = "reviewbox" } })
+                            @Html.EditorFor(model => model.review1, new { htmlAttributes = new { @class = "reviewbox", @placeholder = "Review" } })
                             @Html.ValidationMessageFor(model => model.review1, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.landlordname, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-6">
-                            @Html.EditorFor(model => model.landlordname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.landlordname, new { htmlAttributes = new { @class = "form-control", @placeholder = "Landlord Name" } })
                             @Html.ValidationMessageFor(model => model.landlordname, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -113,8 +113,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.apartmentnum, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-6">
-                            @Html.EditorFor(model => model.apartmentnum, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.apartmentnum, new { htmlAttributes = new { @class = "form-control", @placeholder = "Apartment Number" } })
                             @Html.ValidationMessageFor(model => model.apartmentnum, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
                         </div>
                     </div>
 
@@ -131,11 +137,7 @@
         </div>
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+      
 
     </div>
 </div>

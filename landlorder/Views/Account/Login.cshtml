@@ -7,15 +7,15 @@
 <div class="form-wrap">
     <div class="tabs-content">
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal"}))
             {
                 @Html.AntiForgeryToken()
                 <h3 class="logintitle">Welcome to landlorder</h3>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="login-form">
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger"})
-                    @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email"})
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
                     <input type="submit" value="Log in" class="button" />

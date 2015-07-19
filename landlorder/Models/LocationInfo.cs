@@ -13,6 +13,10 @@ namespace landlorder.Models
         public string state { get; set; }
         public string country { get; set; }
         public string postal_code { get; set; }
+        public string formatted_address { get; set; }
+        public string latitude { get; set; }
+        public string longitude { get; set; }
+        public string type { get; set; }
     }
 
     public class AreaModel

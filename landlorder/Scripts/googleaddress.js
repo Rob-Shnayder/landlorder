@@ -60,6 +60,15 @@ function fillInAddress() {
             }
         }
     }
+        
+    if (place.geometry.location) {
+        locationData["latitude"] = place.geometry.location.A;
+        locationData["longitude"] = place.geometry.location.F;
+        locationData["formatted_address"] = place.formatted_address;
+        locationData["type"] = place.types[0];
+    }
+
+    
    
     if (Object.keys(locationData).length > 0) {
         var type = place.address_components[0].types[0];

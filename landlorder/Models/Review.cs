@@ -46,8 +46,6 @@ namespace landlorder.Models
 
         [Display(Name = "Apartment Number (Optional)")]
         public string apartmentnum { get; set; }
-
-        
     
         public virtual Property Property { get; set; }
     }

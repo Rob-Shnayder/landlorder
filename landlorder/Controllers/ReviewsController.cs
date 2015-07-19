@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using landlorder.Models;
 using System.Web.Routing;
 using System.Linq.Expressions;
+using Microsoft.AspNet.Identity;
 
 namespace landlorder.Controllers
 {
@@ -41,7 +42,10 @@ namespace landlorder.Controllers
         // GET: Reviews/Create
         public ActionResult Create()
         {
-            ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress");
+            //ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress");
+            //ViewBag.lat = lat;
+            //ViewBag.lon = lon;
+
             return View();
         }
 
@@ -50,10 +54,14 @@ namespace landlorder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "reviewID,propertyID,userID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
+        public ActionResult Create([Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
         {
             if (ModelState.IsValid)
             {
+                var property = db.Properties.FirstOrDefault(p => p.propertyID == 1);
+                var userID = User.Identity.GetUserId();
+                review.propertyID = property.propertyID;
+                review.userID = userID;
                 db.Reviews.Add(review);
                 db.SaveChanges();
                 return RedirectToAction("Index");

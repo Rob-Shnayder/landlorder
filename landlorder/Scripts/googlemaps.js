@@ -1,17 +1,16 @@
-﻿/*
- * declare map as a global variable
- */
-var map;
-
-/*
- * use google maps api built-in mechanism to attach dom events
- */
-function initializeMap(lat, long) {
-    var mapCanvas = document.getElementById('map-canvas');
+﻿function GenerateMap(lat, lon) {
+    var myLatlng = new google.maps.LatLng(lat, lon);
     var mapOptions = {
-        center: new google.maps.LatLng(lat, long),
-        zoom: 8,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 16,
+        center: myLatlng
     }
-    var map = new google.maps.Map(mapCanvas, mapOptions)
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title: 'Location'
+    });
 }
+
+//google.maps.event.addDomListener(window, 'load', GenerateMap);

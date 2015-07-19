@@ -25,6 +25,10 @@ namespace landlorder.Models
         public string zip { get; set; }
         public string state { get; set; }
         public string country { get; set; }
+        public string route { get; set; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
+        public string formatted_address { get; set; }
     
         public virtual ICollection<Review> Reviews { get; set; }
     }

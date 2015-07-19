@@ -7,6 +7,7 @@ using landlorder.Models;
 using System.Data.SqlClient;
 using System.Data;
 using System.Data.Sql;
+using System.Data.Entity;
 
 namespace landlorder.Controllers
 {
@@ -33,6 +34,12 @@ namespace landlorder.Controllers
         [HttpPost]
         public JsonResult GetLocationData(StreetAddressModel array)
         {
+            using (var context = new landlorderEntities2())
+            {
+                var affectedRows = context.Database.ExecuteSqlCommand("usp_CreateAuthor @AuthorName, @Email",
+                    new SqlParameter("@AuthorName", "author"),
+                    new SqlParameter("@Email", "email"));
+            }
             return null;
         }
 
