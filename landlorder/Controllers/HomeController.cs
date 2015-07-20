@@ -23,24 +23,31 @@ namespace landlorder.Controllers
             return View();
         }
 
-        public ActionResult Search(string locationinput)
+        public ActionResult Search()
         {
-            ViewBag.Message = "Your contact page.";
-            ViewBag.location = locationinput;
-
+            if (TempData["doc"] != null)
+            {
+                
+                return View();
+            }
             return View();        
         }
 
         [HttpPost]
         public JsonResult GetLocationData(StreetAddressModel array)
-        {
+        {            
             using (var context = new landlorderEntities2())
-            {
-                var affectedRows = context.Database.ExecuteSqlCommand("usp_CreateAuthor @AuthorName, @Email",
-                    new SqlParameter("@AuthorName", "author"),
-                    new SqlParameter("@Email", "email"));
+            {                
+                var property = context.Database.SqlQuery<Property>("SearchReviews_StreetAddress @streetaddress, @route, @city,@state,@postal_code",
+                    new SqlParameter("@streetaddress", array.street_number),
+                    new SqlParameter("@route", array.route),
+                    new SqlParameter("@city", array.city),
+                    new SqlParameter("@state", array.state),
+                    new SqlParameter("@postal_code", array.postal_code)).ToList();
+
+                TempData["doc"] = property;                
             }
-            return null;
+            return Json(new { Url = "Home/Search"});
         }
 
     }

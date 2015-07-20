@@ -119,7 +119,9 @@ function sendlocationData(data, type) {
         data: JSON.stringify(data),
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
-        success: window.location = '/Home/Search',
+        success: function (result) {
+            window.location = result.Url;
+        },
         error: function (jqXHR, exception) {
             console.log(jqXHR.statusText);
         }
