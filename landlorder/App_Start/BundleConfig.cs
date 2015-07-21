@@ -36,8 +36,10 @@ namespace landlorder
             bundles.Add(new ScriptBundle("~/bundles/googleaddressJS").Include(
                        "~/Scripts/googleaddress.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/googlemapsJS").Include(
-                       "~/Scripts/googlemaps.js"));
+            bundles.Add(new ScriptBundle("~/bundles/SearchPropertiesJS").Include(
+                       "~/Scripts/SearchProperties.js"));
+
+
         }
     }
 }

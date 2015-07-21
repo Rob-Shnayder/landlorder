@@ -13,9 +13,15 @@
     <title>@ViewBag.Title</title>
 
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/plugins")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+    @Scripts.Render("~/bundles/googleaddressJS")
+
 
 </head>
-<body data-spy="scroll" onload="initialize()" >
+<body data-spy="scroll" >
     <header id="header" class="header">
         <div class="container">
             <h1 class="logo pull-left">
@@ -49,12 +55,6 @@
     <div>
         <!--//beginning body-->
         @RenderBody()
-               
-        @Scripts.Render("~/bundles/plugins")
-        @RenderSection("scripts", required: false)
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
-        @Scripts.Render("~/bundles/googleaddressJS")
-
 
         <hr /> <!--//end body-->
         <footer>            

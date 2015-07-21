@@ -7,21 +7,21 @@
     <section id="promo" class="promo section offset-header">
         <div class=" container text-center">
     <h2 class="title">land<span class="highlight">lorder</span></h2>
-    <p class="intro"></p>
-    <form action="/Home" method="get">
+    <p class="intro"></p> 
         <div class="col-md-3 column"></div>
         <div class="col-md-3 column">
-            <div class="input-group">
-                <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip" spellcheck="false">
-                <span id="locatiobtn" class="input-group-btn-lg">
-                    <button type="submit" onclick="fillInAddress()" class="submit-icon" >
-                        <i class="fa fa-search fa-lg"></i>
-                    </button>
-                </span>
-            </div>
+            <form method="get" action="/Home/Search">
+                <div class="input-group">
+                    <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip" spellcheck="false">
+                    <span id="locatiobtn" class="input-group-btn-lg">
+                        <button type="submit" class="submit-icon">
+                            <i class="fa fa-search fa-lg"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
         </div>
         <div class="col-md-3 column"></div>
-    </form>
     </div><!--//container-->
 
 </section><!--//promo-->
@@ -62,4 +62,5 @@
         </div><!--//container-->
     </section><!--//about-->
 
-@Scripts.Render("~/bundles/googleaddressJS")
+<script>initialize();</script>
+

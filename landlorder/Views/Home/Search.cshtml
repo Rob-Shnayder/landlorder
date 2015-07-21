@@ -1,10 +1,11 @@
 ﻿@{
     ViewBag.Title = "Search";
 }
-<p>@ViewBag.location</p>
 
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
-@Scripts.Render("~/bundles/googlemapsJS")
-
-
+<input hidden="hidden" id="getvar" onchange="fillinAddress()" value=" " />
 <div id="map_canvas" style="height: 400px;"></div>
+
+<script>initSearch();</script>
+
+
+

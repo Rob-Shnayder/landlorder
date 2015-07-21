@@ -207,6 +207,7 @@
     <Content Include="Scripts\googleaddress.js" />
     <Content Include="Scripts\googlemaps.js" />
     <Content Include="Scripts\login.js" />
+    <Content Include="Scripts\SearchProperties.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
