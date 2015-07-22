@@ -52,18 +52,8 @@ function geolocate() {
     }
 }
 
-function initSearch() {
-    var query = getParameterByName('locationinput');
-    document.getElementById('getvar').value = query;
-
-    searchcriteria = new google.maps.places.Autocomplete(
-        /** @type {HTMLInputElement} */(document.getElementById('getvar')),
-        { types: ['geocode'] });
-    console.log(document.getElementById('getvar'));
-    fillInAddress();
-}
 function fillInAddress() {
-    // Get the place details from the autocomplete object.
+    // Get the place details from the autocomplete object.  
     var place = searchcriteria.getPlace();    
     
     var locationData = {};
@@ -113,6 +103,31 @@ function fillInAddress() {
     */
 }
 
+function initSearch() {
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(-33.8665433, 151.1956316),
+        zoom: 15
+    });
+
+    //Read GET variable
+    query = getParameterByName('locationinput');
+    
+    var service = new google.maps.places.AutocompleteService();
+    service.getQueryPredictions({ input: query }, autocomplete_callback);    
+}
+
+function autocomplete_callback(predictions, status) {
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+        //CHANGE THIS!
+        alert(status);
+        return;
+    }   
+    if (predictions) {
+        var result = {placeID: predictions[0].place_id};
+    }
+
+    return result;
+}
 
 
 function GenerateMap(property, relatedproperties, inputlocation) {
