@@ -103,12 +103,7 @@ function fillInAddress() {
     */
 }
 
-function initSearch() {
-    var map = new google.maps.Map(document.getElementById('map-canvas'), {
-        center: new google.maps.LatLng(-33.8665433, 151.1956316),
-        zoom: 15
-    });
-
+function initSearch() {   
     //Read GET variable
     query = getParameterByName('locationinput');
     
@@ -123,10 +118,33 @@ function autocomplete_callback(predictions, status) {
         return;
     }   
     if (predictions) {
-        var result = {placeID: predictions[0].place_id};
+        var result = { placeId: predictions[0].place_id };
+        GetLocationDetailsFromID(result);
     }
 
-    return result;
+}
+
+function GetLocationDetailsFromID(ID) {
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(-33.8665433, 151.1956316),
+        zoom: 15
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+
+    service.getDetails(ID, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place.name);
+                infowindow.open(map, this);
+            });
+        }
+    });
 }
 
 
