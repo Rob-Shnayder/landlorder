@@ -50,10 +50,10 @@ namespace landlorder.Controllers
                     new SqlParameter("@postal_code", array.postal_code)).ToList();
                                 
                 //Get related matches
-            var relatedproperties = context.Database.SqlQuery<Property>("SearchReviews_StreetAddress_Related @lat, @lon, @pagenum",
+            var relatedproperties = context.Database.SqlQuery<Property>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity,@pagenum",
                     new SqlParameter("@lat", array.latitude),
                     new SqlParameter("@lon", array.longitude),
-                    //Set page at 1 since we are redirecting to the first page of results.
+                    new SqlParameter("@vicinity", array.vicinity),
                     new SqlParameter("@pagenum", 1)).ToList();
 
             var result = new { property = property, relatedproperties = relatedproperties, Url = "/Home/Search" };

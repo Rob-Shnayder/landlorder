@@ -1,8 +1,4 @@
-﻿//var input = document.getElementById('locationinput');
-//var options = { types: ["geocode"], componentRestrictions: { country: 'us' } };
-//new google.maps.places.Autocomplete(input, options);
-
-var placeSearch, autocomplete;
+﻿var placeSearch, autocomplete, map, infowindow;
 var componentForm = {
     street_number: 'short_name',
     route: 'long_name',
@@ -10,16 +6,6 @@ var componentForm = {
     administrative_area_level_1: 'short_name',
     country: 'long_name',
     postal_code: 'short_name'
-};
-
-var POSTcomponentForm = {
-    street_number: 'short_name',
-    route: 'long_name',
-    city: 'long_name',
-    state: 'short_name',
-    country: 'long_name',
-    postal_code: 'short_name',
-    postal_code_suffix: 'short_name'
 };
 
 function initialize() {
@@ -32,9 +18,9 @@ function initialize() {
     // When the user selects an address from the dropdown,
     // populate the address fields in the form.
 
-    google.maps.event.addListener(autocomplete, 'places_changed', function () {        
-        fillInAddress()
-    });
+    //google.maps.event.addListener(autocomplete, 'places_changed', function () {        
+   //     fillInAddress()
+    //});
     
 }
 
@@ -52,16 +38,76 @@ function geolocate() {
     }
 }
 
-function fillInAddress() {
-    // Get the place details from the autocomplete object.  
-    var place = searchcriteria.getPlace();    
+//**********************************
+//SEARCH FUNCTIONS
+//**********************************
+
+
+function initSearch() {   
+    //Read GET variable
+    query = GetParameterByName('locationinput');
     
+    //****************************
+    //SET UP CODE HERE TO GET RECENT REVIEWS IF LOCATION IS NULL
+    //***************************
+    
+    GenerateMap();
+
+    //Start the autocomplete service and get predictions from input
+    var service = new google.maps.places.AutocompleteService();
+    service.getQueryPredictions({ input: query }, autocomplete_callback);    
+}
+
+function autocomplete_callback(predictions, status) {
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+        //CHANGE THIS!
+        alert(status);
+        return;
+    }
+
+    if (predictions) {
+        var result = { placeId: predictions[0].place_id };
+        GetLocationDetailsFromID(result);
+    }
+
+}
+
+function GetLocationDetailsFromID(ID) {   
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+
+    service.getDetails(ID, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+
+            //Change map position to geolocation of user input
+            var panPoint = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
+            map.panTo(panPoint)
+
+            //Format Data & send data to server side
+            var type = place.address_components[0].types[0];
+            var locationData = FormatPlaceData(place);
+            SendLocationData(locationData, type);            
+            
+                       
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place.name);
+                infowindow.open(map, this);
+            });
+        }
+    });
+}
+
+function FormatPlaceData(place) {
     var locationData = {};
     for (var i = 0; i < place.address_components.length; i++) {
         var addressType = place.address_components[i].types[0];
         if (componentForm[addressType]) {
             var val = place.address_components[i][componentForm[addressType]];
-                        
+
             if (addressType == "administrative_area_level_1") {
                 locationData["state"] = val;
             }
@@ -73,129 +119,49 @@ function fillInAddress() {
             }
         }
     }
-        
+
     if (place.geometry.location) {
         locationData["latitude"] = place.geometry.location.A;
         locationData["longitude"] = place.geometry.location.F;
         locationData["formatted_address"] = place.formatted_address;
         locationData["type"] = place.types[0];
-    }    
-   
-    if (Object.keys(locationData).length > 0) {
-        var type = place.address_components[0].types[0];
-        sendlocationData(locationData, type);
+        locationData["vicinity"] = place.vicinity;
     }
 
-
-    /*Sends data piece by piece
-
-    if (place.address_components.length > 0) {
-        var type = place.address_components[0].types[0];
-        sendlocationData(place, type);
-    }
-    for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]]; 
-            //document.getElementById(addressType).value = val;
-        }
-    }
-    */
+    return locationData;
 }
 
-function initSearch() {   
-    //Read GET variable
-    query = getParameterByName('locationinput');
-    
-    var service = new google.maps.places.AutocompleteService();
-    service.getQueryPredictions({ input: query }, autocomplete_callback);    
-}
+function CreateSurroundingLocationMarkers(properties) {
+    for (var i = 0; i < properties.length; i++) {
+        var Latlng = new google.maps.LatLng(properties[i].latitude, properties[i].longitude);
+        CreateMarker(Latlng, properties[i].formatted_address);
 
-function autocomplete_callback(predictions, status) {
-    if (status != google.maps.places.PlacesServiceStatus.OK) {
-        //CHANGE THIS!
-        alert(status);
-        return;
-    }   
-    if (predictions) {
-        var result = { placeId: predictions[0].place_id };
-        GetLocationDetailsFromID(result);
-    }
-
-}
-
-function GetLocationDetailsFromID(ID) {
-    var map = new google.maps.Map(document.getElementById('map-canvas'), {
-        center: new google.maps.LatLng(-33.8665433, 151.1956316),
-        zoom: 12
-    });
-
-    var infowindow = new google.maps.InfoWindow();
-    var service = new google.maps.places.PlacesService(map);
-
-    service.getDetails(ID, function(place, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
+        function CreateMarker(latlng, html) {
+            var contentString = html;
             var marker = new google.maps.Marker({
+                position: latlng,
                 map: map,
-                position: place.geometry.location
+                zIndex: Math.round(latlng.lat() * -100000) << 5
             });
 
-            var panPoint = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
-            map.panTo(panPoint)
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(place.name);
-                infowindow.open(map, this);
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.setContent(contentString);
+                infowindow.open(map, marker);
             });
         }
-    });
-}
 
 
-function GenerateMap(property, relatedproperties, inputlocation) {
-    var lat;
-    var lon;
-    if (inputlocation.geometry) {
-        lat = inputlocation.latitude
-        lon = inputlocation.longitude;
-    }
-    else if (relatedproperties.length > 0) {
-        lat = property[0].latitude;
-        lon = property[0].longitude;
-    }    
-
-    var myLatlng = new google.maps.LatLng(lat, lon);
-    var mapOptions = {
-        zoom: 16,
-        center: myLatlng
-    }
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: 'Location'
-    });
-
-
-    var markersAmnt = relatedproperties.length;
-    for (var i = 0; i < markersAmnt; i++) {
-
-        var markerPos = new google.maps.LatLng(relatedproperties[i].latitude, relatedproperties[i].longitude);
-
-        relatedproperties[i].marker = new google.maps.Marker({
-            position: markerPos,
-            map: map,
-            title: relatedproperties[i].streetadress + relatedproperties[i].route,
-        });
-
-        // var infoWindow = new google.maps.InfoWindow({
-        //    content: relatedproperties[i].content
-        //});
     }
 }
 
-function sendlocationData(data, datatype) {
+function GenerateMap() {
+    map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(40.7903, 73.9597),
+        zoom: 13
+    });
+}
+
+function SendLocationData(data, datatype) {
     
     $.ajax({
         url: "/Home/GetLocationData",
@@ -204,8 +170,7 @@ function sendlocationData(data, datatype) {
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
-            window.location = result.Url;
-            GenerateMap(result.property, result.relatedproperties, data)
+            CreateSurroundingLocationMarkers(result.relatedproperties);
         },
         error: function (xhr, exception) {
             console.log(exception);
@@ -215,11 +180,16 @@ function sendlocationData(data, datatype) {
 }
 
 //Helper Function
-function getParameterByName(name) {
+function GetParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+
+//**********************************
+//END SEARCH FUNCTIONS
+//**********************************
 
 

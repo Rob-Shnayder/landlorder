@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+
 namespace landlorder.Models
 {
     public class StreetAddressModel
@@ -17,6 +18,7 @@ namespace landlorder.Models
         public string latitude { get; set; }
         public string longitude { get; set; }
         public string type { get; set; }
+        public string vicinity { get; set; }
     }
 
     public class AreaModel
