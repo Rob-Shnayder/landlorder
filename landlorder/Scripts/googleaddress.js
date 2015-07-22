@@ -127,7 +127,7 @@ function autocomplete_callback(predictions, status) {
 function GetLocationDetailsFromID(ID) {
     var map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(-33.8665433, 151.1956316),
-        zoom: 15
+        zoom: 12
     });
 
     var infowindow = new google.maps.InfoWindow();
@@ -139,6 +139,10 @@ function GetLocationDetailsFromID(ID) {
                 map: map,
                 position: place.geometry.location
             });
+
+            var panPoint = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
+            map.panTo(panPoint)
+
             google.maps.event.addListener(marker, 'click', function() {
                 infowindow.setContent(place.name);
                 infowindow.open(map, this);
