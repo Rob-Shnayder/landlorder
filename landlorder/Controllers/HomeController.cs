@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Data.Sql;
 using System.Data.Entity;
-using System.Linq;
+using landlorder.ViewModels;
 
 namespace landlorder.Controllers
 {
@@ -28,18 +28,31 @@ namespace landlorder.Controllers
         //GET
         public ActionResult Search(string locationinput)
         {
-            
-            var query = from r in db.Reviews
-                        group r by r.propertyID into g
-                        select new
-                        {                            
-                            propertyID = g.Key,
-                            reviewCount = g.Count(),
-                            prop  = (from p in db.Properties select p.formatted_address)
-                        };
+            //When pulling apartments, do a group by on rows that do not have a 
+            //APT number entry. For ones that match each other group those together.
 
-            return View(query.ToList());
+            List<SearchResultsViewModel> query1 =
+                (from p in db.Properties
+                select new SearchResultsViewModel
+                {
+                    propertyID = p.propertyID,
+                    streetaddress = p.streetaddress,
+                    city = p.city,
+                    zip = p.zip,
+                    state = p.state,
+                    country = p.country,
+                    numofReviews = p.Reviews.Count(),
+                    route = p.route,
+                    //apartmentnum = ""
+                    apartmentnum = db.Properties.Include(r => r.Reviews.Select(b => b.apartmentnum).Where(q => r.propertyID == p.propertyID)).ToString()
+                    //db.Properties.Include(r => r.Reviews.Select(b=>b.apartmentnum).Where(q=> r.propertyID == p.propertyID ))
+                }).ToList();
+
+
+            return View(query1);
         }
+
+        
 
         [HttpPost]
         public JsonResult GetLocationData(StreetAddressModel array)
@@ -72,6 +85,7 @@ namespace landlorder.Controllers
             var result = new { property = property, relatedproperties = relatedproperties, Url = "/Home/Search" };
             return Json(result);
         }
+
 
     }
 }

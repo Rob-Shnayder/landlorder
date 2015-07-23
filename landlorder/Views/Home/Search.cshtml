@@ -1,4 +1,4 @@
-﻿@model IEnumerable<landlorder.Models.Review>
+﻿@model IEnumerable<landlorder.ViewModels.SearchResultsViewModel>
 
 
 @{
@@ -14,8 +14,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Property.city)
+                @Html.DisplayFor(modelItem => item.streetaddress) 
             </td>                      
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.numofReviews)
+            </td>
         </tr>
     }
 

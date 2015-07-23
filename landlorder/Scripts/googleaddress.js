@@ -94,7 +94,7 @@ function GetLocationDetailsFromID(ID) {
             
                        
             google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(place.name);
+                infowindow.setContent(place.formatted_address);
                 infowindow.open(map, this);
             });
         }
