@@ -1,10 +1,25 @@
-﻿@{
+﻿@model IEnumerable<landlorder.Models.Review>
+
+
+@{
     ViewBag.Title = "Search | landlorder ";
 }
 
+
 <div id="map-canvas" style="height: 300px;"></div>
 
-<ul id="results"></ul>
+<table class="table">   
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Property.city)
+            </td>                      
+        </tr>
+    }
+
+</table>
 
 
 <script>initSearch();</script>

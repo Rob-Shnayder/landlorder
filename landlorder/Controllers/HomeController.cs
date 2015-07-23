@@ -8,11 +8,14 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Data.Sql;
 using System.Data.Entity;
+using System.Linq;
 
 namespace landlorder.Controllers
 {
     public class HomeController : Controller
     {
+        private landlorderEntities2 db = new landlorderEntities2();
+
         public ActionResult Index()
         {
             return View();
@@ -24,8 +27,18 @@ namespace landlorder.Controllers
         }
         //GET
         public ActionResult Search(string locationinput)
-        {                       
-            return View();
+        {
+            
+            var query = from r in db.Reviews
+                        group r by r.propertyID into g
+                        select new
+                        {                            
+                            propertyID = g.Key,
+                            reviewCount = g.Count(),
+                            prop  = (from p in db.Properties select p.formatted_address)
+                        };
+
+            return View(query.ToList());
         }
 
         [HttpPost]
