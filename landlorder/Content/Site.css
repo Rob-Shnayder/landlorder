@@ -688,20 +688,27 @@ pre code {
 .map_container{
     overflow:hidden;
     position:relative;
-    height: 275px;
     width: 100%;
     overflow: hidden;
 }
 
+.searchwrapper {
+    overflow: hidden;
+    padding-top: 3px;
+}
+
 .search_container{
-    height:500px;    
+    height:600px;    
     padding: 0px;
-    margin-left: 230px;
-    margin-right: 20px;
+    margin-left: 0px;
     padding-bottom: 30px;
     overflow: auto;
-    width: 70%;
-    border: 1px solid #cfcfcf;
+    width: 100%;
+    border: 2px solid #cfcfcf;
+    background: #FFF;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .item_holder{  
@@ -721,6 +728,12 @@ pre code {
   border: 1px solid hsl(0, 0%, 82%);
   width: 100%;
 }
+
+.map{
+    height:600px;
+    width: 100%;        
+}
+
 
 
 
