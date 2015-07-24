@@ -92,7 +92,11 @@ function GetLocationDetailsFromID(ID) {
             var locationData = FormatPlaceData(place);
             SendLocationData(locationData, type);            
             
-                       
+            
+            infowindow.setContent(place.formatted_address);
+            infowindow.open(map, marker);
+
+
             google.maps.event.addListener(marker, 'click', function() {
                 infowindow.setContent(place.formatted_address);
                 infowindow.open(map, this);
@@ -157,7 +161,7 @@ function CreateSurroundingLocationMarkers(properties) {
 function GenerateMap() {
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(40.7903, 73.9597),
-        zoom: 13
+        zoom: 15
     });
 }
 

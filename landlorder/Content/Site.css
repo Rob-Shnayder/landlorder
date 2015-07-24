@@ -695,11 +695,13 @@ pre code {
 
 .search_container{
     height:500px;    
-    padding: 20px;
+    padding: 0px;
     margin-left: 230px;
     margin-right: 20px;
     padding-bottom: 30px;
     overflow: auto;
+    width: 70%;
+    border: 1px solid #cfcfcf;
 }
 
 .item_holder{  
@@ -707,6 +709,19 @@ pre code {
   position: relative;
   color: #222;
 }
+
+.item_holder:hover{  
+  cursor: pointer;
+  background: #E6F3FF;  
+}
+
+.seperator {
+  height:0px;
+  border-radius: 1px;
+  border: 1px solid hsl(0, 0%, 82%);
+  width: 100%;
+}
+
 
 
 /* ************************************* */

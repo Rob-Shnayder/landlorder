@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "Search | landlorder ";
+    ViewBag.Title =  ViewBag.location +  " Search | landlorder ";
 }
 
 <div class="map_container">
@@ -10,9 +10,7 @@
 </div>
 <h4 class="text-center">Landlords for "@ViewBag.location"</h4>
 <div class="search_container" style="overflow: auto;">
-   
-    <div class="row-fluid">        
-
+       
             @foreach (var item in Model)
             {
                 <div class="item_holder">
@@ -28,28 +26,26 @@
                     <h5>Reviews:</h5>
                     @Html.DisplayFor(modelItem => item.numofReviews)
                 </div>
-                <hr />
+                <div class="seperator"></div>
             }
-        @foreach (var item in Model)
-        {
-            <div class="item_holder">
-                @Html.DisplayFor(modelItem => item.streetaddress)
+       @foreach (var item in Model)
+       {
+        <div class="item_holder">
+            @Html.DisplayFor(modelItem => item.streetaddress)
 
-                @Html.DisplayFor(modelItem => item.route)
+            @Html.DisplayFor(modelItem => item.route)
 
-                @Html.DisplayFor(modelItem => item.state)
+            @Html.DisplayFor(modelItem => item.state)
 
-                @Html.DisplayFor(modelItem => item.city)
+            @Html.DisplayFor(modelItem => item.city)
 
-                <br />
-                <h5>Reviews:</h5>
-                @Html.DisplayFor(modelItem => item.numofReviews)
-            </div>
-            <hr />
-        }
+            <br />
+            <h5>Reviews:</h5>
+            @Html.DisplayFor(modelItem => item.numofReviews)
+        </div>
+        <div class="seperator"></div>
+       }
 
-        </ul>
-    </div>
 </div>
 
 
