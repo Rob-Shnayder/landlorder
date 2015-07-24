@@ -685,7 +685,28 @@ pre code {
     float: none;
 }
 
+.map_container{
+    overflow:hidden;
+    position:relative;
+    height: 275px;
+    width: 100%;
+    overflow: hidden;
+}
 
+.search_container{
+    height:500px;    
+    padding: 20px;
+    margin-left: 230px;
+    margin-right: 20px;
+    padding-bottom: 30px;
+    overflow: auto;
+}
+
+.item_holder{  
+  padding: 0 0 1px;
+  position: relative;
+  color: #222;
+}
 
 
 /* ************************************* */

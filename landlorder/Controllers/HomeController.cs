@@ -30,7 +30,7 @@ namespace landlorder.Controllers
         {
             //When pulling apartments, do a group by on rows that do not have a 
             //APT number entry. For ones that match each other group those together.
-
+            ViewBag.location = locationinput;
             List<SearchResultsViewModel> query1 =
                 (from p in db.Properties
                 select new SearchResultsViewModel
@@ -43,8 +43,7 @@ namespace landlorder.Controllers
                     country = p.country,
                     numofReviews = p.Reviews.Count(),
                     route = p.route,
-                    //apartmentnum = ""
-                    apartmentnum = db.Properties.Include(r => r.Reviews.Select(b => b.apartmentnum).Where(q => r.propertyID == p.propertyID)).ToString()
+                    apartmentnum = ""
                     //db.Properties.Include(r => r.Reviews.Select(b=>b.apartmentnum).Where(q=> r.propertyID == p.propertyID ))
                 }).ToList();
 

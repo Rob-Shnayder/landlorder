@@ -5,26 +5,61 @@
     ViewBag.Title = "Search | landlorder ";
 }
 
+<div class="map_container">
+    <div id="map-canvas" style="height:275px;"></div>
+</div>
+<h4 class="text-center">Landlords for "@ViewBag.location"</h4>
+<div class="search_container" style="overflow: auto;">
+   
+    <div class="row-fluid">        
 
-<div id="map-canvas" style="height: 300px;"></div>
+            @foreach (var item in Model)
+            {
+                <div class="item_holder">
+                    @Html.DisplayFor(modelItem => item.streetaddress)
 
-<table class="table">   
+                    @Html.DisplayFor(modelItem => item.route)
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.streetaddress) 
-            </td>                      
-        </tr>
-        <tr>
-            <td>
+                    @Html.DisplayFor(modelItem => item.state)
+
+                    @Html.DisplayFor(modelItem => item.city)
+
+                    <br />
+                    <h5>Reviews:</h5>
+                    @Html.DisplayFor(modelItem => item.numofReviews)
+                </div>
+                <hr />
+            }
+        @foreach (var item in Model)
+        {
+            <div class="item_holder">
+                @Html.DisplayFor(modelItem => item.streetaddress)
+
+                @Html.DisplayFor(modelItem => item.route)
+
+                @Html.DisplayFor(modelItem => item.state)
+
+                @Html.DisplayFor(modelItem => item.city)
+
+                <br />
+                <h5>Reviews:</h5>
                 @Html.DisplayFor(modelItem => item.numofReviews)
-            </td>
-        </tr>
-    }
+            </div>
+            <hr />
+        }
 
-</table>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 <script>initSearch();</script>
