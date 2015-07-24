@@ -5,7 +5,7 @@ body {
   color: #444444;
   font-size: 16px;
   height:100%;
-  width:`100%;
+  width:100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -24,6 +24,14 @@ h6 {
   font-weight: 700;
   color: #17baef;
 }
+
+.row.nopadding [class*='col-'] {
+  padding-right: 0;
+  padding-left: 0;
+}
+    
+  
+
 a {
   color: #17baef;
   -webkit-transition: all 0.4s ease-in-out;
@@ -694,7 +702,7 @@ pre code {
 
 .searchwrapper {
     overflow: hidden;
-    padding-top: 3px;
+    padding-top: 0px;
 }
 
 .search_container{
@@ -703,12 +711,16 @@ pre code {
     margin-left: 0px;
     padding-bottom: 30px;
     overflow: auto;
-    width: 100%;
+    width: 97%;
     border: 2px solid #cfcfcf;
     background: #FFF;
+    position: absolute;
+    z-index: 10;
+
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      
 }
 
 .item_holder{  

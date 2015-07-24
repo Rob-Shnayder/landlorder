@@ -150,8 +150,10 @@ function CreateSurroundingLocationMarkers(properties) {
 
             google.maps.event.addListener(marker, 'click', function () {
                 infowindow.setContent(contentString);
-                infowindow.open(map, marker);
+                infowindow.open(map, marker);                
             });
+
+           
         }
 
 
@@ -181,6 +183,20 @@ function SendLocationData(data, datatype) {
             
         }
     });
+}
+
+function MarkerZoomTo(lat, lon, markerContent) {
+    //pt = gMarkers[markerIdentifier].getPosition();
+    newpt = new google.maps.LatLng(lat, lon);
+    map.panTo(newpt);
+
+    if (infowindow) {
+        infowindow.close();
+    }
+
+    infowindow.setContent(markerContent);
+
+    infowindow.open(map, gMarkers[markerIdentifier]);
 }
 
 //Helper Function
