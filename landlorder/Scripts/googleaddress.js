@@ -8,6 +8,8 @@ var componentForm = {
     postal_code: 'short_name'
 };
 
+var markerarray = [];
+
 function initialize() {
     // Create the autocomplete object, restricting the search
     // to geographical location types.
@@ -80,8 +82,11 @@ function GetLocationDetailsFromID(ID) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
             var marker = new google.maps.Marker({
                 map: map,
-                position: place.geometry.location
+                title: place.formatted_address,
+                position: place.geometry.location                
             });
+
+            markerarray.push(marker);
 
             //Change map position to geolocation of user input
             var panPoint = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
@@ -145,15 +150,16 @@ function CreateSurroundingLocationMarkers(properties) {
             var marker = new google.maps.Marker({
                 position: latlng,
                 map: map,
-                zIndex: Math.round(latlng.lat() * -100000) << 5
+                title: html,
+                zIndex: Math.round(latlng.lat() * -100000) << 5                
             });
+
+            markerarray.push(marker);
 
             google.maps.event.addListener(marker, 'click', function () {
                 infowindow.setContent(contentString);
                 infowindow.open(map, marker);                
-            });
-
-           
+            });           
         }
 
 
@@ -185,18 +191,35 @@ function SendLocationData(data, datatype) {
     });
 }
 
-function MarkerZoomTo(lat, lon, markerContent) {
-    //pt = gMarkers[markerIdentifier].getPosition();
-    newpt = new google.maps.LatLng(lat, lon);
+function PanToMarker(lat, lon, address) {
+    //var result = $.grep(markerarray, function (e) { return e.title == address; });
+
+    result = $.map(markerarray, function (obj, index) {
+        if (obj.title == address) {
+            return index;
+        }
+    })
+
+    if (result.length > 0) {
+        MarkerZoomTo(result[0]);
+    }
+}
+
+
+
+function MarkerZoomTo(markerIdentifier) {
+    pt = markerarray[markerIdentifier].getPosition();
+    newpt = new google.maps.LatLng(pt.lat(), pt.lng());
     map.panTo(newpt);
 
     if (infowindow) {
         infowindow.close();
     }
 
-    infowindow.setContent(markerContent);
+    infowindow.setContent(markerarray[markerIdentifier].title);
+    infowindow.setPosition(markerarray[markerIdentifier].getPosition());
 
-    infowindow.open(map, gMarkers[markerIdentifier]);
+    infowindow.open(map, markerarray[markerIdentifier]);
 }
 
 //Helper Function

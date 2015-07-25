@@ -16,5 +16,8 @@ namespace landlorder.ViewModels
         public string route { get; set; }
         public string apartmentnum { get; set; }
         public int numofReviews { get; set; }
+        public string formatted_address { get; set; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
     }
 }

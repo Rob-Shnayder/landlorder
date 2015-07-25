@@ -43,7 +43,10 @@ namespace landlorder.Controllers
                     country = p.country,
                     numofReviews = p.Reviews.Count(),
                     route = p.route,
-                    apartmentnum = ""
+                    apartmentnum = "",
+                    formatted_address = p.formatted_address,
+                    latitude = p.latitude,
+                    longitude = p.longitude
                     //db.Properties.Include(r => r.Reviews.Select(b=>b.apartmentnum).Where(q=> r.propertyID == p.propertyID ))
                 }).ToList();
 

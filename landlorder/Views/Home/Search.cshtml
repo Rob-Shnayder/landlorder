@@ -21,7 +21,7 @@
 
                 @foreach (var item in Model)
                 {
-                    <div class="item_holder" onclick="MarkerZoomTo(26.340235, -80.2078849, 'fl')">
+                    <div class="item_holder" onmouseover="PanToMarker('@item.latitude', '@item.longitude','@item.formatted_address')">
                         @Html.DisplayFor(modelItem => item.streetaddress)
 
                         @Html.DisplayFor(modelItem => item.route)
