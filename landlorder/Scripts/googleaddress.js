@@ -7,9 +7,8 @@ var componentForm = {
     country: 'long_name',
     postal_code: 'short_name'
 };
-var redmarker = "/images/map-marker-small.png";
-var bluemarker = "/images/map-marker-small-blue.png";
 
+var relatedPropertyArray = [];
 
 var markerarray = [];
 
@@ -199,7 +198,15 @@ function SendLocationData(data, datatype) {
     });
 }
 
-function PanToMarker(address) {
+function PanToMarker() {
+    var i = this.getAttribute('data-index');
+    var address;
+    if (typeof relatedPropertyArray[i] != 'undefined') {
+        address = relatedPropertyArray[i].formatted_address;
+    }
+    else { return;}
+        
+
      result = $.map(markerarray, function (obj, index) {
         if (obj.title == address) {
             return index;
@@ -213,6 +220,7 @@ function PanToMarker(address) {
 
 function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData) {
     //input = GetParameterByName('locationinput');
+    relatedPropertyArray = relatedProperties;
     
     document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address+ '"';
 
@@ -229,25 +237,24 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     }
 
     //Write Related Properties
-    var Reviews = "Reviews: ";
 
-
+    var section = document.createElement('section');
     for (var i = 0; i < relatedProperties.length; i++) {
         var div = document.createElement("div");
         div.innerHTML = "<h4>" + relatedProperties[i].formatted_address +
             "</h4> <h4>Reviews: " + 0 + "</h4>";
         div.className = "item_holder";
-        div.onmouseover = PanToMarker(relatedProperties[i].formatted_address);
-        document.getElementById('relatedpropertyDIV').appendChild(div);
+        div.setAttribute('data-index', i);
+        div.onmouseover = PanToMarker;
+        //document.getElementById('relatedpropertyDIV').appendChild(div);
+        section.appendChild(div);
         
         var seperator = document.createElement("div");        
         seperator.className = "seperator";
         document.getElementById('relatedpropertyDIV').appendChild(seperator);
-
-
-
-
+        section.appendChild(seperator);
     }
+    document.getElementById('relatedpropertyDIV').appendChild(section);
 
 }
 
