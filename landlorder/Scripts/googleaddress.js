@@ -8,7 +8,9 @@ var componentForm = {
     postal_code: 'short_name'
 };
 
+var exactPropertyArray;
 var relatedPropertyArray = [];
+
 
 var markerarray = [];
 
@@ -61,7 +63,6 @@ function initSearch() {
     var service = new google.maps.places.AutocompleteService();
     service.getQueryPredictions({ input: query }, autocomplete_callback);    
 }
-
 function autocomplete_callback(predictions, status) {
     if (status != google.maps.places.PlacesServiceStatus.OK) {
         //CHANGE THIS!
@@ -76,6 +77,14 @@ function autocomplete_callback(predictions, status) {
 
 }
 
+
+//Map Essentials
+function GenerateMap() {
+    map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(40.7903, 73.9597),
+        zoom: 12
+    });
+}
 function GetLocationDetailsFromID(ID) {   
     infowindow = new google.maps.InfoWindow();
     var service = new google.maps.places.PlacesService(map);
@@ -114,7 +123,53 @@ function GetLocationDetailsFromID(ID) {
         }
     });
 }
+function CreateSurroundingLocationMarkers(properties) {
+    for (var i = 0; i < properties.length; i++) {
+        var Latlng = new google.maps.LatLng(properties[i].latitude, properties[i].longitude);
+        CreateMarker(Latlng, properties[i].formatted_address);
 
+        function CreateMarker(latlng, html) {
+            var contentString = html;
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: html,
+                zIndex: Math.round(latlng.lat() * -100000) << 5                
+            });
+
+            markerarray.push(marker);
+
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.setContent(contentString);
+                infowindow.open(map, marker);                
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close();
+            });
+        }
+    }
+}
+
+
+//Functions for formatting Google API data and sending server-side
+function SendLocationData(data, datatype) {
+    
+    $.ajax({
+        url: "/Home/GetLocationData",
+        type: 'POST',
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: 'application/json; charset=utf-8',
+        success: function (result) {
+            ListPropertyResults(result.property, result.relatedproperties, data)
+            CreateSurroundingLocationMarkers(result.relatedproperties);            
+        },
+        error: function (xhr, exception) {
+            console.log(exception);
+            
+        }
+    });
+}
 function FormatPlaceData(place) {
     var locationData = {};
     for (var i = 0; i < place.address_components.length; i++) {
@@ -145,100 +200,47 @@ function FormatPlaceData(place) {
     return locationData;
 }
 
-function CreateSurroundingLocationMarkers(properties) {
-    for (var i = 0; i < properties.length; i++) {
-        var Latlng = new google.maps.LatLng(properties[i].latitude, properties[i].longitude);
-        CreateMarker(Latlng, properties[i].formatted_address);
-
-        function CreateMarker(latlng, html) {
-            var contentString = html;
-            var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                title: html,
-                zIndex: Math.round(latlng.lat() * -100000) << 5                
-            });
-
-            markerarray.push(marker);
-
-            google.maps.event.addListener(marker, 'mouseover', function () {
-                infowindow.setContent(contentString);
-                infowindow.open(map, marker);                
-            });
-            google.maps.event.addListener(marker, 'mouseout', function () {
-                infowindow.close();
-            });
-        }
-    }
-}
-
-function GenerateMap() {
-    map = new google.maps.Map(document.getElementById('map-canvas'), {
-        center: new google.maps.LatLng(40.7903, 73.9597),
-        zoom: 10
-    });
-}
-
-function SendLocationData(data, datatype) {
-    
-    $.ajax({
-        url: "/Home/GetLocationData",
-        type: 'POST',
-        data: JSON.stringify(data),
-        dataType: "json",
-        contentType: 'application/json; charset=utf-8',
-        success: function (result) {
-            ListPropertyResults(result.property, result.relatedproperties, data)
-            CreateSurroundingLocationMarkers(result.relatedproperties);            
-        },
-        error: function (xhr, exception) {
-            console.log(exception);
-            
-        }
-    });
-}
-
-function PanToMarker() {
-    var i = this.getAttribute('data-index');
-    var address;
-    if (typeof relatedPropertyArray[i] != 'undefined') {
-        address = relatedPropertyArray[i].formatted_address;
-    }
-    else { return;}
-        
-
-     result = $.map(markerarray, function (obj, index) {
-        if (obj.title == address) {
-            return index;
-        }
-    })
-
-    if (result.length > 0) {
-        MarkerZoomTo(result[0]);
-    }
-}
 
 function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData) {
-    //input = GetParameterByName('locationinput');
+    var section = document.createElement('section');
+    section.id = "results_section";
     relatedPropertyArray = relatedProperties;
     
+    //Create the title
     document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address+ '"';
+    
 
+
+    ///******************************
     //Write Exact Property
-    //Check if there are any reviews for the user input address   
-    if (exactProperty.length > 0) {
-        document.getElementById('exactmatch_address').innerHTML += exactProperty.formatted_address;
-        document.getElementById('exactmatch_numReviews').innerHTML += "Reviews: 1";
+    //*******************************
+    var div = document.createElement("div");
 
+    //Check if there are any reviews in the DB.
+    if (exactProperty.length > 0) {
+        div.innerHTML = "<h4>" + exactProperty.formatted_address +
+            "</h4> <h4>Reviews: " + 1 + "</h4>";
+        exactaddressProperty = exactaddressProperty.formatted_address;
     }
     else {
-        document.getElementById('exactmatch_address').innerHTML += originalPlaceData.formatted_address;
-        document.getElementById('exactmatch_numReviews').innerHTML += "Reviews: 0";
+        div.innerHTML = "<h4>" + originalPlaceData.formatted_address +
+            "</h4> <h4>Reviews: " + 0 + "</h4>";
+        exactaddressProperty = originalPlaceData.formatted_address;
     }
+    div.className = "item_holder";
+    div.setAttribute('data-index', i);
+    div.onmouseover = PanToMarker_ExactAddress;
+    section.appendChild(div);
+
+    //Create seperator line
+    var seperator = document.createElement("div");
+    seperator.className = "seperator";
+    document.getElementById('relatedpropertyDIV').appendChild(seperator);
+    section.appendChild(seperator);
+
 
     //Write Related Properties
 
-    var section = document.createElement('section');
     for (var i = 0; i < relatedProperties.length; i++) {
         var div = document.createElement("div");
         div.innerHTML = "<h4>" + relatedProperties[i].formatted_address +
@@ -249,6 +251,7 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
         //document.getElementById('relatedpropertyDIV').appendChild(div);
         section.appendChild(div);
         
+        //Create seperator line
         var seperator = document.createElement("div");        
         seperator.className = "seperator";
         document.getElementById('relatedpropertyDIV').appendChild(seperator);
@@ -258,6 +261,45 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
 
 }
 
+
+//Map Pan Functions for hover
+function PanToMarker() {
+    var i = this.getAttribute('data-index');
+    var address;
+    if (typeof relatedPropertyArray[i] != 'undefined') {
+        address = relatedPropertyArray[i].formatted_address;
+    }
+    else { return; }
+
+
+    result = $.map(markerarray, function (obj, index) {
+        if (obj.title == address) {
+            return index;
+        }
+    })
+
+    if (result.length > 0) {
+        MarkerZoomTo(result[0]);
+    }
+}
+function PanToMarker_ExactAddress() {
+    var address;
+    if (exactaddressProperty != null) {
+        address = exactaddressProperty;
+    }
+    else { return; }
+
+
+    result = $.map(markerarray, function (obj, index) {
+        if (obj.title == address) {
+            return index;
+        }
+    })
+
+    if (result.length > 0) {
+        MarkerZoomTo(result[0]);
+    }
+}
 function MarkerZoomTo(markerIdentifier) {
     pt = markerarray[markerIdentifier].getPosition();
     newpt = new google.maps.LatLng(pt.lat(), pt.lng());
