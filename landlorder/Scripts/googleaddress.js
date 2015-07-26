@@ -7,6 +7,9 @@ var componentForm = {
     country: 'long_name',
     postal_code: 'short_name'
 };
+var redmarker = "/images/map-marker-small.png";
+var bluemarker = "/images/map-marker-small-blue.png";
+
 
 var markerarray = [];
 
@@ -102,9 +105,12 @@ function GetLocationDetailsFromID(ID) {
             infowindow.open(map, marker);
 
 
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'mouseover', function() {
                 infowindow.setContent(place.formatted_address);
                 infowindow.open(map, this);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close();
             });
         }
     });
@@ -156,20 +162,21 @@ function CreateSurroundingLocationMarkers(properties) {
 
             markerarray.push(marker);
 
-            google.maps.event.addListener(marker, 'click', function () {
+            google.maps.event.addListener(marker, 'mouseover', function () {
                 infowindow.setContent(contentString);
                 infowindow.open(map, marker);                
-            });           
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close();
+            });
         }
-
-
     }
 }
 
 function GenerateMap() {
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(40.7903, 73.9597),
-        zoom: 15
+        zoom: 10
     });
 }
 
@@ -182,7 +189,8 @@ function SendLocationData(data, datatype) {
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
-            CreateSurroundingLocationMarkers(result.relatedproperties);
+            ListPropertyResults(result.property, result.relatedproperties, data)
+            CreateSurroundingLocationMarkers(result.relatedproperties);            
         },
         error: function (xhr, exception) {
             console.log(exception);
@@ -191,10 +199,8 @@ function SendLocationData(data, datatype) {
     });
 }
 
-function PanToMarker(lat, lon, address) {
-    //var result = $.grep(markerarray, function (e) { return e.title == address; });
-
-    result = $.map(markerarray, function (obj, index) {
+function PanToMarker(address) {
+     result = $.map(markerarray, function (obj, index) {
         if (obj.title == address) {
             return index;
         }
@@ -205,7 +211,45 @@ function PanToMarker(lat, lon, address) {
     }
 }
 
+function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData) {
+    //input = GetParameterByName('locationinput');
+    
+    document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address+ '"';
 
+    //Write Exact Property
+    //Check if there are any reviews for the user input address   
+    if (exactProperty.length > 0) {
+        document.getElementById('exactmatch_address').innerHTML += exactProperty.formatted_address;
+        document.getElementById('exactmatch_numReviews').innerHTML += "Reviews: 1";
+
+    }
+    else {
+        document.getElementById('exactmatch_address').innerHTML += originalPlaceData.formatted_address;
+        document.getElementById('exactmatch_numReviews').innerHTML += "Reviews: 0";
+    }
+
+    //Write Related Properties
+    var Reviews = "Reviews: ";
+
+
+    for (var i = 0; i < relatedProperties.length; i++) {
+        var div = document.createElement("div");
+        div.innerHTML = "<h4>" + relatedProperties[i].formatted_address +
+            "</h4> <h4>Reviews: " + 0 + "</h4>";
+        div.className = "item_holder";
+        div.onmouseover = PanToMarker(relatedProperties[i].formatted_address);
+        document.getElementById('relatedpropertyDIV').appendChild(div);
+        
+        var seperator = document.createElement("div");        
+        seperator.className = "seperator";
+        document.getElementById('relatedpropertyDIV').appendChild(seperator);
+
+
+
+
+    }
+
+}
 
 function MarkerZoomTo(markerIdentifier) {
     pt = markerarray[markerIdentifier].getPosition();

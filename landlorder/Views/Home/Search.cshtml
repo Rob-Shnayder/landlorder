@@ -17,94 +17,26 @@
 
 
         <div class="col-sm-4">
-            <div class="search_container" style="overflow: auto;">
+            <div class="search_container" id="search_container" style="overflow: auto;">
+                <h3 class="search-title" id="results-title"></h3>
+                <div class="seperator title"></div>
+                
+                <div class="item_holder">                    
+                    <h4 id="exactmatch_address"></h4>
+                    <h4 id="exactmatch_numReviews"></h4>
+                </div>
+                <div class="seperator"></div>
 
-                @foreach (var item in Model)
-                {
-                    <div class="item_holder" onmouseover="PanToMarker('@item.latitude', '@item.longitude','@item.formatted_address')">
-                        @Html.DisplayFor(modelItem => item.streetaddress)
+                <div id="relatedpropertyDIV">
 
-                        @Html.DisplayFor(modelItem => item.route)
 
-                        @Html.DisplayFor(modelItem => item.state)
-
-                        @Html.DisplayFor(modelItem => item.city)
-
-                        <br />
-                        <h5>Reviews:</h5>
-                        @Html.DisplayFor(modelItem => item.numofReviews)
-                    </div>
-                    <div class="seperator"></div>
-                }
-                @foreach (var item in Model)
-                {
-                    <div class="item_holder">
-                        @Html.DisplayFor(modelItem => item.streetaddress)
-
-                        @Html.DisplayFor(modelItem => item.route)
-
-                        @Html.DisplayFor(modelItem => item.state)
-
-                        @Html.DisplayFor(modelItem => item.city)
-
-                        <br />
-                        <h5>Reviews:</h5>
-                        @Html.DisplayFor(modelItem => item.numofReviews)
-                    </div>
-                    <div class="seperator"></div>
-                }
-                @foreach (var item in Model)
-                {
-                    <div class="item_holder">
-                        @Html.DisplayFor(modelItem => item.streetaddress)
-
-                        @Html.DisplayFor(modelItem => item.route)
-
-                        @Html.DisplayFor(modelItem => item.state)
-
-                        @Html.DisplayFor(modelItem => item.city)
-
-                        <br />
-                        <h5>Reviews:</h5>
-                        @Html.DisplayFor(modelItem => item.numofReviews)
-                    </div>
-                    <div class="seperator"></div>
-                }
-                @foreach (var item in Model)
-                {
-                    <div class="item_holder">
-                        @Html.DisplayFor(modelItem => item.streetaddress)
-
-                        @Html.DisplayFor(modelItem => item.route)
-
-                        @Html.DisplayFor(modelItem => item.state)
-
-                        @Html.DisplayFor(modelItem => item.city)
-
-                        <br />
-                        <h5>Reviews:</h5>
-                        @Html.DisplayFor(modelItem => item.numofReviews)
-                    </div>
-                    <div class="seperator"></div>
-                }
+                </div>
 
             </div>
         </div>
 
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
