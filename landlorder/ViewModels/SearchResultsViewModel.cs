@@ -19,5 +19,6 @@ namespace landlorder.ViewModels
         public string formatted_address { get; set; }
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
+        public Int64 MyRowNumber { get; set; }
     }
 }

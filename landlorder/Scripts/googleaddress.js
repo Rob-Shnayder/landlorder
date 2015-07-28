@@ -206,10 +206,10 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     section.id = "results_section";
     relatedPropertyArray = relatedProperties;
     
+
     //Create the title
     document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address+ '"';
     
-
 
     ///******************************
     //Write Exact Property
@@ -219,16 +219,15 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     //Check if there are any reviews in the DB.
     if (exactProperty.length > 0) {
         div.innerHTML = "<h4>" + exactProperty.formatted_address +
-            "</h4> <h4>Reviews: " + 1 + "</h4>";
+            "</h4> <h4>Reviews: " + exactProperty.numofReviews + "</h4>";
         exactaddressProperty = exactaddressProperty.formatted_address;
     }
     else {
         div.innerHTML = "<h4>" + originalPlaceData.formatted_address +
-            "</h4> <h4>Reviews: " + 0 + "</h4>";
+            "</h4> <h5 class='results-text'>Reviews: " + 0 + "</h5>";
         exactaddressProperty = originalPlaceData.formatted_address;
     }
     div.className = "item_holder";
-    div.setAttribute('data-index', i);
     div.onmouseover = PanToMarker_ExactAddress;
     section.appendChild(div);
 
@@ -244,7 +243,7 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     for (var i = 0; i < relatedProperties.length; i++) {
         var div = document.createElement("div");
         div.innerHTML = "<h4>" + relatedProperties[i].formatted_address +
-            "</h4> <h4>Reviews: " + 0 + "</h4>";
+            "</h4> <h5 class='results-text'>Reviews: " + relatedProperties[i].numofReviews + "</h5>";
         div.className = "item_holder";
         div.setAttribute('data-index', i);
         div.onmouseover = PanToMarker;

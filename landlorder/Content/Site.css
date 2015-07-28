@@ -717,6 +717,7 @@ pre code {
     background: #FFF;
     position: absolute;
     z-index: 10;
+    background-color: #F5F5F5;
 
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
       -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
@@ -747,6 +748,11 @@ pre code {
 .search-title {
   margin-top: 20px;
   margin-bottom: 30px;
+  color: #0a7396;
+}
+
+.results-text{
+    color: #000000;
 }
 
 .map{
