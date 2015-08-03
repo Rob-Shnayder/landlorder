@@ -265,7 +265,7 @@
       <LastGenOutput>GeneralModels.cs</LastGenOutput>
     </Content>
     <None Include="Project_Readme.html" />
-    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Reviews\Search.cshtml" />
     <Content Include="Views\Home\LoginModal.cshtml" />
     <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Reviews\Delete.cshtml" />

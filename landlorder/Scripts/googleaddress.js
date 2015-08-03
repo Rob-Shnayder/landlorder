@@ -8,7 +8,7 @@ var componentForm = {
     postal_code: 'short_name'
 };
 
-var exactPropertyArray;
+var exactaddressProperty;
 var relatedPropertyArray = [];
 
 
@@ -17,7 +17,7 @@ var markerarray = [];
 function initialize() {
     // Create the autocomplete object, restricting the search
     // to geographical location types.
-    
+
     autocomplete = new google.maps.places.Autocomplete(
         /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
         { types: ['geocode'] });
@@ -25,9 +25,9 @@ function initialize() {
     // populate the address fields in the form.
 
     //google.maps.event.addListener(autocomplete, 'places_changed', function () {        
-   //     fillInAddress()
+    //     fillInAddress()
     //});
-    
+
 }
 
 function geolocate() {
@@ -49,19 +49,19 @@ function geolocate() {
 //**********************************
 
 
-function initSearch() {   
+function initSearch() {
     //Read GET variable
     query = GetParameterByName('locationinput');
-    
+
     //****************************
     //SET UP CODE HERE TO GET RECENT REVIEWS IF LOCATION IS NULL
     //***************************
-    
+
     GenerateMap();
 
     //Start the autocomplete service and get predictions from input
     var service = new google.maps.places.AutocompleteService();
-    service.getQueryPredictions({ input: query }, autocomplete_callback);    
+    service.getQueryPredictions({ input: query }, autocomplete_callback);
 }
 function autocomplete_callback(predictions, status) {
     if (status != google.maps.places.PlacesServiceStatus.OK) {
@@ -85,35 +85,35 @@ function GenerateMap() {
         zoom: 12
     });
 }
-function GetLocationDetailsFromID(ID) {   
+function GetLocationDetailsFromID(ID) {
     infowindow = new google.maps.InfoWindow();
     var service = new google.maps.places.PlacesService(map);
 
-    service.getDetails(ID, function(place, status) {
+    service.getDetails(ID, function (place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
             var marker = new google.maps.Marker({
                 map: map,
                 title: place.formatted_address,
-                position: place.geometry.location                
+                position: place.geometry.location
             });
 
             markerarray.push(marker);
 
             //Change map position to geolocation of user input
-            var panPoint = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
+            var panPoint = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
             map.panTo(panPoint)
 
             //Format Data & send data to server side
             var type = place.address_components[0].types[0];
             var locationData = FormatPlaceData(place);
-            SendLocationData(locationData, type);            
-            
-            
+            SendLocationData(locationData, type);
+
+
             infowindow.setContent(place.formatted_address);
             infowindow.open(map, marker);
 
 
-            google.maps.event.addListener(marker, 'mouseover', function() {
+            google.maps.event.addListener(marker, 'mouseover', function () {
                 infowindow.setContent(place.formatted_address);
                 infowindow.open(map, this);
             });
@@ -134,14 +134,14 @@ function CreateSurroundingLocationMarkers(properties) {
                 position: latlng,
                 map: map,
                 title: html,
-                zIndex: Math.round(latlng.lat() * -100000) << 5                
+                zIndex: Math.round(latlng.lat() * -100000) << 5
             });
 
             markerarray.push(marker);
 
             google.maps.event.addListener(marker, 'mouseover', function () {
                 infowindow.setContent(contentString);
-                infowindow.open(map, marker);                
+                infowindow.open(map, marker);
             });
             google.maps.event.addListener(marker, 'mouseout', function () {
                 infowindow.close();
@@ -153,20 +153,20 @@ function CreateSurroundingLocationMarkers(properties) {
 
 //Functions for formatting Google API data and sending server-side
 function SendLocationData(data, datatype) {
-    
+
     $.ajax({
-        url: "/Home/GetLocationData",
+        url: "/Reviews/GetLocationData",
         type: 'POST',
         data: JSON.stringify(data),
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             ListPropertyResults(result.property, result.relatedproperties, data)
-            CreateSurroundingLocationMarkers(result.relatedproperties);            
+            CreateSurroundingLocationMarkers(result.relatedproperties);
         },
         error: function (xhr, exception) {
             console.log(exception);
-            
+
         }
     });
 }
@@ -190,8 +190,8 @@ function FormatPlaceData(place) {
     }
 
     if (place.geometry.location) {
-        locationData["latitude"] = place.geometry.location.A;
-        locationData["longitude"] = place.geometry.location.F;
+        locationData["latitude"] = place.geometry.location.lat();
+        locationData["longitude"] = place.geometry.location.lng();
         locationData["formatted_address"] = place.formatted_address;
         locationData["type"] = place.types[0];
         locationData["vicinity"] = place.vicinity;
@@ -205,28 +205,38 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     var section = document.createElement('section');
     section.id = "results_section";
     relatedPropertyArray = relatedProperties;
-    
 
     //Create the title
-    document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address+ '"';
-    
+    document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address + '"';
+
 
     ///******************************
     //Write Exact Property
     //*******************************
+
     var div = document.createElement("div");
 
     //Check if there are any reviews in the DB.
     if (exactProperty.length > 0) {
-        div.innerHTML = "<h4>" + exactProperty.formatted_address +
-            "</h4> <h4>Reviews: " + exactProperty.numofReviews + "</h4>";
-        exactaddressProperty = exactaddressProperty.formatted_address;
+        var divLink = exactProperty[0].formatted_address;
+        //divLink = divLink.replace(/[ ]*,[ ]*|[ ]+/g, '-');
+        //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
+
+        div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + exactProperty[0].formatted_address +
+            "</h4> <h5>Reviews: " + exactProperty[0].numofReviews + "</h5></a>";
+        exactaddressProperty = exactProperty[0].formatted_address;
     }
+
     else {
-        div.innerHTML = "<h4>" + originalPlaceData.formatted_address +
-            "</h4> <h5 class='results-text'>Reviews: " + 0 + "</h5>";
+        var divLink = originalPlaceData.formatted_address;
+        divLink = divLink.replace(/[ ]*,[ ]*|[ ]+/g, '-');
+        //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
+
+        div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + originalPlaceData.formatted_address +
+            "</h4> <h5>Reviews: " + 0 + "</h5></a>";
         exactaddressProperty = originalPlaceData.formatted_address;
     }
+
     div.className = "item_holder";
     div.onmouseover = PanToMarker_ExactAddress;
     section.appendChild(div);
@@ -249,9 +259,9 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
         div.onmouseover = PanToMarker;
         //document.getElementById('relatedpropertyDIV').appendChild(div);
         section.appendChild(div);
-        
+
         //Create seperator line
-        var seperator = document.createElement("div");        
+        var seperator = document.createElement("div");
         seperator.className = "seperator";
         document.getElementById('relatedpropertyDIV').appendChild(seperator);
         section.appendChild(seperator);
@@ -326,5 +336,4 @@ function GetParameterByName(name) {
 //**********************************
 //END SEARCH FUNCTIONS
 //**********************************
-
 
