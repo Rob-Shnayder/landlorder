@@ -1,82 +1,91 @@
-﻿@model landlorder.Models.Review
+﻿@model landlorder.ViewModels.ReviewViewModel
 
-@{
-    ViewBag.Title = "Details";
-}
+        <h4>ReviewViewModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.propertyID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.propertyID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.streetaddress)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.streetaddress)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.route)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.route)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.city)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.city)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.state)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.state)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.zip)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.zip)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.country)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.country)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.apartmentnum)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.apartmentnum)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.latitude)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.latitude)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.longitude)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.longitude)
+            </dd>
+    
+        </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 
-<h2>Details</h2>
-
-<div>
-    <h4>Review</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.userID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.userID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.rating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.rating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.review1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.review1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.apartmentnum)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.apartmentnum)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.landlordname)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.landlordname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.repairrating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.repairrating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.communicationrating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.communicationrating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Property.streetaddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Property.streetaddress)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.reviewID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

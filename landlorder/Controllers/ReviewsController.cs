@@ -38,11 +38,19 @@ namespace landlorder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var p = db.Properties.Where(x => x.formatted_address == id).Select(x =>
-                                                new SearchResultsViewModel()
+                                                new ReviewViewModel()
                                                 {
                                                     propertyID = x.propertyID,
+                                                    streetaddress = x.streetaddress,
                                                     route = x.route,
-                                                });         
+                                                    city = x.city,
+                                                    state = x.state,
+                                                    zip = x.zip,
+                                                    country = x.country,
+                                                    latitude = x.latitude,
+                                                    longitude = x.longitude,
+                                                    reviews = x.Reviews.Select(a=> a.review1)
+                                                }).SingleOrDefault();         
 
             if (p == null)
             {
