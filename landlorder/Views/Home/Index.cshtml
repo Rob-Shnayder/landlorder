@@ -1,71 +1,89 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "landlorder | Search and Submit Landlord Reviews";
 }
 
 
 
 
-    <!-- ******PROMO****** -->   
+<!-- ******PROMO****** -->
 
-    <section id="promo" class="promo section offset-header">
-        <div class=" container text-center">
-    <h2 class="title">land<span class="highlight">lorder</span></h2>
-    <p class="intro"></p> 
-        <div class="col-md-3 column"></div>
-        <div class="col-md-3 column">
-            <form method="get" action="/Reviews/Search">
-                <div class="input-group">
-                    <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip" spellcheck="false">
-                    <input type="text" name="pagenum" value="1" hidden="hidden">
-                    <span id="locatiobtn" class="input-group-btn-lg">
-                        <button type="submit" class="submit-icon">
-                            <i class="fa fa-search fa-lg"></i>
-                        </button>
-                    </span>
+<section id="promo">
+    <div class="overcast">
+        <div class="promo section offset-header">
+            <div class=" container text-center">
+                <h2 class="title">landlorder</h2>
+                <h3 class="subtitle">Search & submit landlord anywhere</h3>
+                <p class="intro"></p>
+                <div class="col-md-3 column"></div>
+                <div class="col-md-3 column">
+                    <form method="get" action="/Reviews/Search">
+                        <div class="input-group">
+                            <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip" spellcheck="false">
+                            <span id="locatiobtn" class="input-group-btn-lg">
+                                <button type="submit" class="submit-icon">
+                                    <i class="fa fa-search fa-lg"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <div class="col-md-3 column"></div>
+            </div><!--//container-->
         </div>
-        <div class="col-md-3 column"></div>
-    </div><!--//container-->
-
+    </div>
 </section><!--//promo-->
-    <!-- ******ABOUT****** -->
-    <section id="about" class="about section">
-        <div class="container">
-            <h2 class="title text-center">How can landlorder help?</h2>
-            <div class="row">
-                <div class="item col-md-4 col-sm-6 col-xs-12">
-                    <div class="icon-holder">
-                        <i class="fa fa-search"></i>
-                    </div>
-                    <div class="content">
-                        <h3 class="sub-title">Search for landlord reviews</h3>
-                        <p>Outline a benefit here. Tell users what your plugin/software can do for them. You can change the icon above to any of the 400+</p>
-                    </div><!--//content-->
-                </div><!--//item-->
-                <div class="item col-md-4 col-sm-6 col-xs-12">
-                    <div class="icon-holder">
-                        <i class="fa fa-plus-square"></i>
-                    </div>
-                    <div class="content">
-                        <h3 class="sub-title">Submit landlord reviews</h3>
-                        <p>Outline a benefit here. Tell users what your plugin/software can do for them. You can change the icon above to any of the 400+</p>
-                    </div><!--//content-->
-                </div><!--//item-->
-                <div class="item col-md-4 col-sm-6 col-xs-12">
-                    <div class="icon-holder">
-                        <i class="fa fa-lock"></i>
-                    </div>
-                    <div class="content">
-                        <h3 class="sub-title">Rent stress-free</h3>
-                        <p>Outline a benefit here. Tell users what your plugin/software can do for them. You can change the icon above to any of the 400+ </p>
-                    </div><!--//content-->
-                </div><!--//item-->
-                <div class="clearfix visible-md"></div>               
-            </div><!--//row-->
-        </div><!--//container-->
-    </section><!--//about-->
+<!-- ******ABOUT****** -->
+<section id="about" class="about section">
+    <div class="container">
+        <h2 class="title text-center">How can landlorder help?</h2>
+        <div class="row">
+            <div class="item col-md-4 col-sm-6 col-xs-12">
+                <div class="icon-holder">
+                    <i class="fa fa-search"></i>
+                </div>
+                <div class="content">
+                    <h3 class="sub-title">Search for landlord reviews</h3>
+                    <p>Outline a benefit here. Tell users what your plugin/software can do for them. You can change the icon above to any of the 400+</p>
+                </div><!--//content-->
+            </div><!--//item-->
+            <div class="item col-md-4 col-sm-6 col-xs-12">
+                <div class="icon-holder">
+                    <i class="fa fa-plus-square"></i>
+                </div>
+                <div class="content">
+                    <h3 class="sub-title">Submit landlord reviews</h3>
+                    <p>Outline a benefit here. Tell users what your plugin/software can do for them. You can change the icon above to any of the 400+</p>
+                </div><!--//content-->
+            </div><!--//item-->
+            <div class="item col-md-4 col-sm-6 col-xs-12">
+                <div class="icon-holder">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <div class="content">
+                    <h3 class="sub-title">Rent stress-free</h3>
+                    <p>Outline a benefit here. Tell users what your plugin/software can do for them. You can change the icon above to any of the 400+ </p>
+                </div><!--//content-->
+            </div><!--//item-->
+            <div class="clearfix visible-md"></div>
+        </div><!--//row-->
+    </div><!--//container-->
+</section><!--//about-->
+
+<section class="about section">
+    <div class="col-md-3 column">
+        <div class="explore-1"></div>
+    </div>
+    <div class="col-md-3 column">
+        <div class="explore-2"></div>
+    </div>
+    <div class="col-md-3 column">
+        <div class="explore-3"></div>
+    </div>
+    <div class="col-md-3 column">
+        <div class="explore-4"></div>
+    </div>
+
+</section>
 
 <script>initialize();</script>
 

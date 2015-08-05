@@ -82,10 +82,17 @@
             <dd>
                 @Html.DisplayFor(model => model.longitude)
             </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.reviews)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.reviews)
+            </dd>
     
         </dl>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID}) |
         @Html.ActionLink("Back to List", "Index")
     </p>
 

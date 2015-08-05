@@ -229,7 +229,6 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
 
     else {
         var divLink = originalPlaceData.formatted_address;
-        divLink = divLink.replace(/[ ]*,[ ]*|[ ]+/g, '-');
         //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
 
         div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + originalPlaceData.formatted_address +
@@ -252,8 +251,9 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
 
     for (var i = 0; i < relatedProperties.length; i++) {
         var div = document.createElement("div");
-        div.innerHTML = "<h4>" + relatedProperties[i].formatted_address +
-            "</h4> <h5 class='results-text'>Reviews: " + relatedProperties[i].numofReviews + "</h5>";
+        var divLink = relatedPropertyArray[i].formatted_address;
+        div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + relatedProperties[i].formatted_address +
+            "</h4> <h5>Reviews: " + relatedProperties[i].numofReviews + "</h5></a>";
         div.className = "item_holder";
         div.setAttribute('data-index', i);
         div.onmouseover = PanToMarker;

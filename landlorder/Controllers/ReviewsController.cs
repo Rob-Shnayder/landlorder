@@ -34,8 +34,8 @@ namespace landlorder.Controllers
         {
             if (id == null)
             {
-                //return RedirectToAction("Index", "Home");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Home");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var p = db.Properties.Where(x => x.formatted_address == id).Select(x =>
                                                 new ReviewViewModel()
@@ -50,21 +50,36 @@ namespace landlorder.Controllers
                                                     latitude = x.latitude,
                                                     longitude = x.longitude,
                                                     reviews = x.Reviews.Select(a=> a.review1)
+
                                                 }).SingleOrDefault();         
 
             if (p == null)
             {
-                return HttpNotFound();
+                return PartialView("/Views/Reviews/NoFoundReviews.cshtml");
             }
             return View(p);
         }
 
-        // GET: Reviews/Create
-        public ActionResult Create()
+        // GET: Reviews/Create/1
+        public ActionResult Create(int? id)
         {
             //ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress");
             //ViewBag.lat = lat;
             //ViewBag.lon = lon;
+
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Property p = db.Properties.Find(id);
+            if (p == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
+            ViewBag.address = p.formatted_address;
 
             return View();
         }
