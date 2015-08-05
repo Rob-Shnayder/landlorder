@@ -8,28 +8,26 @@
 <!-- ******PROMO****** -->
 
 <section id="promo">
-    <div class="overcast">
-        <div class="promo section offset-header">
-            <div class=" container text-center">
-                <h2 class="title">landlorder</h2>
-                <h3 class="subtitle">Search & submit landlord anywhere</h3>
-                <p class="intro"></p>
-                <div class="col-md-3 column"></div>
-                <div class="col-md-3 column">
-                    <form method="get" action="/Reviews/Search">
-                        <div class="input-group">
-                            <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip" spellcheck="false">
-                            <span id="locatiobtn" class="input-group-btn-lg">
-                                <button type="submit" class="submit-icon">
-                                    <i class="fa fa-search fa-lg"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-3 column"></div>
-            </div><!--//container-->
-        </div>
+    <div class="promo section offset-header">
+        <div class=" container text-center">
+            <h2 class="title">landlorder</h2>
+            <h3 class="subtitle">Search & submit landlord reviews anywhere</h3>
+            <p class="intro"></p>
+            <div class="col-md-3 column"></div>
+            <div class="col-md-3 column">
+                <form method="get" action="/Reviews/Search">
+                    <div class="input-group">
+                        <input type="text" id="autocomplete" name="locationinput" autocomplete="off" class="subscribe form-control" autofocus placeholder="Search address, city or zip" spellcheck="false">
+                        <span id="locatiobtn" class="input-group-btn-lg">
+                            <button type="submit" class="submit-icon">
+                                <i class="fa fa-search fa-lg"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3 column"></div>
+        </div><!--//container-->
     </div>
 </section><!--//promo-->
 <!-- ******ABOUT****** -->
@@ -69,20 +67,38 @@
     </div><!--//container-->
 </section><!--//about-->
 
-<section class="about section">
-    <div class="col-md-3 column">
-        <div class="explore-1"></div>
-    </div>
-    <div class="col-md-3 column">
-        <div class="explore-2"></div>
-    </div>
-    <div class="col-md-3 column">
-        <div class="explore-3"></div>
-    </div>
-    <div class="col-md-3 column">
-        <div class="explore-4"></div>
-    </div>
+<section class="explore section">
+    <div class="countainer-fluid">
+        <div class="row nopadding">
+            <div class="col-md-3 column">
 
+                <div class="explore-holder">
+                    <h2>New York</h2>
+                    <img class="explore-1">
+                </div>
+            </div>
+            <div class="col-md-3 column">
+                <div class="explore-holder">
+                    <h2>San Fran</h2>
+                    <img class="explore-2">
+                </div>
+            </div>
+            <div class="col-md-3 column">
+                <div class="explore-holder">
+
+                    <h2>Miami</h2>
+                    <img class="explore-3">
+                </div>
+            </div>
+            <div class="col-md-3 column">
+                <div class="explore-holder">
+
+                    <h2>Chicago</h2>
+                    <img class="explore-4">
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>initialize();</script>
