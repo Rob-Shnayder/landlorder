@@ -757,6 +757,7 @@ pre code {
   border-radius: 1px;
   border: 1px solid hsl(0, 0%, 82%);
   width: 100%;
+  background-color:#f5f5f5;
 }
 
 .search-title {
@@ -809,8 +810,8 @@ pre code {
 
 .explore{    
     padding-bottom: 200px;
-    background-color:#fff;
-    margin-bottom: 50px;
+    background-color: #f5f5f5;
+    margin-bottom: 150px;
     height:600px;
     width:99%;
 }

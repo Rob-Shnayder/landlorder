@@ -15,7 +15,7 @@ namespace landlorder.ViewModels
         public string zip { get; set; }
         public string country { get; set; }
         public string apartmentnum { get; set; }        
-        //public string formatted_address { get; set; }
+        public string formatted_address { get; set; }
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
         public IEnumerable<string> reviews { get; set; }

@@ -208,12 +208,40 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
 
     //Create the title
     document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address + '"';
-
-
-    ///******************************
+    
     //Write Exact Property
-    //*******************************
+    var div = GenerateExactResultsDIV(exactProperty, originalPlaceData);  
+    section.appendChild(div);
 
+    //Create seperator line
+    var seperator = GenerateSeperatorDIV();
+    section.appendChild(seperator);
+
+    //Write Related Properties
+    for (var i = 0; i < relatedProperties.length; i++) {
+        var div = document.createElement("div");
+        var divLink = relatedPropertyArray[i].formatted_address;
+        div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + relatedProperties[i].formatted_address +
+            "</h4> <h5>Reviews: " + relatedProperties[i].numofReviews + "</h5></a>";
+        div.className = "item_holder";
+        div.setAttribute('data-index', i);
+        div.onmouseover = PanToMarker;
+        section.appendChild(div);
+
+        //Create seperator line
+        var seperator = document.createElement("div");
+        seperator.className = "seperator";
+        document.getElementById('relatedpropertyDIV').appendChild(seperator);
+        section.appendChild(seperator);
+    }
+    document.getElementById('relatedpropertyDIV').appendChild(section);
+
+    //Find addresses from google
+    FindGoogleNearbyProperties(originalPlaceData);
+
+}
+
+function GenerateExactResultsDIV(exactProperty, originalPlaceData) {
     var div = document.createElement("div");
 
     //Check if there are any reviews in the DB.
@@ -238,36 +266,50 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
 
     div.className = "item_holder";
     div.onmouseover = PanToMarker_ExactAddress;
-    section.appendChild(div);
 
-    //Create seperator line
+    return div;
+
+}
+function GenerateSeperatorDIV() {
     var seperator = document.createElement("div");
+    document.createElement("div");
     seperator.className = "seperator";
     document.getElementById('relatedpropertyDIV').appendChild(seperator);
-    section.appendChild(seperator);
+    return seperator;
+}
 
+function FindGoogleNearbyProperties(input) {
+    var p = new google.maps.LatLng(input.latitude, input.longitude);
 
-    //Write Related Properties
+    var request = {
+        location: p,
+        radius: 500,
+        types: ['address']
+    };
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+}
 
-    for (var i = 0; i < relatedProperties.length; i++) {
-        var div = document.createElement("div");
-        var divLink = relatedPropertyArray[i].formatted_address;
-        div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + relatedProperties[i].formatted_address +
-            "</h4> <h5>Reviews: " + relatedProperties[i].numofReviews + "</h5></a>";
-        div.className = "item_holder";
-        div.setAttribute('data-index', i);
-        div.onmouseover = PanToMarker;
-        //document.getElementById('relatedpropertyDIV').appendChild(div);
-        section.appendChild(div);
-
-        //Create seperator line
-        var seperator = document.createElement("div");
-        seperator.className = "seperator";
-        document.getElementById('relatedpropertyDIV').appendChild(seperator);
-        section.appendChild(seperator);
+function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+        }
     }
-    document.getElementById('relatedpropertyDIV').appendChild(section);
+}
 
+function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+    });
 }
 
 
@@ -337,3 +379,43 @@ function GetParameterByName(name) {
 //END SEARCH FUNCTIONS
 //**********************************
 
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/Reviews/GetProp",
+        type: 'GET',
+        success: function (result) {
+            processData(result);
+        },
+        error: function (xhr, exception) {
+            console.log(xhr.responseText);
+
+        }
+    });
+});
+
+function processData(result) {
+    for(var i = 0; i < result.length; i++){
+        geocode(result[i], mapquestcallback);
+    }
+
+}
+
+
+function geocode(place, mapquestcallback) {
+    var url = 'http://www.mapquestapi.com/geocoding/v1/address?key=xpfcnvnPNvsWqLnz5uSNwmR9t8uk1o4C&location=' + place.formatted_address;
+    // requires jquery for ajax
+    jQuery.getJSON(url, function (data) {
+        if (data.length > 0) {
+            mapquestcallback(null, { lon: parseFloat(data[0].lon), lat: parseFloat(data[0].lat) })
+        } else {
+            mapquestcallback(null, null)
+        }
+    });
+}
+
+function mapquestcallback(a, b) {
+    console.log(a);
+    console.log(b);
+
+}

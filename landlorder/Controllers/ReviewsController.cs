@@ -93,6 +93,7 @@ namespace landlorder.Controllers
         {
             if (ModelState.IsValid)
             {
+                //CHANGE ID HERE
                 var property = db.Properties.FirstOrDefault(p => p.propertyID == 1);
                 var userID = User.Identity.GetUserId();
                 review.propertyID = property.propertyID;
@@ -240,6 +241,22 @@ namespace landlorder.Controllers
 
             var result = new { property = property, relatedproperties = relatedproperties, Url = "/Home/Search" };
             return Json(result);
+        }
+
+        public ActionResult GetProp()
+        {
+            var p = db.Properties.Select(x => new
+                                               {
+                                                   streetaddress = x.streetaddress,
+                                                   route = x.route,
+                                                   city = x.city,
+                                                   state = x.state,
+                                                   zip = x.zip,   
+                                                   formatted_address = x.formatted_address
+                                               });         
+
+
+            return Json(p, JsonRequestBehavior.AllowGet);
         }
 
 
