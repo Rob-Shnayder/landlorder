@@ -160,7 +160,7 @@ function SendLocationData(data, datatype) {
         data: JSON.stringify(data),
         dataType: "json",
         contentType: 'application/json; charset=utf-8',
-        success: function (result) {
+        success: function (result) {            
             ListPropertyResults(result.property, result.relatedproperties, data)
             CreateSurroundingLocationMarkers(result.relatedproperties);
         },
@@ -206,16 +206,25 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     section.id = "results_section";
     relatedPropertyArray = relatedProperties;
 
+    document.getElementById('spinnerholder').style.display = 'none';
+
+
     //Create the title
     document.getElementById("results-title").innerHTML = 'Landlord Reviews for "' + originalPlaceData.formatted_address + '"';
     
-    //Write Exact Property
-    var div = GenerateExactResultsDIV(exactProperty, originalPlaceData);  
-    section.appendChild(div);
 
-    //Create seperator line
-    var seperator = GenerateSeperatorDIV();
-    section.appendChild(seperator);
+
+
+    //Write Exact Property
+    var div = GenerateExactResultsDIV(exactProperty, originalPlaceData);
+    if (div != null) {
+        section.appendChild(div);
+
+        //Create seperator line
+        var seperator = GenerateSeperatorDIV();
+        section.appendChild(seperator);
+    }  
+    
 
     //Write Related Properties
     for (var i = 0; i < relatedProperties.length; i++) {
@@ -236,16 +245,13 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     }
     document.getElementById('relatedpropertyDIV').appendChild(section);
 
-    //Find addresses from google
-    FindGoogleNearbyProperties(originalPlaceData);
-
 }
 
 function GenerateExactResultsDIV(exactProperty, originalPlaceData) {
     var div = document.createElement("div");
 
     //Check if there are any reviews in the DB.
-    if (exactProperty.length > 0) {
+    if (exactProperty != null && exactProperty.length > 0) {
         var divLink = exactProperty[0].formatted_address;
         //divLink = divLink.replace(/[ ]*,[ ]*|[ ]+/g, '-');
         //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
@@ -255,13 +261,16 @@ function GenerateExactResultsDIV(exactProperty, originalPlaceData) {
         exactaddressProperty = exactProperty[0].formatted_address;
     }
 
-    else {
+    if (originalPlaceData.type == "street_adress") {
         var divLink = originalPlaceData.formatted_address;
         //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
 
         div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + originalPlaceData.formatted_address +
             "</h4> <h5>Reviews: " + 0 + "</h5></a>";
         exactaddressProperty = originalPlaceData.formatted_address;
+    }
+    else {
+        return;
     }
 
     div.className = "item_holder";
@@ -278,18 +287,6 @@ function GenerateSeperatorDIV() {
     return seperator;
 }
 
-function FindGoogleNearbyProperties(input) {
-    var p = new google.maps.LatLng(input.latitude, input.longitude);
-
-    var request = {
-        location: p,
-        radius: 500,
-        types: ['address']
-    };
-    infowindow = new google.maps.InfoWindow();
-    var service = new google.maps.places.PlacesService(map);
-    service.nearbySearch(request, callback);
-}
 
 function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -380,42 +377,23 @@ function GetParameterByName(name) {
 //**********************************
 
 
-$(document).ready(function () {
+
+function geocode(place) {
+    var configurl = 'http://www.mapquestapi.com/geocoding/v1/address?key=xpfcnvnPNvsWqLnz5uSNwmR9t8uk1o4C&location=' + place.formatted_address;
+    
     $.ajax({
-        url: "/Reviews/GetProp",
-        type: 'GET',
-        success: function (result) {
-            processData(result);
+        type: "POST",                
+        url: configurl,
+        success: function(response) {                        
+            //console.log(response.results[0].locations[0].latLng.lat);
+            //console.log(response.results[0].locations[0].latLng.lng);
+            SendLatLng(response.results[0].locations[0].latLng.lat, response.results[0].locations[0].latLng.lng, place.formatted_address);
         },
         error: function (xhr, exception) {
-            console.log(xhr.responseText);
-
-        }
-    });
-});
-
-function processData(result) {
-    for(var i = 0; i < result.length; i++){
-        geocode(result[i], mapquestcallback);
+        console.log(xhr.responseText);
     }
+    })
 
 }
 
 
-function geocode(place, mapquestcallback) {
-    var url = 'http://www.mapquestapi.com/geocoding/v1/address?key=xpfcnvnPNvsWqLnz5uSNwmR9t8uk1o4C&location=' + place.formatted_address;
-    // requires jquery for ajax
-    jQuery.getJSON(url, function (data) {
-        if (data.length > 0) {
-            mapquestcallback(null, { lon: parseFloat(data[0].lon), lat: parseFloat(data[0].lat) })
-        } else {
-            mapquestcallback(null, null)
-        }
-    });
-}
-
-function mapquestcallback(a, b) {
-    console.log(a);
-    console.log(b);
-
-}

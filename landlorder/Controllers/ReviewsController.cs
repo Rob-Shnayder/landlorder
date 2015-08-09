@@ -15,12 +15,16 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Data.Sql;
 using System.Data.Entity;
+using Geocoding;
+using Geocoding.MapQuest;
+
 
 namespace landlorder.Controllers
 {
     public class ReviewsController : Controller
     {
         private landlorderEntities2 db = new landlorderEntities2();
+        readonly IGeocoder geoCoder;
 
         // GET: Reviews
         public ActionResult Index()
@@ -215,48 +219,116 @@ namespace landlorder.Controllers
         [HttpPost]
         public JsonResult GetLocationData(StreetAddressModel array)
         {
-            if (array.city == null)
-            {
-                array.city = "";
-            }
-            if (array.postal_code == null)
-            {
-                array.postal_code = "";
-            }
+            List<SearchResultsViewModel> property = null;
+            //List<SearchResultsViewModel> relatedproperties = null;
 
-            //Look for exact address match
+            if (array.type == "street_address")
+            {
+                property = StreetAddressLocation(array);
+            }                      
+            
+            var relatedproperties = RelatedProperties(array, 1);
+
+            var result = new { property = property, relatedproperties = relatedproperties };
+            return Json(result);
+        }
+
+        private List<SearchResultsViewModel> StreetAddressLocation(StreetAddressModel array)
+        {
+            /*
             var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress @streetaddress, @route, @city,@state,@postal_code",
                     new SqlParameter("@streetaddress", array.street_number),
                     new SqlParameter("@route", array.route),
                     new SqlParameter("@city", array.city),
                     new SqlParameter("@state", array.state),
                     new SqlParameter("@postal_code", array.postal_code)).ToList();
+            */
 
-            //Get related matches
-            var relatedproperties = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity,@pagenum",
-                    new SqlParameter("@lat", array.latitude),
-                    new SqlParameter("@lon", array.longitude),
-                    new SqlParameter("@vicinity", array.city),
-                    new SqlParameter("@pagenum", 1)).ToList();
+            var property = db.Properties.Where(c => (c.streetaddress == array.street_number)
+                && (c.route == array.route)).Select(x => new SearchResultsViewModel
+                {
+                    formatted_address = x.formatted_address,
+                    propertyID = x.propertyID,
+                    numofReviews = x.Reviews.Count()
+                }).ToList();
 
-            var result = new { property = property, relatedproperties = relatedproperties, Url = "/Home/Search" };
-            return Json(result);
+            return property;
         }
-
-        public ActionResult GetProp()
+        public List<SearchResultsViewModel> RelatedProperties(StreetAddressModel array, int pagenum)
         {
-            var p = db.Properties.Select(x => new
-                                               {
-                                                   streetaddress = x.streetaddress,
-                                                   route = x.route,
-                                                   city = x.city,
-                                                   state = x.state,
-                                                   zip = x.zip,   
-                                                   formatted_address = x.formatted_address
-                                               });         
+            var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity,@pagenum",
+                   new SqlParameter("@lat", array.latitude),
+                   new SqlParameter("@lon", array.longitude),
+                   new SqlParameter("@vicinity", array.city),
+                   new SqlParameter("@pagenum", pagenum)).ToList();
 
+            return property;
+        }
+        
+        
+        //Geocode functions
+        public void GetProp()
+        {
+            decimal blank = 0.0m;
 
-            return Json(p, JsonRequestBehavior.AllowGet);
+            var p = db.Properties.Where(c => c.latitude == blank).Select(x => new ReviewViewModel
+                                               {                                                    
+                                                   formatted_address = x.formatted_address,
+                                                   propertyID =x.propertyID
+                                               }).ToList();
+
+            Geocode(p);
+            
+        }
+        public void StoreLatLng(decimal lat, decimal lng, int id)
+        {
+
+            try
+            {
+                Property c = (from x in db.Properties
+                              where x.propertyID == id
+                              select x).First();
+                c.latitude = lat;
+                c.longitude = lng;
+                
+
+                db.Entry(c).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
+
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                throw new System.Data.Entity.Validation.DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+            }
+        }
+        public void Geocode(List<ReviewViewModel> address)
+        {
+            System.Net.ServicePointManager.Expect100Continue = false;
+            IGeocoder geocoder = new MapQuestGeocoder("xpfcnvnPNvsWqLnz5uSNwmR9t8uk1o4C");
+
+            for (int i = 0; i < address.Count(); i++)
+            {
+                IEnumerable<Address> addresses = geocoder.Geocode(address[i].formatted_address);
+                
+                if (addresses.First().Coordinates == null)
+                {
+                    Console.WriteLine(address[i].formatted_address);
+                    continue;
+                }
+                StoreLatLng((decimal)addresses.First().Coordinates.Latitude, (decimal)addresses.First().Coordinates.Longitude, address[i].propertyID);
+            }
+            
         }
 
 

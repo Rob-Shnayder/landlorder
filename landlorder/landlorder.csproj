@@ -164,6 +164,34 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="Geocoding\Core\Address.cs" />
+    <Compile Include="Geocoding\Core\AsyncGeocoderExtensions.cs" />
+    <Compile Include="Geocoding\Core\Bounds.cs" />
+    <Compile Include="Geocoding\Core\Distance.cs" />
+    <Compile Include="Geocoding\Core\DistanceUnits.cs" />
+    <Compile Include="Geocoding\Core\Extensions.cs" />
+    <Compile Include="Geocoding\Core\IAsyncGeocoder.cs" />
+    <Compile Include="Geocoding\Core\IBatchGeocoder.cs" />
+    <Compile Include="Geocoding\Core\IGeocoder.cs" />
+    <Compile Include="Geocoding\Core\Location.cs" />
+    <Compile Include="Geocoding\Core\ParsedAddress.cs" />
+    <Compile Include="Geocoding\Core\ResultItem.cs" />
+    <Compile Include="Geocoding\MapQuest\BaseRequest.cs" />
+    <Compile Include="Geocoding\MapQuest\BatchGeocodeRequest.cs" />
+    <Compile Include="Geocoding\MapQuest\DataFormat.cs" />
+    <Compile Include="Geocoding\MapQuest\GeocodeRequest.cs" />
+    <Compile Include="Geocoding\MapQuest\LocationRequest.cs" />
+    <Compile Include="Geocoding\MapQuest\LocationType.cs" />
+    <Compile Include="Geocoding\MapQuest\MapQuestGeocoder.cs" />
+    <Compile Include="Geocoding\MapQuest\MapQuestLocation.cs" />
+    <Compile Include="Geocoding\MapQuest\MapQuestResponse.cs" />
+    <Compile Include="Geocoding\MapQuest\MapQuestResult.cs" />
+    <Compile Include="Geocoding\MapQuest\Quality.cs" />
+    <Compile Include="Geocoding\MapQuest\RequestOptions.cs" />
+    <Compile Include="Geocoding\MapQuest\ResponseInfo.cs" />
+    <Compile Include="Geocoding\MapQuest\ResponseStatus.cs" />
+    <Compile Include="Geocoding\MapQuest\ReverseGeocodeRequest.cs" />
+    <Compile Include="Geocoding\MapQuest\SideOfStreet.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,6 +232,7 @@
     <Content Include="Content\login.css" />
     <Content Include="Content\Review.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Geocoding\MapQuest\MapQuest.csproj" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\googleaddress.js" />
@@ -265,6 +294,7 @@
       <DependentUpon>GeneralModels.edmx</DependentUpon>
       <LastGenOutput>GeneralModels.cs</LastGenOutput>
     </Content>
+    <Content Include="Geocoding\MapQuest\ClassDiagram.cd" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Reviews\Search.cshtml" />
     <Content Include="Views\Home\LoginModal.cshtml" />

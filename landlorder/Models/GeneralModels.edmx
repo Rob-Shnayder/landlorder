@@ -13,8 +13,8 @@
           <Property Name="streetaddress" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="route" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="city" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="zip" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="state" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="zip" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="state" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="country" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="latitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
           <Property Name="longitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
@@ -34,25 +34,9 @@
           <Property Name="repairrating" Type="int" Nullable="false" />
           <Property Name="communicationrating" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="fk_Review_propertyID">
-          <End Role="Property" Type="Self.Property" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Property">
-              <PropertyRef Name="propertyID" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="propertyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="landlorderModelStoreContainer">
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="fk_Review_propertyID" Association="Self.fk_Review_propertyID">
-            <End Role="Property" EntitySet="Property" />
-            <End Role="Review" EntitySet="Review" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -73,8 +57,8 @@
           <Property Name="propertyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="streetaddress" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="city" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="zip" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="state" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="zip" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Reviews" Relationship="landlorderModel.fk_Review_propertyID" FromRole="Property" ToRole="Review" />
           <Property Name="route" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
