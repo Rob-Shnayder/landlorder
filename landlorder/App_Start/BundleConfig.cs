@@ -11,20 +11,8 @@ namespace landlorder
 
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
                 "~/scripts/jquery-1.11.1.min.js",
-                "~/scripts/jquery-migrate-1.2.1.min.js",
-                "~/scripts/jquery.easing.1.3.js",
-                "~/scripts/bootstrap/js/bootstrap.min.js",
-                "~/scripts/jquery-scrollTo/jquery.scrollTo.min.js",
-                "~/scripts/login.js"));          
-
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                "~/scripts/jquery-migrate-1.2.1.min.js",                
+                "~/scripts/bootstrap/js/bootstrap.min.js" ));   
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/scripts/bootstrap/css/bootstrap.min.css",                      

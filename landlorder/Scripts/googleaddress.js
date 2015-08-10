@@ -82,6 +82,7 @@ function autocomplete_callback(predictions, status) {
 function GenerateMap() {
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(40.7903, 73.9597),
+        disableDefaultUI: true,
         zoom: 12
     });
 }
@@ -207,6 +208,7 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     relatedPropertyArray = relatedProperties;
 
     document.getElementById('spinnerholder').style.display = 'none';
+    document.getElementById('map-canvas').style.opacity = '1';
 
 
     //Create the title
@@ -261,7 +263,7 @@ function GenerateExactResultsDIV(exactProperty, originalPlaceData) {
         exactaddressProperty = exactProperty[0].formatted_address;
     }
 
-    if (originalPlaceData.type == "street_adress") {
+    if (originalPlaceData.type == "street_address") {
         var divLink = originalPlaceData.formatted_address;
         //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
 

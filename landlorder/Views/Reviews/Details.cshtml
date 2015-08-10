@@ -2,97 +2,126 @@
 
         <h4>ReviewViewModel</h4>
         <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.propertyID)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.propertyID)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.streetaddress)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.streetaddress)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.route)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.route)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.city)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.city)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.state)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.state)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.zip)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.zip)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.country)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.country)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.apartmentnum)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.apartmentnum)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.latitude)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.latitude)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.longitude)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.longitude)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.reviews)
-            </dt>
+        
+        @if (Model.propertyID != 0)
+        {
 
-            <dd>
-                @Html.DisplayFor(model => model.reviews)
-            </dd>
-    
-        </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.propertyID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.propertyID)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.streetaddress)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.streetaddress)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.route)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.route)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.city)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.city)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.state)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.state)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.zip)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.zip)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.country)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.country)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.apartmentnum)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.apartmentnum)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.latitude)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.latitude)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.longitude)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.longitude)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.reviews)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.reviews)
+                </dd>
+
+            </dl>
+        }
+        else
+        {
+            <p>poop</p>
+            <dl class="dl-horizontal">                
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.formatted_address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.formatted_address)
+                </dd>
+
+
+            </dl>
+        }
+
     <p>
-        @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID}) |
+        @if (Model.propertyID != 0)
+        {
+            @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID})
+        }
+        else
+        {
+            @Html.ActionLink("Write a Review", "CreateNewProperty", new { id = Model.formatted_address })
+        }       
         @Html.ActionLink("Back to List", "Index")
     </p>
 

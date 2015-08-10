@@ -10,19 +10,19 @@
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal"}))
             {
                 @Html.AntiForgeryToken()
-                <h3 class="logintitle">Welcome to landlorder</h3>
+                <h2>Welcome to landlorder</h2>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="login-form">
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email", autofocus = "" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
                     <input type="submit" value="Log in" class="button" />
                 </div>
                 <hr />
                 <p>
-                    @Html.ActionLink("Register as a new user", "Register")
+                    @Html.ActionLink("Don't have an account? Sign Up!", "Register")
                 </p>
                  <p>
                     @Html.ActionLink("Forgot your password?", "ForgotPassword")

@@ -11,18 +11,42 @@ namespace landlorder.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Review
     {
         public int reviewID { get; set; }
         public int propertyID { get; set; }
         public string userID { get; set; }
+
+        //Ratings
+        [Required]
+        [Range(1, 5)]
+        [Display(Name = "Overall Rating")]
         public int rating { get; set; }
-        public string review1 { get; set; }
-        public string apartmentnum { get; set; }
-        public string landlordname { get; set; }
+
+        [Required]
+        [Range(1, 5)]
+        [Display(Name = "Repair")]
         public int repairrating { get; set; }
+
+        [Required]
+        [Range(1, 5)]
+        [Display(Name = "Communication")]
         public int communicationrating { get; set; }
+
+
+        //Review & Misc info
+        [Required]
+        [Display(Name = "Review")]
+        [DataType(DataType.MultilineText)]
+        public string review1 { get; set; }
+
+        [Display(Name = "Landlord Name (Optional)")]
+        public string landlordname { get; set; }
+
+        [Display(Name = "Apartment Number (Optional)")]
+        public string apartmentnum { get; set; }
     
         public virtual Property Property { get; set; }
     }

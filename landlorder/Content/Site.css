@@ -8,7 +8,11 @@ body {
   width:100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin:0;
 }
+
+
+
 h1,
 h2 {
     font-family: 'Montserrat', sans-serif;
@@ -713,6 +717,7 @@ pre code {
     width: 100%;
     overflow: hidden;
     opacity: .99;
+    background-color: rgb(229, 227, 223);
 }
 
 .searchwrapper {
@@ -772,7 +777,8 @@ pre code {
 
 .map{
     height:600px;
-    width: 100%;        
+    width: 100%;  
+    opacity: 0;        
 }
 
 .explore-1{
@@ -866,4 +872,13 @@ pre code {
   top: 100px;
   left: 50%;
   z-index: 100;
+}
+
+.pagination{
+    height: 20px;
+    margin: 18px 0;
+}
+
+.pagination li {
+    display: inline;
 }

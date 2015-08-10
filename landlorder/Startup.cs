@@ -10,6 +10,8 @@ namespace landlorder
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            //landlorder.Controllers.ReviewsController R1 = new Controllers.ReviewsController();
+            //R1.GetProp();
         }
     }
 }

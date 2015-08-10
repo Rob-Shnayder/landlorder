@@ -12,11 +12,9 @@ using System.Linq.Expressions;
 using Microsoft.AspNet.Identity;
 using landlorder.ViewModels;
 using System.Data.SqlClient;
-using System.Data;
 using System.Data.Sql;
-using System.Data.Entity;
 using Geocoding;
-using Geocoding.MapQuest;
+using Geocoding.Google;
 
 
 namespace landlorder.Controllers
@@ -24,7 +22,6 @@ namespace landlorder.Controllers
     public class ReviewsController : Controller
     {
         private landlorderEntities2 db = new landlorderEntities2();
-        readonly IGeocoder geoCoder;
 
         // GET: Reviews
         public ActionResult Index()
@@ -59,12 +56,15 @@ namespace landlorder.Controllers
 
             if (p == null)
             {
-                return PartialView("/Views/Reviews/NoFoundReviews.cshtml");
+                ReviewViewModel noreview = new ReviewViewModel();
+                noreview.formatted_address = id;
+                return View(noreview);
             }
             return View(p);
         }
 
         // GET: Reviews/Create/1
+        [Authorize]
         public ActionResult Create(int? id)
         {
             //ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress");
@@ -88,17 +88,56 @@ namespace landlorder.Controllers
             return View();
         }
 
+        public ActionResult CreateNewProperty(string id)
+        {            
+            ViewBag.address = id;
+
+            return View();
+        }
+
         // POST: Reviews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
+        public ActionResult Create(int id,[Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
         {
             if (ModelState.IsValid)
             {
                 //CHANGE ID HERE
-                var property = db.Properties.FirstOrDefault(p => p.propertyID == 1);
+                var property = db.Properties.FirstOrDefault(p => p.propertyID == id);
+                var userID = User.Identity.GetUserId();
+                review.propertyID = property.propertyID;
+                review.userID = userID;
+                db.Reviews.Add(review);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
+            return View(review);
+        }
+
+
+        // POST: Reviews/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNewProperty(string id, [Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
+        {          
+
+            if (ModelState.IsValid)
+            {
+                //CHANGE ID HERE
+                var property = Geocode(id);
+
+                if (property == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                db.Properties.Add(property);
                 var userID = User.Identity.GetUserId();
                 review.propertyID = property.propertyID;
                 review.userID = userID;
@@ -277,7 +316,7 @@ namespace landlorder.Controllers
                                                    propertyID =x.propertyID
                                                }).ToList();
 
-            Geocode(p);
+            //Geocode(p);
             
         }
         public void StoreLatLng(decimal lat, decimal lng, int id)
@@ -312,22 +351,35 @@ namespace landlorder.Controllers
                 throw new System.Data.Entity.Validation.DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
             }
         }
-        public void Geocode(List<ReviewViewModel> address)
+        
+        private Property Geocode(string address)
         {
             System.Net.ServicePointManager.Expect100Continue = false;
-            IGeocoder geocoder = new MapQuestGeocoder("xpfcnvnPNvsWqLnz5uSNwmR9t8uk1o4C");
 
-            for (int i = 0; i < address.Count(); i++)
+            GoogleGeocoder geocoder = new GoogleGeocoder();
+            IEnumerable<GoogleAddress> addresses = geocoder.Geocode(address);
+
+            if (addresses == null)
             {
-                IEnumerable<Address> addresses = geocoder.Geocode(address[i].formatted_address);
-                
-                if (addresses.First().Coordinates == null)
-                {
-                    Console.WriteLine(address[i].formatted_address);
-                    continue;
-                }
-                StoreLatLng((decimal)addresses.First().Coordinates.Latitude, (decimal)addresses.First().Coordinates.Longitude, address[i].propertyID);
+                return null; 
             }
+
+            var p = addresses.Where(a => !a.IsPartialMatch).Select
+                    (a => new Property()
+                    {
+                        streetaddress = a[GoogleAddressType.StreetNumber].ShortName,
+                        route = a[GoogleAddressType.Route].LongName,
+                        state = a[GoogleAddressType.AdministrativeAreaLevel1].LongName,
+                        zip = a[GoogleAddressType.PostalCode].LongName,
+                        city = a[GoogleAddressType.Locality].ShortName,
+                        country = a[GoogleAddressType.Country].LongName,
+                        latitude = (decimal)addresses.First().Coordinates.Latitude,
+                        longitude = (decimal)addresses.First().Coordinates.Longitude,
+                        formatted_address = addresses.First().FormattedAddress
+                    }
+                    ).First();
+
+            return p;
             
         }
 
