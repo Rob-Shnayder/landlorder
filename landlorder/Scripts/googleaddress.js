@@ -55,7 +55,7 @@ function geolocate() {
 
 function initSearch() {
     //Read GET variable
-    query = GetParameterByName('locationinput');
+    //query = GetParameterByName('locationinput');
 
     //****************************
     //SET UP CODE HERE TO GET RECENT REVIEWS IF LOCATION IS NULL
@@ -66,8 +66,8 @@ function initSearch() {
 
 
     //Start the autocomplete service and get predictions from input
-    var service = new google.maps.places.AutocompleteService();
-    service.getQueryPredictions({ input: query }, autocomplete_callback);
+    //var service = new google.maps.places.AutocompleteService();
+    //service.getQueryPredictions({ input: query }, autocomplete_callback);
 }
 function autocomplete_callback(predictions, status) {
     if (status != google.maps.places.PlacesServiceStatus.OK) {

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<landlorder.ViewModels.SearchResultsViewModel>
+@{
     ViewBag.Title =  ViewBag.location +  " Search | landlorder ";
 }
 
@@ -15,26 +16,30 @@
 
         <div class="col-sm-5">
             <div class="search_container" id="search_container" style="overflow: auto;">
-                <h3 class="search-title" id="results-title"></h3>
-                
+                <h3 class="search-title" id="results-title">Landlord reviews for "@ViewBag.address"</h3>
+
                 <div class="seperator title"></div>
-                <div class="loading" id="spinnerholder">
-                    <img id="loading-image" class="loading-image" src="/images/ajax-loader.gif" alt="Loading..." />
+
+                <div id="relatedpropertyDIV">
+                    @foreach (var item in Model)
+                    {                        
+                        @Html.ActionLink(item.formatted_address, "Details", new { id = item.propertyID })
+                        <div class="seperator"></div>
+
+                    }
+
+
+                    </div>
+
                 </div>
-                
-
-                <div id="relatedpropertyDIV"></div>
-
             </div>
+
         </div>
-
     </div>
-</div>
-
-
 
 
 <script>initSearch();</script>
+
 
 
 

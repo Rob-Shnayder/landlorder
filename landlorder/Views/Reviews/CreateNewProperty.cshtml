@@ -37,15 +37,15 @@
                             <label class="control-label col-md-5" for="rating">Overall Rating<br><span class="subtext"> </span></label>
                             <div class="col-md-6">
                                 <div class="stars">
-                                    @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "star-1", @id = "overall_star-1", @type = "radio", @value = "1" } })
+                                    @Html.RadioButtonFor(model => model.rating, 1, new { @class = "star-1", @id = "overall_star-1", @type = "radio" })
                                     <label class="star-1" for="overall_star-1">1</label>
-                                    <input type="radio" value="2" name="rating" class="star-2" id="overall_star-2" />
+                                    @Html.RadioButtonFor(model => model.rating, 2, new { @class = "star-2", @id = "overall_star-2", @type = "radio" })
                                     <label class="star-2" for="overall_star-2">2</label>
-                                    <input type="radio" value="3" name="rating" class="star-3" id="overall_star-3" />
+                                    @Html.RadioButtonFor(model => model.rating, 3, new { @class = "star-3", @id = "overall_star-3", @type = "radio" })
                                     <label class="star-3" for="overall_star-3">3</label>
-                                    <input type="radio" value="4" name="rating" class="star-4" id="overall_star-4" />
+                                    @Html.RadioButtonFor(model => model.rating, 4, new { @class = "star-4", @id = "overall_star-4", @type = "radio" })
                                     <label class="star-4" for="overall_star-4">4</label>
-                                    <input type="radio" value="5" name="rating" class="star-5" id="overall_star-5" />
+                                    @Html.RadioButtonFor(model => model.rating, 5, new { @class = "star-5", @id = "overall_star-5", @type = "radio" })
                                     <label class="star-5" for="overall_star-5">5</label>
                                     <span></span>
                                 </div>
@@ -58,15 +58,15 @@
 
                             <div class="col-md-6">
                                 <div class="stars">
-                                    @Html.EditorFor(model => model.repairrating, new { htmlAttributes = new { @class = "star-1", @id = "repair_star-1", @type = "radio", @value = "1" } })
+                                    @Html.RadioButtonFor(model => model.repairrating, 1, new { @class = "star-1", @id = "repair_star-1", @type = "radio" })
                                     <label class="star-1" for="repair_star-1">1</label>
-                                    <input type="radio" value="2" name="repairrating" class="star-2" id="repair_star-2" />
+                                    @Html.RadioButtonFor(model => model.repairrating, 2, new { @class = "star-2", @id = "repair_star-2", @type = "radio" })
                                     <label class="star-2" for="repair_star-2">2</label>
-                                    <input type="radio" value="3" name="repairrating" class="star-3" id="repair_star-3" />
+                                    @Html.RadioButtonFor(model => model.repairrating, 3, new { @class = "star-3", @id = "repair_star-3", @type = "radio" })
                                     <label class="star-3" for="repair_star-3">3</label>
-                                    <input type="radio" value="4" name="repairrating" class="star-4" id="repair_star-4" />
+                                    @Html.RadioButtonFor(model => model.repairrating, 4, new { @class = "star-4", @id = "repair_star-4", @type = "radio" })
                                     <label class="star-4" for="repair_star-4">4</label>
-                                    <input type="radio" value="5" name="repairrating" class="star-5" id="repair_star-5" />
+                                    @Html.RadioButtonFor(model => model.repairrating, 5, new { @class = "star-5", @id = "repair_star-5", @type = "radio" })
                                     <label class="star-5" for="repair_star-5">5</label>
                                     <span></span>
                                 </div>
@@ -78,15 +78,15 @@
                             <label class="control-label col-md-5" for="rating">Communication:<br><span class="subtext">Responds to tenant's needs timely and effectively; Communicates in a respectful manner.</span></label>
                             <div class="col-md-6">
                                 <div class="stars">
-                                    @Html.EditorFor(model => model.communicationrating, new { htmlAttributes = new { @class = "star-1", @id = "star-1", @type = "radio", @value = "1" } })
+                                    @Html.RadioButtonFor(model => model.communicationrating, 1, new { @class = "star-1", @id = "star-1", @type = "radio" })
                                     <label class="star-1" for="star-1">1</label>
-                                    <input type="radio" value="2" name="communicationrating" class="star-2" id="star-2" />
+                                    @Html.RadioButtonFor(model => model.communicationrating, 2, new { @class = "star-2", @id = "star-2", @type = "radio" })
                                     <label class="star-2" for="star-2">2</label>
-                                    <input type="radio" value="3" name="communicationrating" class="star-3" id="star-3" />
+                                    @Html.RadioButtonFor(model => model.communicationrating, 3, new { @class = "star-3", @id = "star-3", @type = "radio" })
                                     <label class="star-3" for="star-3">3</label>
-                                    <input type="radio" value="4" name="communicationrating" class="star-4" id="star-4" />
+                                    @Html.RadioButtonFor(model => model.communicationrating, 4, new { @class = "star-4", @id = "star-4", @type = "radio" })
                                     <label class="star-4" for="star-4">4</label>
-                                    <input type="radio" value="5" name="communicationrating" class="star-5" id="star-5" />
+                                    @Html.RadioButtonFor(model => model.communicationrating, 5, new { @class = "star-5", @id = "star-5", @type = "radio" })
                                     <label class="star-5" for="star-5">5</label>
                                     <span></span>
                                 </div>

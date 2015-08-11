@@ -5,7 +5,7 @@ using System.Web;
 
 namespace landlorder.ViewModels
 {
-    public partial class SearchResultsViewModel
+    public class SearchCompare
     {
         public int propertyID { get; set; }
         public string streetaddress { get; set; }
@@ -14,12 +14,11 @@ namespace landlorder.ViewModels
         public string state { get; set; }
         public string country { get; set; }
         public string route { get; set; }
+        public string route_long { get; set; }
+        public string city_long { get; set; }
         public string apartmentnum { get; set; }
-        public int numofReviews { get; set; }
         public string formatted_address { get; set; }
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
-        public Int64 MyRowNumber { get; set; }
-        public string type { get; set; }
     }
 }
