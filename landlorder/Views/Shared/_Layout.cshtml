@@ -23,14 +23,23 @@
 
 
 </head>
-<body data-spy="scroll" >
+<body data-spy="scroll">
     <header id="header" class="header">
-        <div class="container">
+        <div class="container-fluid">
             <h1 class="logo pull-left">
                 <a href="/">
                     <span class="logo-title">landlorder</span>
                 </a>
             </h1><!--//logo-->
+            <form method="get" action="/Reviews/Search">
+                <div class="search-bar" id="searchDIV">
+                    <div class="icon-search">
+                        <i class="fa fa-search fa-md"></i>
+                    </div>
+                    <input type="text" placeholder="Where are you going?" autocomplete="off" name="locationinput" id="searchbar" class="search-item">
+                </div>
+            </form>
+
             <nav id="main-nav" class="main-nav navbar-right" role="navigation">
                 <div class="navbar-header">
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="/">
@@ -44,7 +53,6 @@
                     <ul class="nav navbar-nav">
                         <li class="active nav-item sr-only"><a class="scrollto" href="/Home">Home</a></li>
                         <li class="nav-item"><a class="scrollto" href="/Home">Home</a></li>
-                        <li class="nav-item"><a class="scrollto" href="/Reviews/Create">Submit A Review</a></li>
                     </ul><!--//nav-->
                     @Html.Partial("_LoginPartial")
                 </div><!--//navabr-collapse-->
@@ -59,20 +67,20 @@
         @RenderBody()
 
         <hr /> <!--//end body-->
-        <footer>            
+        <footer>
             <div class="container text-center">
                 <p>&copy; @DateTime.Now.Year - landlorder - All Rights Reserved.</p>
             </div><!--//container-->
         </footer>
     </div>
 
-    
-  
 
 
 
 
- 
+
+
+
 
 
 </body>

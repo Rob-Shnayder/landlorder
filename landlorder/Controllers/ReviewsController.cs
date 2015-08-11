@@ -31,35 +31,50 @@ namespace landlorder.Controllers
         }
 
         // GET: Reviews/Details/5
-        public ActionResult Details(string id)
+        public ActionResult DetailsNew(string id)
         {
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var p = db.Properties.Where(x => x.formatted_address == id).Select(x =>
-                                                new ReviewViewModel()
-                                                {
-                                                    propertyID = x.propertyID,
-                                                    streetaddress = x.streetaddress,
-                                                    route = x.route,
-                                                    city = x.city,
-                                                    state = x.state,
-                                                    zip = x.zip,
-                                                    country = x.country,
-                                                    latitude = x.latitude,
-                                                    longitude = x.longitude,
-                                                    reviews = x.Reviews.Select(a=> a.review1)
+            ViewBag.address = id;
 
-                                                }).SingleOrDefault();         
+            ReviewViewModel noreview = new ReviewViewModel();
+            noreview.formatted_address = id;
+            return View(noreview);
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var p = db.Properties.Where(x => x.propertyID == id).Select(x =>
+                                                 new ReviewViewModel()
+                                                 {
+                                                     propertyID = x.propertyID,
+                                                     streetaddress = x.streetaddress,
+                                                     route = x.route,
+                                                     city = x.city,
+                                                     state = x.state,
+                                                     zip = x.zip,
+                                                     country = x.country,
+                                                     latitude = x.latitude,
+                                                     longitude = x.longitude,
+                                                     reviews = x.Reviews.Select(a => a.review1),
+                                                     formatted_address = x.formatted_address
+
+                                                 }).SingleOrDefault();         
+ 
 
             if (p == null)
             {
-                ReviewViewModel noreview = new ReviewViewModel();
-                noreview.formatted_address = id;
-                return View(noreview);
+                return HttpNotFound();
             }
+            ViewBag.address = p.formatted_address;
+
             return View(p);
         }
 
@@ -368,16 +383,18 @@ namespace landlorder.Controllers
                     (a => new Property()
                     {
                         streetaddress = a[GoogleAddressType.StreetNumber].ShortName,
-                        route = a[GoogleAddressType.Route].LongName,
+                        route = a[GoogleAddressType.Route].ShortName,
                         state = a[GoogleAddressType.AdministrativeAreaLevel1].LongName,
                         zip = a[GoogleAddressType.PostalCode].LongName,
                         city = a[GoogleAddressType.Locality].ShortName,
-                        country = a[GoogleAddressType.Country].LongName,
+                        country = a[GoogleAddressType.Country].ShortName,
                         latitude = (decimal)addresses.First().Coordinates.Latitude,
                         longitude = (decimal)addresses.First().Coordinates.Longitude,
-                        formatted_address = addresses.First().FormattedAddress
+                                               
                     }
                     ).First();
+
+            p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
 
             return p;
             

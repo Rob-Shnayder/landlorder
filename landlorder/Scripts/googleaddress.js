@@ -11,24 +11,28 @@ var componentForm = {
 var exactaddressProperty;
 var relatedPropertyArray = [];
 
-
 var markerarray = [];
 
 function initialize() {
-    // Create the autocomplete object, restricting the search
-    // to geographical location types.
-
     autocomplete = new google.maps.places.Autocomplete(
         /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
         { types: ['geocode'] });
-    // When the user selects an address from the dropdown,
-    // populate the address fields in the form.
-
-    //google.maps.event.addListener(autocomplete, 'places_changed', function () {        
-    //     fillInAddress()
-    //});
-
 }
+
+$( document ).ready(function() {
+    searchbar = new google.maps.places.Autocomplete(
+      /** @type {HTMLInputElement} */(document.getElementById('searchbar')),
+      { types: ['geocode'] });
+
+    var current_page_url = window.location.href;
+    var current_page_id = current_page_url.split("/");
+    var current_page_name = current_page_id[(current_page_id.length) - 1];
+
+    if (current_page_name != "" && current_page_name != "Index" && current_page_name != "Home") {
+        document.getElementById('searchDIV').style.display = 'block';
+    }
+})
+
 
 function geolocate() {
     if (navigator.geolocation) {
@@ -58,6 +62,8 @@ function initSearch() {
     //***************************
 
     GenerateMap();
+    //SendLocationData(query);
+
 
     //Start the autocomplete service and get predictions from input
     var service = new google.maps.places.AutocompleteService();
@@ -105,9 +111,8 @@ function GetLocationDetailsFromID(ID) {
             map.panTo(panPoint)
 
             //Format Data & send data to server side
-            var type = place.address_components[0].types[0];
             var locationData = FormatPlaceData(place);
-            SendLocationData(locationData, type);
+            SendLocationData(locationData);
 
 
             infowindow.setContent(place.formatted_address);
@@ -153,7 +158,7 @@ function CreateSurroundingLocationMarkers(properties) {
 
 
 //Functions for formatting Google API data and sending server-side
-function SendLocationData(data, datatype) {
+function SendLocationData(data) {
 
     $.ajax({
         url: "/Reviews/GetLocationData",
@@ -231,7 +236,7 @@ function ListPropertyResults(exactProperty, relatedProperties, originalPlaceData
     //Write Related Properties
     for (var i = 0; i < relatedProperties.length; i++) {
         var div = document.createElement("div");
-        var divLink = relatedPropertyArray[i].formatted_address;
+        var divLink = relatedPropertyArray[i].propertyID;
         div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + relatedProperties[i].formatted_address +
             "</h4> <h5>Reviews: " + relatedProperties[i].numofReviews + "</h5></a>";
         div.className = "item_holder";
@@ -254,7 +259,7 @@ function GenerateExactResultsDIV(exactProperty, originalPlaceData) {
 
     //Check if there are any reviews in the DB.
     if (exactProperty != null && exactProperty.length > 0) {
-        var divLink = exactProperty[0].formatted_address;
+        var divLink = exactProperty[0].propertyID;
         //divLink = divLink.replace(/[ ]*,[ ]*|[ ]+/g, '-');
         //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
 
@@ -267,7 +272,7 @@ function GenerateExactResultsDIV(exactProperty, originalPlaceData) {
         var divLink = originalPlaceData.formatted_address;
         //var divLink = exactProperty[0].streetaddress + "+" + exactProperty[0].route + "+" + exactProperty[0].city + "+" + exactProperty[0].state;
 
-        div.innerHTML = "<a href= '/Reviews/Details/" + divLink + "'><h4>" + originalPlaceData.formatted_address +
+        div.innerHTML = "<a href= '/Reviews/DetailsNew/" + divLink + "'><h4>" + originalPlaceData.formatted_address +
             "</h4> <h5>Reviews: " + 0 + "</h5></a>";
         exactaddressProperty = originalPlaceData.formatted_address;
     }
