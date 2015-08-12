@@ -1,139 +1,71 @@
-﻿@model landlorder.ViewModels.ReviewViewModel
+﻿@model IEnumerable<landlorder.ViewModels.ReviewViewModel>
 @{
     ViewBag.Title = ViewBag.address + " landlord reviews | landlorder";
 }
 
 
 <div class="review-section">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
 
-
-            <div class="container">
-                <div class="detailsheader">
-                    <div class="detailsheading-wrap">
-                        <div class="detail-items">
-
-                            <div class="item col-md-12">
-                                <div class="content">
-                                    <h3 class="logintitle">@ViewBag.address</h3>
-                                </div>                                
-                                    <span><i class="fa fa-pencil"></i></span>
-                            </div><!--//item-->
-                            <hr />
-                            <div class="detailitem-subitem">
-                                <h5 class="logintitle">@ViewBag.address</h5>
-                            </div>
-                            <div class="detailitem-subitem">
-                                <h5 class=" logintitle">
-                                    @ViewBag.address
-                                </h5>
-                            </div>
-                            <div class="detailitem-subitem">
-                                <h5 class="logintitle">@ViewBag.address</h5>
-                            </div>
-
+            <div class="content-block">
+                <div class="detailsheading-wrap">
+                    <div class="detail-items">
+                        <h3 class="detailitem-title">@ViewBag.address</h3>
+                        <div class="details-iconholder">
+                            <i class="fa fa-pencil"></i>
+                            <span>77</span>
                         </div>
-                     </div>
+                        <hr />
+
+                        <div class="detailitem-subitem">
+                            <h3>4.8</h3>
+                        </div>
+
+                        <div class="detailitem-subitem">
+                            <h5 class=" logintitle">
+                                @ViewBag.address
+                            </h5>
+                        </div>
+                        <div class="detailitem-subitem">
+                            <h5 class="logintitle">@ViewBag.address</h5>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
+                <div class="col-md-8">
+                    <div class="content-block">
+                    <h4 class="rating-title">Reviews</h4>
+                    <hr />
+                        @foreach (var item in Model)
+                        {
+                            @Html.DisplayFor(modelItem => item.reviews)
+                        }
 
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.propertyID)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.propertyID)
-                    </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.streetaddress)
-                    </dt>
+                    </div>
+                </div>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.streetaddress)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.route)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.route)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.city)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.city)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.state)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.state)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.zip)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.zip)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.country)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.country)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.apartmentnum)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.apartmentnum)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.latitude)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.latitude)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.longitude)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.longitude)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.reviews)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.reviews)
-                    </dd>
-
-                </dl>
+            <div class="col-md-4">
+                <div class="content-block">
+                    <div class="map_container">
+                        <div id="map-canvas" style="height:250px;"></div>
+                    </div>
+                </div>
+            </div>
 
             <p>
-                @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
-                @Html.ActionLink("Back to List", "Index")
+                @Html.ActionLink("Write a Review", "Create", new { id = Model.First().propertyID })
             </p>
 
         </div>
     </div>
+
+
 </div>
+
+
+<script>GenerateMap(@Model.First().latitude, @Model.First().longitude);</script>

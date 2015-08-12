@@ -7,7 +7,7 @@ var componentForm = {
     country: 'long_name',
     postal_code: 'short_name'
 };
-
+var detailmap;
 var exactaddressProperty;
 var relatedPropertyArray = [];
 
@@ -91,6 +91,32 @@ function GenerateMap() {
         disableDefaultUI: true,
         zoom: 12
     });
+}
+
+function GenerateMap(lat, lng) {
+   detailmap = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(lat, lng),
+        disableDefaultUI: false,
+        scrollwheel: false,
+        navigationControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        zoom: 13
+   });
+
+   if (lat == null || lng == null) {
+       return;
+   }
+
+   var location = new google.maps.LatLng(lat, lng);
+
+
+    var marker = new google.maps.Marker({
+        map: detailmap,
+        position: location
+    });
+
+
 }
 function GetLocationDetailsFromID(ID) {
     infowindow = new google.maps.InfoWindow();

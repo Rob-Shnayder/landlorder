@@ -272,7 +272,6 @@ pre code {
 .submit-icon {
     background-color: #17baef;
     border: 0 none;
-    border-radius: 5;
     color: white;
     padding: 14px 20px;
     position: absolute;
@@ -606,8 +605,8 @@ pre code {
 /* ======= Footer ======= */
 .footer {
   padding: 15px 0;
-  background: white;
-  color: #fff;
+  background: #232629;
+  color: grey;
 }
 .footer .copyright {
   -webkit-opacity: 0.8;
@@ -778,9 +777,10 @@ pre code {
 
 .map{
     height:600px;
-    width: 100%;  
-    opacity: 0;        
+    width: 100%;     
 }
+
+
 
 .explore-1{
     background-image: url("../images/explorepics/NewYork/NY3_med.jpg");
@@ -886,17 +886,22 @@ pre code {
 }
 
 .review-section {
-    background-color: #EFF0F1;
-
+    background-color: #f3f2f1;
 }
 
-.detailsheader{
-  background-color: #FBFBFB;
-  margin: 30px 0 20px;
-  -webkit-box-shadow: 0 5px 6px -6px #777;
-  -moz-box-shadow: 0 5px 6px -6px #777;
-   box-shadow: 0 5px 6px -6px #777;
+.content-block{
+  background-color: #FFF;
+  margin: 0px 0 20px;
+-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.1);
+    box-shadow: 0 1px 0 rgba(0,0,0,.1);
+   border-radius:6px;
 }
+
+.content-block .subcontent{
+margin-left: 500px;
+}
+
+
 
 .detailsheading-wrap{
   border-top: 0;
@@ -907,15 +912,37 @@ pre code {
     float: none;
     min-width: 148px;
     padding: 4px 0 0;
+    margin-left: 20px;
 }
+
+
 .detailitem-title{
     display:inline;
+    font-weight:400;
+    color: black;
+    margin-left:20px;
 }
 
 .detailitem-subitem{    
-    display: table-cell;
+    display: inline-block;
 }
 
+.detailitem-subitem h3{    
+    color:#E78011;
+    font-weight: lighter;
+    font-size: 50px;
+    margin: 0;
+}
+
+.details-iconholder{
+    display:inline;
+    float: right;
+    margin-right: 30px;
+}
+
+.details-iconholder i{
+    color: #929292;
+}
 .search-bar{
   position: absolute;
     top: 18px;
@@ -938,4 +965,9 @@ pre code {
     position: absolute;
     top: 4px;
     left: 7px;
+}
+.rating-title{
+    padding: 20px 0px 0px 35px;
+    color: black;
+    font-weight: 400;
 }

@@ -66,14 +66,14 @@ namespace landlorder.Controllers
                                                      reviews = x.Reviews.Select(a => a.review1),
                                                      formatted_address = x.formatted_address
 
-                                                 }).SingleOrDefault();         
+                                                 }).ToList();         
  
 
             if (p == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.address = p.formatted_address;
+            ViewBag.address = p.First().formatted_address;
 
             return View(p);
         }
