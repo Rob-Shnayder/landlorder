@@ -93,8 +93,8 @@ function GenerateMap() {
     });
 }
 
-function GenerateMap(lat, lng) {
-   detailmap = new google.maps.Map(document.getElementById('map-canvas'), {
+function SetMap(lat, lng, mapname) {
+    mapname = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(lat, lng),
         disableDefaultUI: false,
         scrollwheel: false,
@@ -342,6 +342,27 @@ function createMarker(place) {
     });
 }
 
+function createMarker(lat,lng) {
+    if (lat == null || lng == null) {
+        return;
+    }      
+
+    var location = new google.maps.LatLng(lat, lng);
+
+    var marker = new google.maps.Marker({
+        map: map,
+        position: location
+    });
+}
+
+function GrabLocationData() {
+    var inputs = document.getElementsByClassName( 'item' ),
+    names  = [].map.call(inputs, function( input ) {
+        return input.value;
+    }).slice(',');
+    names = names.toString();
+    result = names.split(',');
+}
 
 //Map Pan Functions for hover
 function PanToMarker() {

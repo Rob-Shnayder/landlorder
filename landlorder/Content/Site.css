@@ -736,13 +736,27 @@ pre code {
     background: #FFF;
     position: absolute;
     z-index: 10;
-    background-color: #F5F5F5;
+    background-color: #F5F5F5;    
 
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
       -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
       
 }
+.search_container a{
+    text-decoration: none;
+}
+.search_container h4{
+   color: black;
+   font-weight: 400;   
+}
+.search_container h5{
+   color: black;
+   font-weight: 300;   
+}
+
+
+
 
 .item_holder{  
   padding: 0 0 1px;
@@ -971,3 +985,4 @@ margin-left: 500px;
     color: black;
     font-weight: 400;
 }
+

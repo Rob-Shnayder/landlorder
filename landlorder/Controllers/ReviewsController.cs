@@ -253,16 +253,34 @@ namespace landlorder.Controllers
 
 
             List<SearchResultsViewModel> results = new List<SearchResultsViewModel>();
+            Geography locationData;
 
-            if (exactproperty != null && exactproperty[0] != null)
+            if (exactproperty.Count > 0)
             {
                 exactproperty[0].type = "exact";
                 results.Add(exactproperty[0]);
+            }
+            else
+            {
+                SearchResultsViewModel V1 = new SearchResultsViewModel();
+                V1.formatted_address = geocodedAddress.formatted_address;
+                V1.latitude = geocodedAddress.latitude;
+                V1.longitude = geocodedAddress.longitude;
+                V1.type = "exact";
+                results.Add(V1);
             }
 
             for(int i = 0; i < relatedproperties.Count(); i++)
             {
                 relatedproperties[i].type = "related";
+
+                locationData = GetLatLng(relatedproperties[i].formatted_address);
+                if (locationData != null)
+                {
+                    relatedproperties[i].latitude = locationData.latitude;
+                    relatedproperties[i].longitude = locationData.longitude;
+                }
+
                 results.Add(relatedproperties[i]);
             }
 
@@ -395,6 +413,39 @@ namespace landlorder.Controllers
             p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
 
             return p;
+
+        }
+
+        private Geography GetLatLng(string address)
+        {
+            if (address == null)
+            {
+                return null;
+            }
+
+            System.Net.ServicePointManager.Expect100Continue = false;
+
+            GoogleGeocoder geocoder = new GoogleGeocoder();
+            IEnumerable<Address> addresses = geocoder.Geocode(address);
+
+            if (addresses == null)
+            {
+                return null;
+            }
+
+            Geography G1 = new Geography();
+            try
+            {
+                G1.latitude = (decimal)addresses.First().Coordinates.Latitude;
+                G1.longitude = (decimal)addresses.First().Coordinates.Longitude;
+            }
+            catch
+            {
+                G1.latitude = 0.0m;
+                G1.latitude = 0.0m;
+            }
+
+            return G1;
 
         }
 

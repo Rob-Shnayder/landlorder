@@ -7,6 +7,7 @@
 <div class="searchwrapper">
     <div class="row nopadding">
 
+
         <div class="col-sm-7">
             <div class="map_container">
                 <div id="map-canvas" class="map"></div>
@@ -20,12 +21,20 @@
 
                 <div class="seperator title"></div>
 
-                <div id="relatedpropertyDIV">
+                <div id="relatedpropertyDIV" class="searchresults">
                     @foreach (var item in Model)
-                    {                        
-                        @Html.ActionLink(item.formatted_address, "Details", new { id = item.propertyID })
-                        <div class="seperator"></div>
+                    {                                
+                        if (item.type == "exact")
+                        {
+                            <a href="DetailsNew/@item.formatted_address"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
+                        }
+                        else
+                        {
+                            <a href="Details/@item.propertyID"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
+                        }
 
+                        <input type="hidden" class="item" value="@item.latitude, @item.longitude" />
+                        <div class="seperator"></div>
                     }
 
 
@@ -38,7 +47,12 @@
     </div>
 
 
-<script>GenerateMap();</script>
+
+
+<script>
+    SetMap(@Model.First().latitude, @Model.First().longitude, "map");
+    GrabLocationData();
+</script>
 
 
 
