@@ -7,7 +7,6 @@
 <div class="searchwrapper">
     <div class="row nopadding">
 
-
         <div class="col-sm-7">
             <div class="map_container">
                 <div id="map-canvas" class="map"></div>
@@ -24,7 +23,7 @@
                 <div id="relatedpropertyDIV" class="searchresults">
                     @foreach (var item in Model)
                     {                                
-                        if (item.type == "exact")
+                        if (item.type == "exact-new")
                         {
                             <a href="DetailsNew/@item.formatted_address"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
                         }
@@ -33,7 +32,7 @@
                             <a href="Details/@item.propertyID"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
                         }
 
-                        <input type="hidden" class="item" value="@item.latitude, @item.longitude" />
+                        <input type="hidden" class="item" value="lat: @item.latitude, lng: @item.longitude" />
                         <div class="seperator"></div>
                     }
 
@@ -50,7 +49,7 @@
 
 
 <script>
-    SetMap(@Model.First().latitude, @Model.First().longitude, "map");
+    SetMap(@Model.First().latitude, @Model.First().longitude);
     GrabLocationData();
 </script>
 

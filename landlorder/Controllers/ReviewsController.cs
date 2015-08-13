@@ -255,10 +255,21 @@ namespace landlorder.Controllers
             List<SearchResultsViewModel> results = new List<SearchResultsViewModel>();
             Geography locationData;
 
-            if (exactproperty.Count > 0)
+            if (exactproperty != null)
             {
-                exactproperty[0].type = "exact";
-                results.Add(exactproperty[0]);
+                exactproperty.type = "exact";
+
+                if (exactproperty.latitude == 0m)
+                {
+                    locationData = GetLatLng(exactproperty.formatted_address);
+                    if (locationData != null)
+                    {
+                        exactproperty.latitude = locationData.latitude;
+                        exactproperty.longitude = locationData.longitude;
+                    }
+                }
+
+                results.Add(exactproperty);
             }
             else
             {
@@ -266,7 +277,7 @@ namespace landlorder.Controllers
                 V1.formatted_address = geocodedAddress.formatted_address;
                 V1.latitude = geocodedAddress.latitude;
                 V1.longitude = geocodedAddress.longitude;
-                V1.type = "exact";
+                V1.type = "exact-new";
                 results.Add(V1);
             }
 
@@ -311,7 +322,7 @@ namespace landlorder.Controllers
             return null;
         }
 
-        private List<SearchResultsViewModel> StreetAddressLocation(SearchCompare array)
+        private SearchResultsViewModel StreetAddressLocation(SearchCompare array)
         {
             /*
             var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress @streetaddress, @route, @city,@state,@postal_code",
@@ -323,7 +334,7 @@ namespace landlorder.Controllers
             */
 
             var property = db.Properties.Where(c => (c.streetaddress == array.streetaddress)
-                && (c.route == array.route) || (c.route == array.route_long)).Select(x => new SearchResultsViewModel
+                && ((c.route == array.route) || (c.route == array.route_long))).Select(x => new SearchResultsViewModel
                 {
                     streetaddress = x.streetaddress,
                     route = x.route,
@@ -334,7 +345,7 @@ namespace landlorder.Controllers
                     formatted_address = x.formatted_address,
                     propertyID = x.propertyID,
                     numofReviews = x.Reviews.Count()
-                }).ToList();
+                }).First();
 
             return property;
         }

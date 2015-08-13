@@ -93,14 +93,12 @@ function GenerateMap() {
     });
 }
 
-function SetMap(lat, lng, mapname) {
-    mapname = new google.maps.Map(document.getElementById('map-canvas'), {
+function SetMap(lat, lng) {
+    map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(lat, lng),
         disableDefaultUI: false,
-        scrollwheel: false,
         navigationControl: false,
         mapTypeControl: false,
-        scaleControl: false,
         zoom: 13
    });
 
@@ -112,7 +110,7 @@ function SetMap(lat, lng, mapname) {
 
 
     var marker = new google.maps.Marker({
-        map: detailmap,
+        map: map,
         position: location
     });
 
@@ -356,12 +354,20 @@ function createMarker(lat,lng) {
 }
 
 function GrabLocationData() {
-    var inputs = document.getElementsByClassName( 'item' ),
+
+    var inputs = document.getElementsByClassName('item');
     names  = [].map.call(inputs, function( input ) {
-        return input.value;
-    }).slice(',');
-    names = names.toString();
-    result = names.split(',');
+        return input.value;        
+    });
+
+    var newArray = names.map(function (str) {
+        return JSON.parse("{" + str.replace(/lat/, '"lat"').replace(/lng/, '"lng"').replace(/;/, "") + "}")
+    });
+
+    for (var i = 0; i < newArray.length; i++) {
+        createMarker(newArray[i].lat, newArray[i].lng);
+    }
+
 }
 
 //Map Pan Functions for hover
