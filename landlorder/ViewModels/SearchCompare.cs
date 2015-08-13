@@ -21,6 +21,6 @@ namespace landlorder.ViewModels
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
 
-        public GoogleAddressComponent[] G1 { get; set; }
+        public GoogleAddressComponent [] G1 { get; set; }
     }
 }

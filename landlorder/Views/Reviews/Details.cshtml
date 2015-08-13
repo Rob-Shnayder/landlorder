@@ -1,4 +1,4 @@
-﻿@model IEnumerable<landlorder.ViewModels.ReviewViewModel>
+﻿@model IEnumerable<landlorder.Models.Review>
 @{
     ViewBag.Title = ViewBag.address + " landlord reviews | landlorder";
 }
@@ -12,42 +12,56 @@
                 <div class="detailsheading-wrap">
                     <div class="detail-items">
                         <h3 class="detailitem-title">@ViewBag.address</h3>
-                        <div class="details-iconholder">
-                            <i class="fa fa-pencil"></i>
-                            <span>77</span>
-                        </div>
-                        <hr />
+                        <p class="reviewlink">
+                            @Html.ActionLink("Write a Review", "Create", new { id = Model.First().propertyID })
+                        </p>
+                    </div>
+                    <hr />
 
-                        <div class="detailitem-subitem">
+                    <div class="detailitem-subitem">
+                        <div class="overall col-sm-1">
                             <h3>4.8</h3>
+                            <p>Landlord Rating</p>
                         </div>
 
-                        <div class="detailitem-subitem">
-                            <h5 class=" logintitle">
-                                @ViewBag.address
-                            </h5>
+                        <div class="stats">
+                            <div class="statsitem col-xs-1">
+                                <h3>77</h3>
+                                <p>Reviews</p>
+                            </div>
+                            <div class="statsitem col-xs-1">
+                                <h3>4.8</h3>
+                                <p>Repair Rating</p>
+                            </div>
+                            <div class="statsitem col-xs-1">
+                                <h3>4.8</h3>
+                                <p>Communication Rating</p>
+                            </div>
                         </div>
-                        <div class="detailitem-subitem">
-                            <h5 class="logintitle">@ViewBag.address</h5>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-                <div class="col-md-8">
-                    <div class="content-block">
+            <div class="col-md-8">
+                <div class="content-block">
                     <h4 class="rating-title">Reviews</h4>
+                    <div class="details-iconholder">
+                        <i class="fa fa-pencil"></i>
+                        <span>77</span>
+                    </div>
                     <hr />
+
+                    <div class="review-block">
                         @foreach (var item in Model)
                         {
-                            @Html.DisplayFor(modelItem => item.reviews)
+                            @Html.DisplayFor(modelItem => item.review1)
+                            <hr />
                         }
-
-
-
                     </div>
+
+
                 </div>
+            </div>
 
             <div class="col-md-4">
                 <div class="content-block">
@@ -57,10 +71,6 @@
                 </div>
             </div>
 
-            <p>
-                @Html.ActionLink("Write a Review", "Create", new { id = Model.First().propertyID })
-            </p>
-
         </div>
     </div>
 
@@ -68,4 +78,4 @@
 </div>
 
 
-<script>SetMap(@Model.First().latitude, @Model.First().longitude, "detailsmap");</script>
+<script>SetMap(@Model.First().Property.latitude, @Model.First().Property.longitude, "detailsmap");</script>

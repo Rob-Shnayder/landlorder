@@ -912,6 +912,9 @@ pre code {
 .content-block .subcontent{
 margin-left: 500px;
 }
+.content-block .rating-title{
+    display:inline-block;
+}
 
 
 
@@ -933,23 +936,71 @@ margin-left: 500px;
     font-weight:400;
     color: black;
     margin-left:20px;
+    text-align: center;
+    
 }
 
 .detailitem-subitem{    
-    display: inline-block;
+    display: inline;
 }
+
+.detailitem-subitem .stats{    
+    display: inline;
+    
+    float:right;
+}
+.detailitem-subitem .stats .statsitem{    
+    margin-left:40px;
+    margin-right: 40px;
+    width: 0;
+    right:80px;
+    text-align:center;
+}
+
+.detailitem-subitem .overall{    
+    margin-left:10px;
+    text-align:center;
+}
+
+.detailitem-subitem .stats h3{        
+    color:black;
+    font-weight: lighter;
+    font-size: 30px;     
+    margin: 20px 0 0 0px;
+}
+
+.detailitem-subitem .stats p{    
+    color: grey;
+    font-size: 15px;    
+}
+
+.detailitem-subitem .overall p{    
+    color: grey;    
+}
+
+
+.review-block{
+    padding-left: 40px;
+}
+
 
 .detailitem-subitem h3{    
     color:#E78011;
     font-weight: lighter;
     font-size: 50px;
-    margin: 0;
+    margin: 0px 0 0 5px;
+}
+
+
+.reviewlink{
+    float: right;
 }
 
 .details-iconholder{
-    display:inline;
+    display: inline;
     float: right;
     margin-right: 30px;
+    margin-top: 34px;
 }
 
 .details-iconholder i{

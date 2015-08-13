@@ -53,6 +53,7 @@ namespace landlorder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            /*
             var p = db.Properties.Where(x => x.propertyID == id).Select(x =>
                                                  new ReviewViewModel()
                                                  {
@@ -69,13 +70,16 @@ namespace landlorder.Controllers
                                                      formatted_address = x.formatted_address
 
                                                  }).ToList();         
+             */
+
+            var p = db.Reviews.Where(x => x.propertyID == id).ToList();
  
 
             if (p == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.address = p.First().formatted_address;
+            ViewBag.address = p.First().Property.formatted_address;
 
             return View(p);
         }
@@ -402,12 +406,20 @@ namespace landlorder.Controllers
 
             var p = addresses.Where(a => !a.IsPartialMatch).Select
                     (a => new SearchCompare()
-                    {                        
-                        G1 = a.Components                
+                    {
+                        streetaddress = a[GoogleAddressType.StreetNumber].ShortName != null ? a[GoogleAddressType.StreetNumber].ShortName : string.Empty,
+                        route = a[GoogleAddressType.Route].ShortName,
+                        state = a[GoogleAddressType.AdministrativeAreaLevel1].LongName,
+                        zip = a[GoogleAddressType.PostalCode].LongName,
+                        city = a[GoogleAddressType.Locality].ShortName,
+                        country = a[GoogleAddressType.Country].ShortName,
+                        latitude = (decimal)addresses.First().Coordinates.Latitude,
+                        longitude = (decimal)addresses.First().Coordinates.Longitude,
+                        route_long = a[GoogleAddressType.Route].LongName                                        
                     }
                     ).FirstOrDefault();
 
-            //p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
+            p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
 
             return p;
             
@@ -437,13 +449,14 @@ namespace landlorder.Controllers
                         latitude = (decimal)addresses.First().Coordinates.Latitude,
                         longitude = (decimal)addresses.First().Coordinates.Longitude
                     }
-                    ).FirstOrDefault();
+                    ).First();
 
             p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
 
             return p;
 
         }
+
         private Geography GetLatLng(string address)
         {
             if (address == null)
