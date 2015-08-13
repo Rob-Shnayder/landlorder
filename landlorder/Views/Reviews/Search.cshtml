@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<landlorder.ViewModels.SearchResultsViewModel>
+@using PagedList;
+@using PagedList.Mvc;
 @{
-    ViewBag.Title =  ViewBag.location +  " Search | landlorder ";
+    ViewBag.Title = ViewBag.location + " Search | landlorder ";
 }
 
 
@@ -22,28 +24,33 @@
 
                 <div id="relatedpropertyDIV" class="searchresults">
                     @foreach (var item in Model)
-                    {                                
+                    {
                         if (item.type == "exact-new")
                         {
-                            <a href="DetailsNew/@item.formatted_address"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
+
+                            <div class="item_holder">
+                                <a href="DetailsNew/@item.formatted_address"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
+                            </div>
                         }
                         else
                         {
-                            <a href="Details/@item.propertyID"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
+                            <div class="item_holder">
+                                <a href="Details/@item.propertyID"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
+                            </div>
                         }
 
                         <input type="hidden" class="item" value="lat: @item.latitude, lng: @item.longitude" />
                         <div class="seperator"></div>
                     }
 
-
-                    </div>
-
                 </div>
-            </div>
+                @Html.PagedListPager((IPagedList)@Model, page => Url.Action("Search", new { @locationinput = ViewBag.address, @pagenum = page}))
 
+            </div>
         </div>
+
     </div>
+</div>
 
 
 

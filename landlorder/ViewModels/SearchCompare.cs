@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using Geocoding.Google;
 namespace landlorder.ViewModels
 {
     public class SearchCompare
@@ -20,5 +20,7 @@ namespace landlorder.ViewModels
         public string formatted_address { get; set; }
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
+
+        public GoogleAddressComponent[] G1 { get; set; }
     }
 }

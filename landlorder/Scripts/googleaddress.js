@@ -89,7 +89,7 @@ function GenerateMap() {
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(40.7903, 73.9597),
         disableDefaultUI: true,
-        zoom: 12
+        zoom: 5
     });
 }
 

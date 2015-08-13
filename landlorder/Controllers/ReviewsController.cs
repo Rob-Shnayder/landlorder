@@ -15,6 +15,8 @@ using System.Data.SqlClient;
 using System.Data.Sql;
 using Geocoding;
 using Geocoding.Google;
+using PagedList;
+using PagedList.Mvc;
 
 
 namespace landlorder.Controllers
@@ -235,26 +237,66 @@ namespace landlorder.Controllers
 
         //GET
         public ActionResult Search(string locationinput, int? pagenum)
-        {
-            //When pulling apartments, do a group by on rows that do not have a 
-            //APT number entry. For ones that match each other group those together.
-
-            if (pagenum == null)
+        {         
+            if (pagenum == null){ pagenum = 1; }
+            var pageIndex = (pagenum ?? 1) - 1; 
+            var pageSize = 10;
+            int skip = pageSize * pageIndex;
+            
+            //Geocode input address
+            var geocodedAddress = Geocode(locationinput);
+            if (geocodedAddress == null)
             {
-                pagenum = 1;
+                return null;
             }
 
-            ViewBag.location = locationinput;
-            var geocodedAddress = Geocode(locationinput);
-            ViewBag.address = geocodedAddress.formatted_address;
+            SearchResultsViewModel exactproperty = null;
+            if (pagenum == 1) { exactproperty = SearchExactAddress(geocodedAddress); }
 
-            var exactproperty = StreetAddressLocation(geocodedAddress);
             var relatedproperties = RelatedProperties(geocodedAddress, 1);
 
+            if (exactproperty != null) 
+            { 
+                relatedproperties.Insert(0, exactproperty); 
+            }
+            
+            //Create one page of results
+            var results = new StaticPagedList<SearchResultsViewModel>(relatedproperties.Skip(skip).Take(pageSize), 
+                pageIndex + 1, pageSize, relatedproperties.Count());
+                   
+            results = GetLocationDataForRelated(results);
 
-            List<SearchResultsViewModel> results = new List<SearchResultsViewModel>();
+
+            ViewBag.address = geocodedAddress.formatted_address;
+            ViewBag.input = locationinput;
+            
+
+            return View(results);
+        }
+
+        private StaticPagedList<SearchResultsViewModel> GetLocationDataForRelated(StaticPagedList<SearchResultsViewModel> relatedproperties)
+        {            
             Geography locationData;
 
+            for(int i = 0; i < relatedproperties.Count(); i++)
+            {
+                relatedproperties[i].type = "related";
+
+                locationData = GetLatLng(relatedproperties[i].formatted_address);
+                if (locationData != null)
+                {
+                    relatedproperties[i].latitude = locationData.latitude;
+                    relatedproperties[i].longitude = locationData.longitude;
+                }
+            }
+
+            return relatedproperties;
+        }
+
+        private SearchResultsViewModel SearchExactAddress(SearchCompare geocodedAddress)
+        {
+            Geography locationData;
+            var exactproperty = StreetAddressLocation(geocodedAddress);
             if (exactproperty != null)
             {
                 exactproperty.type = "exact";
@@ -268,8 +310,7 @@ namespace landlorder.Controllers
                         exactproperty.longitude = locationData.longitude;
                     }
                 }
-
-                results.Add(exactproperty);
+                return exactproperty;
             }
             else
             {
@@ -278,31 +319,13 @@ namespace landlorder.Controllers
                 V1.latitude = geocodedAddress.latitude;
                 V1.longitude = geocodedAddress.longitude;
                 V1.type = "exact-new";
-                results.Add(V1);
-            }
 
-            for(int i = 0; i < relatedproperties.Count(); i++)
-            {
-                relatedproperties[i].type = "related";
-
-                locationData = GetLatLng(relatedproperties[i].formatted_address);
-                if (locationData != null)
-                {
-                    relatedproperties[i].latitude = locationData.latitude;
-                    relatedproperties[i].longitude = locationData.longitude;
-                }
-
-                results.Add(relatedproperties[i]);
+                return V1;
             }
 
 
-
-
-                return View(results);
         }
 
-
-        
         public JsonResult GetLocationData(StreetAddressModel array)
         {
             /*
@@ -321,6 +344,8 @@ namespace landlorder.Controllers
              */
             return null;
         }
+
+
 
         private SearchResultsViewModel StreetAddressLocation(SearchCompare array)
         {
@@ -344,8 +369,9 @@ namespace landlorder.Controllers
                     country = x.country,
                     formatted_address = x.formatted_address,
                     propertyID = x.propertyID,
-                    numofReviews = x.Reviews.Count()
-                }).First();
+                    numofReviews = x.Reviews.Count(),
+                    type = "exact"
+                }).FirstOrDefault();
 
             return property;
         }
@@ -376,20 +402,12 @@ namespace landlorder.Controllers
 
             var p = addresses.Where(a => !a.IsPartialMatch).Select
                     (a => new SearchCompare()
-                    {
-                        streetaddress = a[GoogleAddressType.StreetNumber].ShortName,
-                        route = a[GoogleAddressType.Route].ShortName,
-                        state = a[GoogleAddressType.AdministrativeAreaLevel1].LongName,
-                        zip = a[GoogleAddressType.PostalCode].LongName,
-                        city = a[GoogleAddressType.Locality].ShortName,
-                        country = a[GoogleAddressType.Country].ShortName,
-                        latitude = (decimal)addresses.First().Coordinates.Latitude,
-                        longitude = (decimal)addresses.First().Coordinates.Longitude,
-                        route_long = a[GoogleAddressType.Route].LongName                                               
+                    {                        
+                        G1 = a.Components                
                     }
-                    ).First();
+                    ).FirstOrDefault();
 
-            p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
+            //p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
 
             return p;
             
@@ -419,14 +437,13 @@ namespace landlorder.Controllers
                         latitude = (decimal)addresses.First().Coordinates.Latitude,
                         longitude = (decimal)addresses.First().Coordinates.Longitude
                     }
-                    ).First();
+                    ).FirstOrDefault();
 
             p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
 
             return p;
 
         }
-
         private Geography GetLatLng(string address)
         {
             if (address == null)

@@ -194,6 +194,7 @@ namespace Geocoding.Google
 			{
 				//wrap in google exception
 				throw new GoogleGeocodingException(ex);
+                return null;
 			}
 		}
 
