@@ -12,7 +12,7 @@ namespace landlorder.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Review
     {
         public int reviewID { get; set; }
@@ -47,7 +47,9 @@ namespace landlorder.Models
 
         [Display(Name = "Apartment Number (Optional)")]
         public string apartmentnum { get; set; }
-    
+
+        public System.DateTime date { get; set; }
+
         public virtual Property Property { get; set; }
     }
 }

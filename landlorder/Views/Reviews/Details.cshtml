@@ -1,4 +1,4 @@
-﻿@model IEnumerable<landlorder.Models.Review>
+﻿@model landlorder.Models.Property
 @{
     ViewBag.Title = ViewBag.address + " landlord reviews | landlorder";
 }
@@ -13,29 +13,33 @@
                     <div class="detail-items">
                         <h3 class="detailitem-title">@ViewBag.address</h3>
                         <p class="reviewlink">
-                            @Html.ActionLink("Write a Review", "Create", new { id = Model.First().propertyID })
+                            @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
                         </p>
                     </div>
                     <hr />
 
                     <div class="detailitem-subitem">
+                        <div class="detailitem-subitem ratings">
+                            <h4>Ratings</h4>
+                        </div>
+
                         <div class="overall col-sm-1">
                             <h3>4.8</h3>
-                            <p>Landlord Rating</p>
+                            <p>Landlord Overall</p>
                         </div>
 
                         <div class="stats">
-                            <div class="statsitem col-xs-1">
+                            <div class="statsitem col-xs-2">
                                 <h3>77</h3>
                                 <p>Reviews</p>
                             </div>
-                            <div class="statsitem col-xs-1">
+                            <div class="statsitem col-xs-2">
                                 <h3>4.8</h3>
-                                <p>Repair Rating</p>
+                                <p>Repair</p>
                             </div>
-                            <div class="statsitem col-xs-1">
+                            <div class="statsitem col-xs-3">
                                 <h3>4.8</h3>
-                                <p>Communication Rating</p>
+                                <p>Communication</p>
                             </div>
                         </div>
                     </div>
@@ -45,18 +49,29 @@
             <div class="col-md-8">
                 <div class="content-block">
                     <h4 class="rating-title">Reviews</h4>
-                    <div class="details-iconholder">
-                        <i class="fa fa-pencil"></i>
-                        <span>77</span>
-                    </div>
+
                     <hr />
 
                     <div class="review-block">
-                        @foreach (var item in Model)
+
+                        @if (Model.Reviews.Count > 0)
                         {
-                            @Html.DisplayFor(modelItem => item.review1)
-                            <hr />
+                            foreach (var item in Model.Reviews)
+                            {
+                                string d1 = item.date.ToShortDateString();
+                                @Html.DisplayFor(modelItem => d1)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.review1)
+                                <hr />
+                            }
                         }
+                        else
+                        {
+                            <p>No reviews for this landlord yet. Be the first!</p>
+                            @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
+
+                        }
+
                     </div>
 
 
@@ -78,4 +93,4 @@
 </div>
 
 
-<script>SetMap(@Model.First().Property.latitude, @Model.First().Property.longitude, "detailsmap");</script>
+<script>SetMapDetails(@Model.latitude, @Model.longitude);</script>

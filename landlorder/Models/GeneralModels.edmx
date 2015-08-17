@@ -33,6 +33,7 @@
           <Property Name="landlordname" Type="varchar" MaxLength="100" />
           <Property Name="repairrating" Type="int" Nullable="false" />
           <Property Name="communicationrating" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
         </EntityType>
         <EntityContainer Name="landlorderModelStoreContainer">
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
@@ -80,6 +81,7 @@
           <NavigationProperty Name="Property" Relationship="landlorderModel.fk_Review_propertyID" FromRole="Review" ToRole="Property" />
           <Property Name="repairrating" Type="Int32" Nullable="false" />
           <Property Name="communicationrating" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <Association Name="fk_Review_propertyID">
           <End Type="landlorderModel.Property" Role="Property" Multiplicity="1" />
@@ -118,6 +120,7 @@
           <EntitySetMapping Name="Reviews">
             <EntityTypeMapping TypeName="landlorderModel.Review">
               <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="communicationrating" ColumnName="communicationrating" />
                 <ScalarProperty Name="repairrating" ColumnName="repairrating" />
                 <ScalarProperty Name="landlordname" ColumnName="landlordname" />

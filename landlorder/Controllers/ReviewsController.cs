@@ -51,7 +51,7 @@ namespace landlorder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Home");
             }
             /*
             var p = db.Properties.Where(x => x.propertyID == id).Select(x =>
@@ -72,15 +72,26 @@ namespace landlorder.Controllers
                                                  }).ToList();         
              */
 
-            var p = db.Reviews.Where(x => x.propertyID == id).ToList();
- 
+            var p = db.Properties.Where(x => x.propertyID == id).FirstOrDefault(); 
 
             if (p == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Home");
             }
-            ViewBag.address = p.First().Property.formatted_address;
 
+            if (p.latitude == 0m)
+            {
+                var locationData = GetLatLng(p.formatted_address);
+                if (locationData != null)
+                {
+                    p.latitude = locationData.latitude;
+                    p.longitude = locationData.longitude;
+                }
+            }
+
+            
+
+            ViewBag.address = p.formatted_address;
             return View(p);
         }
 
@@ -130,6 +141,7 @@ namespace landlorder.Controllers
                 var userID = User.Identity.GetUserId();
                 review.propertyID = property.propertyID;
                 review.userID = userID;
+                review.date = DateTime.Now;
                 db.Reviews.Add(review);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -162,6 +174,7 @@ namespace landlorder.Controllers
                 var userID = User.Identity.GetUserId();
                 review.propertyID = property.propertyID;
                 review.userID = userID;
+                review.date = DateTime.Now;
                 db.Reviews.Add(review);
                 db.SaveChanges();
                 return RedirectToAction("Index");

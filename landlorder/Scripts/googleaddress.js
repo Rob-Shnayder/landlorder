@@ -99,15 +99,44 @@ function SetMap(lat, lng) {
         disableDefaultUI: false,
         navigationControl: false,
         mapTypeControl: false,
-        zoom: 13
-   });
-
+        zoom: 12
+    });
+    
    if (lat == null || lng == null) {
        return;
    }
 
    var location = new google.maps.LatLng(lat, lng);
 
+    var marker = new google.maps.Marker({
+        map: map,
+        position: location
+    });
+
+
+}
+
+
+function SetMapDetails(lat, lng) {
+
+    if (lat == null || lng == null) {
+        lat = 0;
+        lng = 0;
+    }
+
+    map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(lat, lng),
+        scrollwheel: false,
+        navigationControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        draggable: false,
+        zoom: 14
+    });
+
+
+
+    var location = new google.maps.LatLng(lat, lng);
 
     var marker = new google.maps.Marker({
         map: map,

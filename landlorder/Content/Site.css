@@ -794,15 +794,16 @@ pre code {
 
 
 
-.explore-1{
+.explore-holder .explore-1{
     background-image: url("../images/explorepics/NewYork/NY3_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
     height:100%;
-    width:100%;
+    width:100%;    
 }
-.explore-2{
+
+.explore-holder .explore-2{
     background-image: url("../images/explorepics/SanFran/SanFran2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -810,7 +811,7 @@ pre code {
     height:100%;
     width:100%;
 }
-.explore-3{
+.explore-holder .explore-3{
     background-image: url("../images/explorepics/Miami/Miami1_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -818,7 +819,7 @@ pre code {
     height:100%;
     width:100%;
 }
-.explore-4{
+.explore-holder .explore-4{
     background-image: url("../images/explorepics/Chicago/Chicago2_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -835,20 +836,53 @@ pre code {
     width:99%;
 }
 
-.explore-holder{
-    height:600px;
+.explore a,a:hover, a:focus {
+    color: #fff !important;
+    text-decoration: none;
 }
 
+
+.explore-holder{
+    height:600px;
+    background-color:black;
+}
 
 
 .explore-holder:before {
-    content:'\A';
     position:absolute;
     width:100%; height:100%;
-    top:0; left:0;
-    background:rgba(0,0,0,0.6);
-    opacity:0.4;
+    top:0; left:0;       
+    background-color:black;
 }
+
+
+
+.explore-holder .transparent {
+
+    /* Theoretically for IE 8 & 9 (more valid) */   
+    /* ...but not required as filter works too */
+    /* should come BEFORE filter */
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+
+    /* This works in IE 8 & 9 too */
+    /* ... but also 5, 6, 7 */
+    filter: alpha(opacity=80);
+
+    /* Older than Firefox 0.9 */
+    -moz-opacity:0.8;
+
+    /* Safari 1.x (pre WebKit!) */
+    -khtml-opacity: 0.8;
+
+    /* Modern!
+    /* Firefox 0.9+, Safari 2?, Chrome any?
+    /* Opera 9+, IE 9+ */
+    opacity: 0.8;
+}
+
+
+
+
 
 .explore-holder h2 {
   font-weight: 700;
@@ -888,14 +922,6 @@ pre code {
   z-index: 100;
 }
 
-.pagination{
-    height: 20px;
-    margin: 18px 0;
-}
-
-.pagination li {
-    display: inline;
-}
 
 .review-section {
     background-color: #f3f2f1;
@@ -921,7 +947,7 @@ margin-left: 500px;
 .detailsheading-wrap{
   border-top: 0;
   overflow: hidden;
-  padding: 50px 15px;
+  padding: 50px 15px 15px 0px;
 }
 .detail-items {
     float: none;
@@ -945,21 +971,32 @@ margin-left: 500px;
 }
 
 .detailitem-subitem .stats{    
-    display: inline;
-    
+    display: inline;    
     float:right;
+    padding-right: 20px;
 }
 .detailitem-subitem .stats .statsitem{    
-    margin-left:40px;
-    margin-right: 40px;
-    width: 0;
-    right:80px;
+    margin-left:30px;
+    margin-right: 30px;
+    white-space:nowrap;
     text-align:center;
 }
 
 .detailitem-subitem .overall{    
-    margin-left:10px;
+    margin-left:28px;
     text-align:center;
+    white-space:nowrap;
+}
+
+.detailitem-subitem .ratings{    
+    text-align: left;  
+}
+
+.detailitem-subitem .ratings h4{    
+    padding-left:45px;
+    padding-bottom: 10px;
+    color: black;
+    font-weight: 400;
 }
 
 .detailitem-subitem .stats h3{        
@@ -981,6 +1018,7 @@ margin-left: 500px;
 
 .review-block{
     padding-left: 40px;
+    padding-bottom: 20px;
 }
 
 
@@ -1032,6 +1070,6 @@ margin-left: 500px;
 .rating-title{
     padding: 20px 0px 0px 35px;
     color: black;
-    font-weight: 400;
+    font-weight: 500;
 }
 

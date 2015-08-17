@@ -21,6 +21,10 @@
                     @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
                     @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input", @placeholder = "Confirm Password", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "input", @placeholder = "First Name", @autocomplete = "off"})
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "input", @placeholder = "Last Name", @autocomplete = "off"})
 
                     <input type="submit" value="Sign Up" class="button" />
                 </div>
