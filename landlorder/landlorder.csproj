@@ -308,6 +308,8 @@
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Reviews\CreateNewProperty.cshtml" />
     <Content Include="Views\Reviews\DetailsNew.cshtml" />
+    <None Include="Properties\PublishProfiles\landlorders - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\landlorders - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
