@@ -17,6 +17,7 @@ namespace landlorder
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/scripts/bootstrap/css/bootstrap.min.css",                      
                       "~/content/font-awesome/css/font-awesome.css",
+                      "~/fonts/opensans.css",
                       "~/Content/site.css",
                       "~/Content/login.css",
                        "~/Content/Review.css"));
