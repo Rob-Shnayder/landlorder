@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -229,15 +232,25 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Review.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\opensans.css" />
     <Content Include="Geocoding\Google\Google.csproj" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\condo-compress.jpg" />
+    <Content Include="images\explorepics\Chicago\Chicago2_med.jpg" />
+    <Content Include="images\explorepics\Miami\Miami1_med.jpg" />
+    <Content Include="images\explorepics\NewYork\NY3_med.jpg" />
+    <Content Include="images\explorepics\SanFran\SanFran2.jpg" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\googleaddress.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -252,8 +265,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -298,6 +309,10 @@
       <DependentUpon>GeneralModels.edmx</DependentUpon>
       <LastGenOutput>GeneralModels.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Reviews\Search.cshtml" />
     <Content Include="Views\Home\LoginModal.cshtml" />

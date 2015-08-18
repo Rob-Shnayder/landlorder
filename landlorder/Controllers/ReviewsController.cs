@@ -17,6 +17,7 @@ using Geocoding;
 using Geocoding.Google;
 using PagedList;
 using PagedList.Mvc;
+using AutoMapper;
 
 
 namespace landlorder.Controllers
@@ -32,7 +33,7 @@ namespace landlorder.Controllers
             return View(reviews.ToList());
         }
 
-        // GET: Reviews/Details/5
+        //***DETAIL FUNCTIONS***
         public ActionResult DetailsNew(string id)
         {
             if (id == null)
@@ -46,7 +47,6 @@ namespace landlorder.Controllers
             noreview.formatted_address = id;
             return View(noreview);
         }
-
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -95,6 +95,7 @@ namespace landlorder.Controllers
             return View(p);
         }
 
+        //Create Functions
         // GET: Reviews/Create/1
         [Authorize]
         public ActionResult Create(int? id)
@@ -119,7 +120,6 @@ namespace landlorder.Controllers
 
             return View();
         }
-
         public ActionResult CreateNewProperty(string id)
         {            
             ViewBag.address = id;
@@ -150,7 +150,6 @@ namespace landlorder.Controllers
             ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
             return View(review);
         }
-
 
         // POST: Reviews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -183,6 +182,10 @@ namespace landlorder.Controllers
             ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
             return View(review);
         }
+
+
+
+        //***Edit Functions***
 
         // GET: Reviews/Edit/5
         public ActionResult Edit(int? id)
@@ -217,6 +220,8 @@ namespace landlorder.Controllers
             return View(review);
         }
 
+
+        //***DELETE FUNCTIONS
         // GET: Reviews/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -231,7 +236,6 @@ namespace landlorder.Controllers
             }
             return View(review);
         }
-
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -252,6 +256,9 @@ namespace landlorder.Controllers
             base.Dispose(disposing);
         }
 
+
+
+        //***SEARCH FUNCTIONS***
         //GET
         public ActionResult Search(string locationinput, int? pagenum)
         {         
@@ -262,27 +269,24 @@ namespace landlorder.Controllers
             
             //Geocode input address
             var geocodedAddress = Geocode(locationinput);
-            if (geocodedAddress == null)
+            if (geocodedAddress == null) {  return null; }
+
+            var relatedproperties = SearchAllRelatedProperties(geocodedAddress, 1);
+            
+            if (pagenum == 1 && geocodedAddress.type == GoogleAddressType.StreetAddress) 
             {
-                return null;
-            }
+                SearchResultsViewModel exactproperty = ConfigureExactAddressForView(geocodedAddress);
 
-            SearchResultsViewModel exactproperty = null;
-            if (pagenum == 1) { exactproperty = SearchExactAddress(geocodedAddress); }
-
-            var relatedproperties = RelatedProperties(geocodedAddress, 1);
-
-            if (exactproperty != null) 
-            { 
+                //Add it to the list of results
                 relatedproperties.Insert(0, exactproperty); 
             }
+
             
             //Create one page of results
             var results = new StaticPagedList<SearchResultsViewModel>(relatedproperties.Skip(skip).Take(pageSize), 
                 pageIndex + 1, pageSize, relatedproperties.Count());
                    
             results = GetLocationDataForRelated(results);
-
 
             ViewBag.address = geocodedAddress.formatted_address;
             ViewBag.input = locationinput;
@@ -291,6 +295,7 @@ namespace landlorder.Controllers
             return View(results);
         }
 
+        //Gets latitude and longitude data for properties that may not have that data already
         private StaticPagedList<SearchResultsViewModel> GetLocationDataForRelated(StaticPagedList<SearchResultsViewModel> relatedproperties)
         {            
             Geography locationData;
@@ -310,10 +315,14 @@ namespace landlorder.Controllers
             return relatedproperties;
         }
 
-        private SearchResultsViewModel SearchExactAddress(SearchCompare geocodedAddress)
+
+        //Prepares the exact address property object for view
+        //If the address exists in DB, configure its lat/lng
+        //If it doesnt, configure it for the view and give its needed data for the view.
+        private SearchResultsViewModel ConfigureExactAddressForView(SearchCompare geocodedAddress)
         {
             Geography locationData;
-            var exactproperty = StreetAddressLocation(geocodedAddress);
+            var exactproperty = SearchForExactAddressLocation(geocodedAddress);
             if (exactproperty != null)
             {
                 exactproperty.type = "exact";
@@ -342,39 +351,10 @@ namespace landlorder.Controllers
 
 
         }
-
-        public JsonResult GetLocationData(StreetAddressModel array)
+        
+        //Searchs for properties in DB
+        private SearchResultsViewModel SearchForExactAddressLocation(SearchCompare array)
         {
-            /*
-            List<SearchResultsViewModel> property = null;
-            //List<SearchResultsViewModel> relatedproperties = null;
-
-            if (array.type == "street_address")
-            {
-                //property = StreetAddressLocation(array);
-            }                      
-            
-            //var relatedproperties = RelatedProperties(array, 1);
-
-            var result = new { property = property, relatedproperties = relatedproperties };
-            return Json(result);
-             */
-            return null;
-        }
-
-
-
-        private SearchResultsViewModel StreetAddressLocation(SearchCompare array)
-        {
-            /*
-            var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress @streetaddress, @route, @city,@state,@postal_code",
-                    new SqlParameter("@streetaddress", array.street_number),
-                    new SqlParameter("@route", array.route),
-                    new SqlParameter("@city", array.city),
-                    new SqlParameter("@state", array.state),
-                    new SqlParameter("@postal_code", array.postal_code)).ToList();
-            */
-
             var property = db.Properties.Where(c => (c.streetaddress == array.streetaddress)
                 && ((c.route == array.route) || (c.route == array.route_long))).Select(x => new SearchResultsViewModel
                 {
@@ -392,7 +372,7 @@ namespace landlorder.Controllers
 
             return property;
         }
-        public List<SearchResultsViewModel> RelatedProperties(SearchCompare array, int pagenum)
+        private List<SearchResultsViewModel> SearchAllRelatedProperties(SearchCompare array, int pagenum)
         {
             var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity,@pagenum",
                    new SqlParameter("@lat", array.latitude),
@@ -412,31 +392,17 @@ namespace landlorder.Controllers
             GoogleGeocoder geocoder = new GoogleGeocoder();
             IEnumerable<GoogleAddress> addresses = geocoder.Geocode(address);
 
-            if (addresses == null)
+            if (addresses != null)
             {
-                return null; 
+                var results = MapProperties(addresses);
+                return results;
             }
-
-            var p = addresses.Where(a => !a.IsPartialMatch).Select
-                    (a => new SearchCompare()
-                    {
-                        streetaddress = a[GoogleAddressType.StreetNumber].ShortName != null ? a[GoogleAddressType.StreetNumber].ShortName : string.Empty,
-                        route = a[GoogleAddressType.Route].ShortName,
-                        state = a[GoogleAddressType.AdministrativeAreaLevel1].LongName,
-                        zip = a[GoogleAddressType.PostalCode].LongName,
-                        city = a[GoogleAddressType.Locality].ShortName,
-                        country = a[GoogleAddressType.Country].ShortName,
-                        latitude = (decimal)addresses.First().Coordinates.Latitude,
-                        longitude = (decimal)addresses.First().Coordinates.Longitude,
-                        route_long = a[GoogleAddressType.Route].LongName                                        
-                    }
-                    ).FirstOrDefault();
-
-            p.formatted_address = p.streetaddress + " " + p.route + ", " + p.city + ", " + p.state + ", " + p.zip + ", " + p.country;
-
-            return p;
-            
+            else
+            {
+                return null;
+            }            
         }
+
 
         private Property Geocode_Create(string address)
         {
@@ -469,7 +435,6 @@ namespace landlorder.Controllers
             return p;
 
         }
-
         private Geography GetLatLng(string address)
         {
             if (address == null)
@@ -504,8 +469,26 @@ namespace landlorder.Controllers
         }
 
 
+        private SearchCompare MapProperties(IEnumerable<GoogleAddress> g)
+        {
+            var results = new SearchCompare();
+
+            foreach (var item in g.First().Components)
+            {
+                if (item.Types.First() == GoogleAddressType.StreetNumber) { results.streetaddress = item.ShortName; }
+                if (item.Types.First() == GoogleAddressType.Route) { results.route = item.ShortName; results.route_long = item.LongName; }
+                if (item.Types.First() == GoogleAddressType.Locality) { results.city = item.ShortName; results.city_long = item.LongName; }
+                if (item.Types.First() == GoogleAddressType.AdministrativeAreaLevel1) { results.state = item.ShortName; }
+                if (item.Types.First() == GoogleAddressType.Country) { results.country = item.ShortName; }
+                if (item.Types.First() == GoogleAddressType.PostalCode) { results.zip = item.ShortName; }
+            }
+            results.formatted_address = g.First().FormattedAddress;
+            results.latitude = (decimal)g.First().Coordinates.Latitude;
+            results.longitude = (decimal)g.First().Coordinates.Longitude;
+            results.type = g.First().Type;
 
 
-
+            return results;
+        }
     }
 }
