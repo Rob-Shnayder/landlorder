@@ -1,4 +1,4 @@
-﻿@model landlorder.Models.Property
+﻿@model landlorder.ViewModels.DetailsViewModel
 @{
     ViewBag.Title = ViewBag.address + " landlord reviews | landlorder";
 }
@@ -11,38 +11,44 @@
             <div class="content-block">
                 <div class="detailsheading-wrap">
                     <div class="detail-items">
-                        <h3 class="detailitem-title">@ViewBag.address</h3>
-                        <p class="reviewlink">
-                            @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
-                        </p>
+                        <div class="col-sm-10">
+                            <h3 class="detailitem-title">@ViewBag.address</h3>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="reviewlink">
+                                @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
+                            </p>
+                        </div>
                     </div>
                     <hr />
 
                     <div class="detailitem-subitem">
-                        <div class="detailitem-subitem ratings">
-                            <h4>Ratings</h4>
+                        <div class="col-sm-12">
+                            <div class="detailitem-subitem ratings">
+                                <h4>Ratings</h4>
+                            </div>
                         </div>
 
-                        <div class="overall col-sm-1">
-                            <h3>4.8</h3>
-                            <p>Landlord Overall</p>
-                        </div>
+                            <div class="overall col-sm-2">
+                                <h3>@Html.DisplayFor(a => Model.overallRating)</h3>
+                                <p>Landlord Overall</p>
+                            </div>
 
-                        <div class="stats">
-                            <div class="statsitem col-xs-2">
-                                <h3>77</h3>
-                                <p>Reviews</p>
-                            </div>
-                            <div class="statsitem col-xs-2">
-                                <h3>4.8</h3>
-                                <p>Repair</p>
-                            </div>
-                            <div class="statsitem col-xs-3">
-                                <h3>4.8</h3>
-                                <p>Communication</p>
+                            <div class="stats">
+                                <div class="statsitem col-xs-2">
+                                    <h3>@Html.DisplayFor(a => Model.numOfReviews)</h3>
+                                    <p>Reviews</p>
+                                </div>
+                                <div class="statsitem col-xs-2">
+                                    <h3>@Html.DisplayFor(a => Model.repairRating)</h3>
+                                    <p>Repair</p>
+                                </div>
+                                <div class="statsitem col-xs-3">
+                                    <h3>@Html.DisplayFor(a => Model.communicationRating)</h3>
+                                    <p>Communication</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
 

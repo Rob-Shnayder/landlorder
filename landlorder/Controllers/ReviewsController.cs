@@ -34,45 +34,48 @@ namespace landlorder.Controllers
         }
 
         //***DETAIL FUNCTIONS***
-        public ActionResult DetailsNew(string id)
+        public ActionResult DetailsNew(string id, decimal lat, decimal lng)
         {
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            DetailsViewModel noreview = new DetailsViewModel
+            {
+                propertyID = 0,
+                formatted_address = id,
+                overallRating = 0.0,
+                numOfReviews = 0,
+                repairRating = 0.0,
+                communicationRating = 0.0,
+                latitude = lat,
+                longitude = lng,
+                Reviews = null
+            };
+
             ViewBag.address = id;
 
-            ReviewViewModel noreview = new ReviewViewModel();
-            noreview.formatted_address = id;
             return View(noreview);
         }
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            /*
-            var p = db.Properties.Where(x => x.propertyID == id).Select(x =>
-                                                 new ReviewViewModel()
-                                                 {
-                                                     propertyID = x.propertyID,
-                                                     streetaddress = x.streetaddress,
-                                                     route = x.route,
-                                                     city = x.city,
-                                                     state = x.state,
-                                                     zip = x.zip,
-                                                     country = x.country,
-                                                     latitude = x.latitude,
-                                                     longitude = x.longitude,
-                                                     reviews = x.Reviews.Select(a => a.review1),
-                                                     formatted_address = x.formatted_address
+            if (id == null) { return RedirectToAction("Index", "Home"); }            
 
-                                                 }).ToList();         
-             */
+            var p = db.Properties.Where(x => x.propertyID == id).Select(a => new DetailsViewModel
+                {
 
-            var p = db.Properties.Where(x => x.propertyID == id).FirstOrDefault(); 
+                    propertyID = a.propertyID,
+                    formatted_address = a.formatted_address,
+                    latitude = a.latitude,
+                    longitude = a.longitude,
+                    numOfReviews = a.Reviews.Count(),
+                    overallRating = (double?)(a.Reviews.Select(b => b.rating).Average()) ?? 0.0,
+                    repairRating = (double?)(a.Reviews.Select(b => b.repairrating).Average()) ?? 0.0,
+                    communicationRating = (double?)(a.Reviews.Select(b => b.communicationrating).Average()) ?? 0.0 ,
+                    Reviews = a.Reviews
+                }).FirstOrDefault(); 
 
             if (p == null)
             {
@@ -82,14 +85,11 @@ namespace landlorder.Controllers
             if (p.latitude == 0m)
             {
                 var locationData = GetLatLng(p.formatted_address);
-                if (locationData != null)
-                {
-                    p.latitude = locationData.latitude;
-                    p.longitude = locationData.longitude;
-                }
+                p.latitude = locationData.latitude;
+                p.longitude = locationData.longitude;
             }
 
-            
+            p.repairRating = Math.Round(p.repairRating,1);
 
             ViewBag.address = p.formatted_address;
             return View(p);
@@ -120,6 +120,7 @@ namespace landlorder.Controllers
 
             return View();
         }
+        [Authorize]
         public ActionResult CreateNewProperty(string id)
         {            
             ViewBag.address = id;
@@ -144,7 +145,9 @@ namespace landlorder.Controllers
                 review.date = DateTime.Now;
                 db.Reviews.Add(review);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                int tempid = property.propertyID;
+                return RedirectToAction("Details", "Reviews", new { id = tempid });
             }
 
             ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
@@ -176,7 +179,9 @@ namespace landlorder.Controllers
                 review.date = DateTime.Now;
                 db.Reviews.Add(review);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                int tempid = property.propertyID;
+                return RedirectToAction("Details", "Reviews", new { id = tempid });
             }
 
             ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
@@ -271,7 +276,7 @@ namespace landlorder.Controllers
             var geocodedAddress = Geocode(locationinput);
             if (geocodedAddress == null) {  return null; }
 
-            var relatedproperties = SearchAllRelatedProperties(geocodedAddress, 1);
+            var relatedproperties = SearchAllRelatedProperties(geocodedAddress);
             
             if (pagenum == 1 && geocodedAddress.type == GoogleAddressType.StreetAddress) 
             {
@@ -302,7 +307,10 @@ namespace landlorder.Controllers
 
             for(int i = 0; i < relatedproperties.Count(); i++)
             {
-                relatedproperties[i].type = "related";
+                if (string.IsNullOrEmpty(relatedproperties[i].type))
+                {
+                    relatedproperties[i].type = "related";
+                }
 
                 locationData = GetLatLng(relatedproperties[i].formatted_address);
                 if (locationData != null)
@@ -372,13 +380,14 @@ namespace landlorder.Controllers
 
             return property;
         }
-        private List<SearchResultsViewModel> SearchAllRelatedProperties(SearchCompare array, int pagenum)
+        private List<SearchResultsViewModel> SearchAllRelatedProperties(SearchCompare array)
         {
-            var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity,@pagenum",
+            var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity",
                    new SqlParameter("@lat", array.latitude),
                    new SqlParameter("@lon", array.longitude),
-                   new SqlParameter("@vicinity", array.city),
-                   new SqlParameter("@pagenum", pagenum)).ToList();
+                   new SqlParameter("@vicinity", array.city)).ToList();
+
+
 
             return property;
         }
@@ -447,12 +456,14 @@ namespace landlorder.Controllers
             GoogleGeocoder geocoder = new GoogleGeocoder();
             IEnumerable<Address> addresses = geocoder.Geocode(address);
 
+            Geography G1 = new Geography();
             if (addresses == null)
             {
-                return null;
+                G1.latitude = 0.0m;
+                G1.latitude = 0.0m;
+                return G1;
             }
 
-            Geography G1 = new Geography();
             try
             {
                 G1.latitude = (decimal)addresses.First().Coordinates.Latitude;
@@ -490,5 +501,7 @@ namespace landlorder.Controllers
 
             return results;
         }
+
+
     }
 }

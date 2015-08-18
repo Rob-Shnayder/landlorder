@@ -1,60 +1,102 @@
-﻿@model landlorder.ViewModels.ReviewViewModel
+﻿@model landlorder.ViewModels.DetailsViewModel
 @{
     ViewBag.Title = ViewBag.address + " landlord reviews | landlorder";
 }
 
 
 <div class="review-section">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
 
+            <div class="content-block">
+                <div class="detailsheading-wrap">
+                    <div class="detail-items">
+                        <div class="col-sm-10">
+                            <h3 class="detailitem-title">@ViewBag.address</h3>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="reviewlink">
+                                @Html.ActionLink("Write a Review", "CreateNewProperty", new { id = Model.formatted_address })
+                            </p>
+                        </div>
+                    </div>
+                    <hr />
 
-            <div class="container">
-                <div class="detailsheader">
-                    <div class="detailsheading-wrap">
-                        <div class="detail-items">
+                    <div class="detailitem-subitem">
+                        <div class="col-sm-12">
+                            <div class="detailitem-subitem ratings">
+                                <h4>Ratings</h4>
+                            </div>
+                        </div>
 
-                            <div class="item col-md-12">
-                                <div class="content">
-                                    <h3 class="logintitle">@ViewBag.address</h3>
-                                </div>
-                                <span><i class="fa fa-pencil"></i></span>
-                            </div><!--//item-->
-                            <hr />
-                            <div class="detailitem-subitem">
-                                <h5 class="logintitle">@ViewBag.address</h5>
-                            </div>
-                            <div class="detailitem-subitem">
-                                <h5 class=" logintitle">
-                                    @ViewBag.address
-                                </h5>
-                            </div>
-                            <div class="detailitem-subitem">
-                                <h5 class="logintitle">@ViewBag.address</h5>
-                            </div>
+                        <div class="overall col-sm-2">
+                            <h3>@Html.DisplayFor(a => Model.overallRating)</h3>
+                            <p>Landlord Overall</p>
+                        </div>
 
+                        <div class="stats">
+                            <div class="statsitem col-xs-2">
+                                <h3>@Html.DisplayFor(a => Model.numOfReviews)</h3>
+                                <p>Reviews</p>
+                            </div>
+                            <div class="statsitem col-xs-2">
+                                <h3>@Html.DisplayFor(a => Model.repairRating)</h3>
+                                <p>Repair</p>
+                            </div>
+                            <div class="statsitem col-xs-3">
+                                <h3>@Html.DisplayFor(a => Model.communicationRating)</h3>
+                                <p>Communication</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="col-md-8">
+                <div class="content-block">
+                    <h4 class="rating-title">Reviews</h4>
 
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.formatted_address)
-                    </dt>
+                    <hr />
 
-                    <dd>
-                        @Html.DisplayFor(model => model.formatted_address)
-                    </dd>
-                </dl>
-            }
+                    <div class="review-block">
 
-            <p>
-                @Html.ActionLink("Write a Review", "CreateNewProperty", new { id = Model.formatted_address })
-                @Html.ActionLink("Back to List", "Index")
-            </p>
+                        @if (Model.Reviews != null && Model.Reviews.Count > 0)
+                        {
+                            foreach (var item in Model.Reviews)
+                            {
+                                string d1 = item.date.ToShortDateString();
+                                @Html.DisplayFor(modelItem => d1)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.review1)
+                                <hr />
+                            }
+                        }
+                        else
+                        {
+                            <p>No reviews for this landlord yet. Be the first!</p>
+                            @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
+
+                        }
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="content-block">
+                    <div class="map_container">
+                        <div id="map-canvas" style="height:250px;"></div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
+
+
 </div>
+
+
+<script>SetMapDetails(@Model.latitude, @Model.longitude);</script>

@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DetailsViewModel.cs" />
     <Compile Include="ViewModels\Geography.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\SearchCompare.cs" />
@@ -237,8 +238,12 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Review.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\Bold\OpenSans-Bold.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\Light\OpenSans-Light.svg" />
     <Content Include="fonts\opensans.css" />
+    <Content Include="fonts\Regular\OpenSans-Regular.svg" />
+    <Content Include="fonts\Semibold\OpenSans-Semibold.svg" />
     <Content Include="Geocoding\Google\Google.csproj" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -313,6 +318,22 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\Bold\OpenSans-Bold.eot" />
+    <Content Include="fonts\Bold\OpenSans-Bold.ttf" />
+    <Content Include="fonts\Bold\OpenSans-Bold.woff" />
+    <Content Include="fonts\Bold\OpenSans-Bold.woff2" />
+    <Content Include="fonts\Light\OpenSans-Light.eot" />
+    <Content Include="fonts\Light\OpenSans-Light.ttf" />
+    <Content Include="fonts\Light\OpenSans-Light.woff" />
+    <Content Include="fonts\Light\OpenSans-Light.woff2" />
+    <Content Include="fonts\Regular\OpenSans-Regular.eot" />
+    <Content Include="fonts\Regular\OpenSans-Regular.ttf" />
+    <Content Include="fonts\Regular\OpenSans-Regular.woff" />
+    <Content Include="fonts\Regular\OpenSans-Regular.woff2" />
+    <Content Include="fonts\Semibold\OpenSans-Semibold.eot" />
+    <Content Include="fonts\Semibold\OpenSans-Semibold.ttf" />
+    <Content Include="fonts\Semibold\OpenSans-Semibold.woff" />
+    <Content Include="fonts\Semibold\OpenSans-Semibold.woff2" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Reviews\Search.cshtml" />
     <Content Include="Views\Home\LoginModal.cshtml" />

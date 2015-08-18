@@ -1,7 +1,7 @@
-﻿@import url(/fonts/opensans.css);
+﻿@import url(../fonts/opensans.css);
 
 body {
-  font-family: 'open sans', helvetica, arial, sans;
+  font-family: 'Open Sans', sans-serif;
   color: #444444;
   font-size: 16px;
   height:100%;
@@ -23,8 +23,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'open sans';
-  font-weight: 700;
+  font-weight: 600;
   color: #17baef;
 }
 
@@ -165,12 +164,9 @@ pre code {
 }
 .header .main-nav .nav .nav-item a {
   color: #fff;
-  -webkit-transition: none;
-  -moz-transition: none;
-  -ms-transition: none;
-  -o-transition: none;
-  font-size: 14px;
+  font-size: 15px;
   padding: 15px 10px;
+  font-weight: 600;
 }
 .header .main-nav .nav .nav-item a:hover {
   color: #17baef;
@@ -252,7 +248,7 @@ pre code {
 
 
 .subscribe.form-control {
-    width: 500px;
+    width: 530px;
     height: 50px;
     background: white;
     border: none;
@@ -260,7 +256,7 @@ pre code {
     color: black;
     margin-bottom: 180px;
     font-size: 1.3em;  
-    margin-left: -15px;
+    margin-left: -60px;
 }
 
 .subscribe.form-control:focus {
@@ -837,7 +833,7 @@ pre code {
 }
 
 .explore a,a:hover, a:focus {
-    color: #fff !important;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -926,6 +922,10 @@ pre code {
     background-color: #f3f2f1;
 }
 
+.review-section a, a:hover, a:focus {
+    color: #17baef;
+}
+
 .content-block{
   background-color: #FFF;
   margin: 0px 0 20px;
@@ -953,6 +953,7 @@ margin-left: 500px;
     min-width: 148px;
     padding: 4px 0 0;
     margin-left: 20px;
+    overflow:hidden
 }
 
 
@@ -981,10 +982,13 @@ margin-left: 500px;
     text-align:center;
 }
 
-.detailitem-subitem .overall{    
-    margin-left:28px;
+.detailitem-subitem .overall{  
     text-align:center;
     white-space:nowrap;
+    overflow:hidden;
+    text-align:center;
+    float:left;
+        
 }
 
 .detailitem-subitem .ratings{    
@@ -1011,7 +1015,11 @@ margin-left: 500px;
 }
 
 .detailitem-subitem .overall p{    
-    color: grey;    
+    color: grey;       
+}
+
+.detailitem-subitem .overall h3{
+    padding-left: 5px;
 }
 
 
