@@ -64,6 +64,14 @@
                         {
                             foreach (var item in Model.Reviews)
                             {
+                                if (item.anonymous == true)
+                                {
+                                    <p>Anonymous</p>
+                                }
+                                else
+                                {
+                                    <p>Jim Bob</p>
+                                }
                                 string d1 = item.date.ToShortDateString();
                                 @Html.DisplayFor(modelItem => d1)
                                 <br />

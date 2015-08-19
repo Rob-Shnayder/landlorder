@@ -50,6 +50,11 @@ namespace landlorder.Models
 
         public System.DateTime date { get; set; }
 
+        [Display(Name = "Submit Anonymously")]
+        public bool anonymous { get; set; }
+
         public virtual Property Property { get; set; }
     }
 }
+
+

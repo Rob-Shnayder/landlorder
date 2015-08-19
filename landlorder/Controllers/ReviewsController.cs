@@ -26,14 +26,51 @@ namespace landlorder.Controllers
     {
         private landlorderEntities2 db = new landlorderEntities2();
 
-        // GET: Reviews
-        public ActionResult Index()
+        //*************************
+        //SEARCH Functions
+        //*************************
+
+        //GET
+        public ActionResult Search(string locationinput, int? pagenum)
         {
-            var reviews = db.Reviews.Include(r => r.Property);
-            return View(reviews.ToList());
+            if (pagenum == null) { pagenum = 1; }
+            var pageIndex = (pagenum ?? 1) - 1;
+            var pageSize = 10;
+            int skip = pageSize * pageIndex;
+
+            //Geocode input address
+            var geocodedAddress = Geocode(locationinput);
+            if (geocodedAddress == null) { return null; }
+
+            var relatedproperties = SearchAllRelatedProperties(geocodedAddress);
+
+            if (pagenum == 1 && geocodedAddress.type == GoogleAddressType.StreetAddress)
+            {
+                SearchResultsViewModel exactproperty = ConfigureExactAddressForView(geocodedAddress);
+
+                //Add it to the list of results
+                relatedproperties.Insert(0, exactproperty);
+            }
+
+
+            //Create one page of results
+            var results = new StaticPagedList<SearchResultsViewModel>(relatedproperties.Skip(skip).Take(pageSize),
+                pageIndex + 1, pageSize, relatedproperties.Count());
+
+            results = GetLocationDataForRelated(results);
+
+            ViewBag.address = geocodedAddress.formatted_address;
+            ViewBag.input = locationinput;
+
+
+            return View(results);
         }
 
-        //***DETAIL FUNCTIONS***
+
+        //*************************
+        //DETAIL Functions
+        //*************************
+
         public ActionResult DetailsNew(string id, decimal lat, decimal lng)
         {
             if (id == null)
@@ -95,7 +132,11 @@ namespace landlorder.Controllers
             return View(p);
         }
 
-        //Create Functions
+
+        //*************************
+        //CREATE Functions
+        //*************************
+
         // GET: Reviews/Create/1
         [Authorize]
         public ActionResult Create(int? id)
@@ -133,7 +174,7 @@ namespace landlorder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int id,[Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
+        public ActionResult Create(int id,[Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating, anonymous")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -143,8 +184,21 @@ namespace landlorder.Controllers
                 review.propertyID = property.propertyID;
                 review.userID = userID;
                 review.date = DateTime.Now;
+                if (ModelState.ContainsKey("anonymous"))
+                {
+                    if (ModelState["anonymous"].Value.AttemptedValue == "true")
+                    {
+                        review.anonymous = true;
+                    }
+                    else
+                    {
+                        review.anonymous = false;
+                    }
+                }
                 db.Reviews.Add(review);
                 db.SaveChanges();
+
+
 
                 int tempid = property.propertyID;
                 return RedirectToAction("Details", "Reviews", new { id = tempid });
@@ -159,7 +213,7 @@ namespace landlorder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateNewProperty(string id, [Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
+        public ActionResult CreateNewProperty(string id, [Bind(Include = "reviewID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating, anonymous")] Review review)
         {          
 
             if (ModelState.IsValid)
@@ -189,69 +243,6 @@ namespace landlorder.Controllers
         }
 
 
-
-        //***Edit Functions***
-
-        // GET: Reviews/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Review review = db.Reviews.Find(id);
-            if (review == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
-            return View(review);
-        }
-
-        // POST: Reviews/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "reviewID,propertyID,userID,rating,review1,apartmentnum,landlordname,repairrating,communicationrating")] Review review)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(review).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.propertyID = new SelectList(db.Properties, "propertyID", "streetaddress", review.propertyID);
-            return View(review);
-        }
-
-
-        //***DELETE FUNCTIONS
-        // GET: Reviews/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Review review = db.Reviews.Find(id);
-            if (review == null)
-            {
-                return HttpNotFound();
-            }
-            return View(review);
-        }
-        // POST: Reviews/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Review review = db.Reviews.Find(id);
-            db.Reviews.Remove(review);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -261,44 +252,9 @@ namespace landlorder.Controllers
             base.Dispose(disposing);
         }
 
-
-
-        //***SEARCH FUNCTIONS***
-        //GET
-        public ActionResult Search(string locationinput, int? pagenum)
-        {         
-            if (pagenum == null){ pagenum = 1; }
-            var pageIndex = (pagenum ?? 1) - 1; 
-            var pageSize = 10;
-            int skip = pageSize * pageIndex;
-            
-            //Geocode input address
-            var geocodedAddress = Geocode(locationinput);
-            if (geocodedAddress == null) {  return null; }
-
-            var relatedproperties = SearchAllRelatedProperties(geocodedAddress);
-            
-            if (pagenum == 1 && geocodedAddress.type == GoogleAddressType.StreetAddress) 
-            {
-                SearchResultsViewModel exactproperty = ConfigureExactAddressForView(geocodedAddress);
-
-                //Add it to the list of results
-                relatedproperties.Insert(0, exactproperty); 
-            }
-
-            
-            //Create one page of results
-            var results = new StaticPagedList<SearchResultsViewModel>(relatedproperties.Skip(skip).Take(pageSize), 
-                pageIndex + 1, pageSize, relatedproperties.Count());
-                   
-            results = GetLocationDataForRelated(results);
-
-            ViewBag.address = geocodedAddress.formatted_address;
-            ViewBag.input = locationinput;
-            
-
-            return View(results);
-        }
+        //*************************
+        //HELPER Functions
+        //*************************
 
         //Gets latitude and longitude data for properties that may not have that data already
         private StaticPagedList<SearchResultsViewModel> GetLocationDataForRelated(StaticPagedList<SearchResultsViewModel> relatedproperties)
@@ -411,8 +367,6 @@ namespace landlorder.Controllers
                 return null;
             }            
         }
-
-
         private Property Geocode_Create(string address)
         {
             System.Net.ServicePointManager.Expect100Continue = false;

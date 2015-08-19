@@ -338,9 +338,6 @@
     <Content Include="Views\Reviews\Search.cshtml" />
     <Content Include="Views\Home\LoginModal.cshtml" />
     <Content Include="Views\Reviews\Create.cshtml" />
-    <Content Include="Views\Reviews\Delete.cshtml" />
-    <Content Include="Views\Reviews\Edit.cshtml" />
-    <Content Include="Views\Reviews\Index.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Reviews\CreateNewProperty.cshtml" />
     <Content Include="Views\Reviews\DetailsNew.cshtml" />
