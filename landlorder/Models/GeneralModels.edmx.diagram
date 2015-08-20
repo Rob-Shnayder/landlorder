@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="landlorderModel.Property" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="landlorderModel.Review" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="landlorderModel.fk_Review_propertyID" />
+        <EntityTypeShape EntityType="landlorderModel.AspNetUser" Width="1.5" PointX="5.375" PointY="1" />
+        <AssociationConnector Association="landlorderModel.FK_Review_userID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

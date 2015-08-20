@@ -98,8 +98,9 @@ namespace landlorder.Controllers
         }
         public ActionResult Details(int? id)
         {
-            if (id == null) { return RedirectToAction("Index", "Home"); }            
+            if (id == null) { return RedirectToAction("Index", "Home"); }
 
+            
             var p = db.Properties.Where(x => x.propertyID == id).Select(a => new DetailsViewModel
                 {
 
@@ -111,7 +112,9 @@ namespace landlorder.Controllers
                     overallRating = (double?)(a.Reviews.Select(b => b.rating).Average()) ?? 0.0,
                     repairRating = (double?)(a.Reviews.Select(b => b.repairrating).Average()) ?? 0.0,
                     communicationRating = (double?)(a.Reviews.Select(b => b.communicationrating).Average()) ?? 0.0 ,
-                    Reviews = a.Reviews
+                    Reviews = a.Reviews,
+                    users = db.AspNetUsers.Where((c=>c.Id == 
+                        (c.Reviews.Where(d=> d.propertyID == a.propertyID).Select(e=>e.userID).FirstOrDefault()))).FirstOrDefault()
                 }).FirstOrDefault(); 
 
             if (p == null)
@@ -126,7 +129,7 @@ namespace landlorder.Controllers
                 p.longitude = locationData.longitude;
             }
 
-            p.repairRating = Math.Round(p.repairRating,1);
+            //p.repairRating = Math.Round(p.repairRating,1);
 
             ViewBag.address = p.formatted_address;
             return View(p);

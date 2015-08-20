@@ -22,6 +22,8 @@ namespace landlorder.ViewModels
         public double communicationRating { get; set; }   
 
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public virtual AspNetUser users { get; set; }
         
     }
 }
