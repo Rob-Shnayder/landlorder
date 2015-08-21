@@ -49,8 +49,11 @@ namespace landlorder.Controllers
             }
 
             relatedproperties = SearchAllRelatedProperties(geocodedAddress, exactproperty.propertyID);
-            //add exact to related
-            relatedproperties.Insert(0, exactproperty);
+
+            if (exactproperty.propertyID != 0)
+            {
+                relatedproperties.Insert(0, exactproperty);
+            }
 
             //Create one page of results
             var results = OnePageOfResults(relatedproperties, pagenum);
@@ -61,6 +64,7 @@ namespace landlorder.Controllers
 
             return View(results);
         }
+
 
         private StaticPagedList<SearchResultsViewModel> OnePageOfResults(List<SearchResultsViewModel> r,int? pagenum)
         {

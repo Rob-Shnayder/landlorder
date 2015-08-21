@@ -681,7 +681,7 @@ pre code {
 
 .logintitle{
   font-family: 'open sans';
-  font-weight: 700;
+  font-weight: 200;
   color: #0a7396;
 }
 
@@ -765,7 +765,7 @@ pre code {
 }
 
 .search_container span{
-   width: 50px;  
+   width: 155px;  
 }
 
 span.searchstars, span.searchstars span {
@@ -811,7 +811,7 @@ span.searchstars span {
 }
 
 .map{
-    height:600px;
+    height:100px;
     width: 100%;     
 }
 

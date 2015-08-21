@@ -2,7 +2,7 @@
 @using PagedList;
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = ViewBag.location + " Search | landlorder ";
+    ViewBag.Title = ViewBag.input + " Search | landlorder ";
 }
 
 
@@ -28,14 +28,18 @@
                         if (item.type == "exact-new")
                         {
                             <div class="item_holder">  
-                                <a href="@Url.Action("DetailsNew", "Reviews", new { id = item.formatted_address, lat = item.latitude, lng = item.longitude })"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a> 
+                                <a href="@Url.Action("DetailsNew", "Reviews", new { id = item.formatted_address, lat = item.latitude, lng = item.longitude })"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5><span class="searchstars">0.0</span></a> 
                              </div>
                         }
                         else
                         {
                             <div class="item_holder">
-                                <a href="Details/@item.propertyID"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5></a>
-                                <span class="searchstars">4.8618164</span>
+                                <a href="Details/@item.propertyID">
+                                    <h4>@item.formatted_address</h4>
+                                <h5>Reviews: @item.numofReviews</h5>
+                                <span class="searchstars">@item.averagerating</span>
+                                </a>
+                                
                             </div>
                         }
 
@@ -55,6 +59,14 @@
 
 @if (Model.Count() > 0) {  
 <script>    
+    $(window).resize(function () {
+        var h = $(window).height(),
+            offsetTop = 150; // Calculate the top offset
+
+        $('#map-canvas').css('height', (h - offsetTop));        
+        $('#search_container').css('height', (h - offsetTop));
+    }).resize();
+
     $(function() {
         $('span.searchstars').searchstars();
     });

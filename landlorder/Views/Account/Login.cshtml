@@ -10,7 +10,7 @@
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal"}))
             {
                 @Html.AntiForgeryToken()
-                <h2 class="logintitle">Welcome to landlorder</h2>
+                <h1 class="logintitle">Welcome to landlorder</h1>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="login-form">
@@ -18,6 +18,8 @@
                     @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email", autofocus = "" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
+                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "rememberme" })
+                    @Html.DisplayNameFor(m => m.RememberMe)<br />
                     <input type="submit" value="Log in" class="button" />
                 </div>
                 <hr />

@@ -123,11 +123,11 @@
 
             <div class="form-group">
                 @Html.ValidationMessageFor(model => model.anonymous, "", new { @class = "text-danger" })
-                @Html.LabelFor(model => model.anonymous, htmlAttributes: new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(model => model.anonymous, htmlAttributes: new { @class = "control-label col-sm-3" })
                 <div class="col-sm-offset-3">
-                    <div class="roundedOne">
-                        <input type="checkbox" value="true" name="anonymous" id="roundedOne" />
-                        <label for="roundedOne"></label>
+                    <div class="squaredThree">
+                        <input type="checkbox" value="true" name="anonymous" id="squaredThree" />
+                        <label for="squaredThree"></label>
                     </div>
                 </div>
             </div>

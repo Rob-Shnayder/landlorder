@@ -10,7 +10,7 @@
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h2 class="logintitle">Sign up for landlorder</h2>
+                <h1 class="logintitle">Sign up for landlorder</h1>
                 <h5>Easily search & submit landlord reviews.</h5>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
