@@ -745,7 +745,7 @@ pre code {
     background: #FFF;
     position: absolute;
     z-index: 10;
-    background-color: #F5F5F5;    
+    background-color: #FBFBFB;    
 
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
       -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
@@ -770,12 +770,12 @@ pre code {
 
 span.searchstars, span.searchstars span {
     display: block;
-    background: url(../images/stars.png) 0 0px repeat-x;
+    background: url(../images/stars2.png)0 0px;
     height: 30px;
 }
 
 span.searchstars span {
-    background-position: 0 0;
+    background-position: 0px 30px;
 }
 
 
@@ -811,7 +811,7 @@ span.searchstars span {
 }
 
 .map{
-    height:100px;
+    height:400px;
     width: 100%;     
 }
 
