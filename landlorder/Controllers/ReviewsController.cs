@@ -17,7 +17,7 @@ using Geocoding;
 using Geocoding.Google;
 using PagedList;
 using PagedList.Mvc;
-using AutoMapper;
+using System.Device.Location;
 
 
 namespace landlorder.Controllers
@@ -34,36 +34,46 @@ namespace landlorder.Controllers
         public ActionResult Search(string locationinput, int? pagenum)
         {
             if (pagenum == null) { pagenum = 1; }
-            var pageIndex = (pagenum ?? 1) - 1;
-            var pageSize = 10;
-            int skip = pageSize * pageIndex;
+
+            SearchResultsViewModel exactproperty = new SearchResultsViewModel();         
+            List<SearchResultsViewModel> relatedproperties = null;
+            exactproperty.propertyID = 0;
 
             //Geocode input address
             var geocodedAddress = Geocode(locationinput);
             if (geocodedAddress == null) { return null; }
 
-            var relatedproperties = SearchAllRelatedProperties(geocodedAddress);
-
             if (pagenum == 1 && geocodedAddress.type == GoogleAddressType.StreetAddress)
             {
-                SearchResultsViewModel exactproperty = ConfigureExactAddressForView(geocodedAddress);
-
-                //Add it to the list of results
-                relatedproperties.Insert(0, exactproperty);
+                exactproperty = ConfigureExactAddressForView(geocodedAddress);
             }
 
+            relatedproperties = SearchAllRelatedProperties(geocodedAddress, exactproperty.propertyID);
+            //add exact to related
+            relatedproperties.Insert(0, exactproperty);
 
             //Create one page of results
-            var results = new StaticPagedList<SearchResultsViewModel>(relatedproperties.Skip(skip).Take(pageSize),
-                pageIndex + 1, pageSize, relatedproperties.Count());
-
-            results = GetLocationDataForRelated(results);
+            var results = OnePageOfResults(relatedproperties, pagenum);
 
             ViewBag.address = geocodedAddress.formatted_address;
             ViewBag.input = locationinput;
 
 
             return View(results);
+        }
+
+        private StaticPagedList<SearchResultsViewModel> OnePageOfResults(List<SearchResultsViewModel> r,int? pagenum)
+        {
+            var pageIndex = (pagenum ?? 1) - 1;
+            var pageSize = 10;
+            int skip = pageSize * pageIndex;
+
+            var results = new StaticPagedList<SearchResultsViewModel>(r.Skip(skip).Take(pageSize),
+                pageIndex + 1, pageSize, r.Count());
+
+            results = GetLocationDataForRelated(results);
+
+            return results;
         }
 
 
@@ -308,6 +318,7 @@ namespace landlorder.Controllers
             else
             {
                 SearchResultsViewModel V1 = new SearchResultsViewModel();
+                V1.propertyID = 0;
                 V1.formatted_address = geocodedAddress.formatted_address;
                 V1.latitude = geocodedAddress.latitude;
                 V1.longitude = geocodedAddress.longitude;
@@ -324,13 +335,7 @@ namespace landlorder.Controllers
         {
             var property = db.Properties.Where(c => (c.streetaddress == array.streetaddress)
                 && ((c.route == array.route) || (c.route == array.route_long))).Select(x => new SearchResultsViewModel
-                {
-                    streetaddress = x.streetaddress,
-                    route = x.route,
-                    city = x.city,
-                    zip= x.zip,
-                    state = x.state,
-                    country = x.country,
+                {                   
                     formatted_address = x.formatted_address,
                     propertyID = x.propertyID,
                     numofReviews = x.Reviews.Count(),
@@ -339,15 +344,34 @@ namespace landlorder.Controllers
 
             return property;
         }
-        private List<SearchResultsViewModel> SearchAllRelatedProperties(SearchCompare array)
+        private List<SearchResultsViewModel> SearchAllRelatedProperties(SearchCompare array, int id)
         {
-            var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @vicinity",
+            /*
+            var property = db.Database.SqlQuery<SearchResultsViewModel>("SearchReviews_StreetAddress_Related @lat, @lon, @ignorestreet,@ignoreroute",
                    new SqlParameter("@lat", array.latitude),
                    new SqlParameter("@lon", array.longitude),
-                   new SqlParameter("@vicinity", array.city)).ToList();
+                   new SqlParameter("@ignorestreet", array.streetaddress),
+                   new SqlParameter("@ignoreroute", array.route)).ToList();
+             * 
+             * Add where to linq
+             * Where(y => (y.latitude < (y.latitude - 0.3m) && y.latitude > (y.latitude + 0.3m))
+                && (y.longitude < (y.longitude - 0.3m) && y.longitude > (y.longitude + 0.3m))
+             * 
+             */
 
-
-
+            var coord = new GeoCoordinate { Latitude = (double?)array.latitude ?? 0, Longitude = (double?)array.longitude ?? 0 };
+            var property = db.Properties.Select(x => new SearchResultsViewModel
+                {
+                    propertyID = x.propertyID,
+                    formatted_address = x.formatted_address,
+                    numofReviews = x.Reviews.Count(),
+                    averagerating = (double?)(x.Reviews.Select(b => b.rating).Average()) ?? 0.0,
+                    latitude = x.latitude,
+                    longitude = x.longitude,
+                    geocoord = new GeoCoordinate { Latitude = (double?)x.latitude ?? 0, Longitude = (double?)x.longitude ?? 0 },
+                    type = "exact"
+                }).Where(x=>x.propertyID != id).AsEnumerable().OrderBy(x => x.geocoord.GetDistanceTo(coord)).Take(1000).ToList();
+            
             return property;
         }
         

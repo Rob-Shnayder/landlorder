@@ -20,18 +20,18 @@ function initialize() {
 }
 
 $( document ).ready(function() {
-    searchbar = new google.maps.places.Autocomplete(
-      /** @type {HTMLInputElement} */(document.getElementById('searchbar')),
-      { types: ['geocode'] });
-
     var current_page_url = window.location.href;
     var current_page_id = current_page_url.split("/");
     var current_page_name = current_page_id[(current_page_id.length) - 1];
 
     if (current_page_name != "" && current_page_name != "Index" && current_page_name != "Home") {
         document.getElementById('searchDIV').style.display = 'block';
+        searchbar = new google.maps.places.Autocomplete(
+      /** @type {HTMLInputElement} */(document.getElementById('searchbar')),
+      { types: ['geocode'] });
     }
 })
+
 
 
 function geolocate() {
