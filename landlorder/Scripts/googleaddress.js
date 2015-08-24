@@ -74,18 +74,17 @@ function GenerateMap() {
 }
 
 function GrabLocationData() {
-
     var inputs = document.getElementsByClassName('item');
     names = [].map.call(inputs, function (input) {
         return input.value;
     });
 
     var newArray = names.map(function (str) {
-        return JSON.parse("{" + str.replace(/lat/, '"lat"').replace(/lng/, '"lng"').replace(/;/, "") + "}")
+        return JSON.parse("{" + str.replace(/lat/, '"lat"').replace(/lng/, '"lng"').replace(/href: (.+)/, '"href": "$1"').replace(/;/, "") + "}")
     });
 
     for (var i = 0; i < newArray.length; i++) {
-        createMarker(newArray[i].lat, newArray[i].lng);
+        createMarker(newArray[i].lat, newArray[i].lng, newArray[i].href);
     }
 
 }
@@ -95,7 +94,7 @@ function SetMap(lat, lng) {
         disableDefaultUI: false,
         navigationControl: false,
         mapTypeControl: false,
-        zoom: 14
+        zoom: 12
     });
     
    if (lat == null || lng == null) {
@@ -150,4 +149,28 @@ function createMarker(lat, lng) {
         map: map,
         position: location
     });
+}
+
+
+function createMarker(lat, lng, address) {
+    if (lat == null || lng == null) {
+        return;
+    }
+    
+    infowindow = new google.maps.InfoWindow();
+    var location = new google.maps.LatLng(lat, lng);
+
+    var marker = new google.maps.Marker({
+        map: map,
+        position: location
+    });
+
+
+    infowindow.setContent(address);
+
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.setContent(address);
+        infowindow.open(map, this);
+    });
+    
 }

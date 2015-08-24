@@ -33,6 +33,7 @@ namespace landlorder.Controllers
         //GET
         public ActionResult Search(string locationinput, int? pagenum)
         {
+            if (locationinput == null) { return RedirectToAction("Index", "Home");}
             if (pagenum == null) { pagenum = 1; }
 
             //Geocode input address

@@ -22,14 +22,16 @@
 
                 <div class="seperator title"></div>
 
-                <div id="relatedpropertyDIV" class="searchresults">
+                <div id="propertyDIV" class="searchresults">
                     @foreach (var item in Model)
                     {
+                        string createHREFformarker;
                         if (item.type == "exact-new")
                         {
                             <div class="item_holder">  
                                 <a href="@Url.Action("DetailsNew", "Reviews", new { id = item.formatted_address, lat = item.latitude, lng = item.longitude })"><h4>@item.formatted_address</h4><h5>Reviews: @item.numofReviews</h5><span class="searchstars">0.0</span></a> 
                              </div>
+                            createHREFformarker = "<a href=" + Url.Action("DetailsNew", "Reviews",  new { id = item.formatted_address, lat = item.latitude, lng = item.longitude }) + "><h4>" + @item.formatted_address + "</h4><h5>Reviews: " + @item.numofReviews + "</h5></a>";
                         }
                         else
                         {
@@ -38,12 +40,12 @@
                                     <h4>@item.formatted_address</h4>
                                 <h5>Reviews: @item.numofReviews</h5>
                                 <span class="searchstars">@item.averagerating</span>
-                                </a>
-                                
+                                </a>                                
                             </div>
+                            createHREFformarker = "<a href=" + Url.Action("Details", "Reviews", new { id = item.propertyID }) + "><h4>" + @item.formatted_address + "</h4><h5>Reviews: " + @item.numofReviews + "</h5></a>";
                         }
 
-                        <input type="hidden" class="item" value="lat: @item.latitude, lng: @item.longitude" />
+                        <input type="hidden" class="item" value="lat: @item.latitude, lng: @item.longitude, href: @createHREFformarker" />
                         <div class="seperator"></div>
                     }
 
