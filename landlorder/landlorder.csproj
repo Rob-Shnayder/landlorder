@@ -253,6 +253,7 @@
     <Content Include="images\explorepics\Miami\Miami1_med.jpg" />
     <Content Include="images\explorepics\NewYork\NY3_med.jpg" />
     <Content Include="images\explorepics\SanFran\SanFran2.jpg" />
+    <Content Include="images\stars2.png" />
     <Content Include="Scripts\backup.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\googleaddress.js" />

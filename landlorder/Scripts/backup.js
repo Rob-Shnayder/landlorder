@@ -236,15 +236,7 @@ function createMarker(place) {
 }
 
 //Map Pan Functions for hover
-function PanToMarker() {
-    var i = this.getAttribute('data-index');
-    var address;
-    if (typeof relatedPropertyArray[i] != 'undefined') {
-        address = relatedPropertyArray[i].formatted_address;
-    }
-    else { return; }
-
-
+function PanToMarker(address) {
     result = $.map(markerarray, function (obj, index) {
         if (obj.title == address) {
             return index;

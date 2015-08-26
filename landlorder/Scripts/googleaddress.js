@@ -1,12 +1,5 @@
 ﻿var placeSearch, autocomplete, map, infowindow;
-var componentForm = {
-    street_number: 'short_name',
-    route: 'long_name',
-    locality: 'long_name',
-    administrative_area_level_1: 'short_name',
-    country: 'long_name',
-    postal_code: 'short_name'
-};
+var markerarray = [];
 
 function initialize() {
     autocomplete = new google.maps.places.Autocomplete(
@@ -78,13 +71,20 @@ function GrabLocationData() {
     names = [].map.call(inputs, function (input) {
         return input.value;
     });
+    var address = document.getElementsByClassName('addressinfo');
+    addresses = [].map.call(address, function (input) {
+        return input.value;
+    });
 
     var newArray = names.map(function (str) {
-        return JSON.parse("{" + str.replace(/lat/, '"lat"').replace(/lng/, '"lng"').replace(/href: (.+)/, '"href": "$1"').replace(/;/, "") + "}")
+        return JSON.parse("{" + str.replace(/lat/, '"lat"').replace(/lng/, '"lng"').replace(/href: (.+)/, '"href": "$1"').replace(/address: (.+)/, '"address": "$1"').replace(/;/, "") + "}")
+    });
+    var addressArray = addresses.map(function (str) {
+        return JSON.parse("{" + str.replace(/address: (.+)/, '"address": "$1"').replace(/;/, "") + "}")
     });
 
     for (var i = 0; i < newArray.length; i++) {
-        createMarker(newArray[i].lat, newArray[i].lng, newArray[i].href);
+        createMarker(newArray[i].lat, newArray[i].lng, newArray[i].href, addressArray[i].address);
     }
 
 }
@@ -152,25 +152,74 @@ function createMarker(lat, lng) {
 }
 
 
-function createMarker(lat, lng, address) {
+function createMarker(lat, lng, href, address) {
     if (lat == null || lng == null) {
         return;
     }
+    var icon = '../images/red-dot.png';
     
     infowindow = new google.maps.InfoWindow();
     var location = new google.maps.LatLng(lat, lng);
 
     var marker = new google.maps.Marker({
         map: map,
-        position: location
+        position: location,
+        title: address,
+        content: href
     });
 
-
-    infowindow.setContent(address);
+    marker.setIcon(icon);
+    markerarray.push(marker);
+    infowindow.setContent(href);
 
     google.maps.event.addListener(marker, 'click', function () {
-        infowindow.setContent(address);
+        infowindow.setContent(href);
         infowindow.open(map, this);
     });
+    /*
+    if (type == "exact" || type == "exact-new") {
+        infowindow.open(map, marker);
+    }*/
     
+}
+
+
+function PanToMarker(address, icon) {
+    result = $.map(markerarray, function (obj, index) {
+        if (obj.title == address) {
+            return index;
+        }
+    })
+
+    if (result.length > 0) {
+        MarkerZoomTo(result[0], icon);
+    }
+}
+
+
+function MarkerZoomTo(markerIdentifier, icon) {
+    /*
+    pt = markerarray[markerIdentifier].getPosition();
+    newpt = new google.maps.LatLng(pt.lat(), pt.lng());
+    map.panTo(newpt);
+    */
+
+    if (infowindow) {
+        infowindow.close();
+    }
+
+    /*
+   infowindow.setContent(markerarray[markerIdentifier].content);
+   infowindow.setPosition(markerarray[markerIdentifier].getPosition());
+   infowindow.open(map, markerarray[markerIdentifier]);
+   */
+    var hoverIcon;
+    if (icon == "yellow") {
+        hoverIcon = '../images/yellow-dot.png';
+        markerarray[markerIdentifier].setIcon(hoverIcon);
+    }
+    else if (icon == "default") {
+        hoverIcon = '../images/red-dot.png';
+        markerarray[markerIdentifier].setIcon(hoverIcon);
+    }
 }
