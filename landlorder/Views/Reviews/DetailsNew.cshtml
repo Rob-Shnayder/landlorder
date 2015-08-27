@@ -59,24 +59,8 @@
                     <hr />
 
                     <div class="review-block">
-
-                        @if (Model.Reviews != null && Model.Reviews.Count > 0)
-                        {
-                            foreach (var item in Model.Reviews)
-                            {
-                                string d1 = item.date.ToShortDateString();
-                                @Html.DisplayFor(modelItem => d1)
-                                <br />
-                                @Html.DisplayFor(modelItem => item.review1)
-                                <hr />
-                            }
-                        }
-                        else
-                        {
-                            <p>No reviews for this landlord yet. Be the first!</p>
-                            @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
-
-                        }
+                        <p>No reviews for this landlord yet. Be the first!</p>
+                        @Html.ActionLink("Write a Review", "Create", new { id = Model.propertyID })
 
                     </div>
 

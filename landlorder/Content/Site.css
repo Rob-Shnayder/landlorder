@@ -770,8 +770,9 @@ pre code {
 
 span.searchstars, span.searchstars span {
     display: block;
-    background: url(../images/stars2.png)0 0px;
+    background: url(../images/stars2.png) 0 0px;
     height: 30px;
+    width: 150px;
 }
 
 span.searchstars span {
@@ -843,7 +844,7 @@ span.searchstars span {
     width:100%;
 }
 .explore-holder .explore-4{
-    background-image: url("../images/explorepics/Chicago/Chicago3_med.jpg");
+    background-image: url("../images/explorepics/Chicago/Chicago2_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -1057,6 +1058,40 @@ margin-left: 500px;
     padding-left: 40px;
     padding-bottom: 20px;
 }
+
+.review-block h4{
+    color:black;
+}
+
+
+.review-block .name{
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.review-block .date{
+    float: right;
+    padding-right: 15px;    
+    font-size: 15px;
+}
+
+.review-block .miscinfo{ 
+    font-size: 15px;
+    font-weight: 400;
+    color: #7D7B7B;
+}
+.review-block .reviewtext{
+    font-weight: 500;
+    word-wrap: break-word;
+    padding-right: 25px;
+    font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    line-height: 1.43;
+    color: #565A5C;
+ }
+
+
+
 
 
 .detailitem-subitem h3{    

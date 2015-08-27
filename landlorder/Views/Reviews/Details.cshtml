@@ -63,23 +63,36 @@
 
                     <div class="review-block">
 
-                        @if (Model.Reviews.Count > 0)
+                        @if (Model.PagedReviews.Count > 0)
                         {
                             foreach (var item in Model.PagedReviews)
                             {
+                                
+                                
+                                string d1 = item.date.ToShortDateString();
+                                <span class="date">@Html.DisplayFor(modelItem => d1)</span>
                                 if (item.anonymous == true)
                                 {
-                                    <p>Anonymous</p>
+                                    <h4 class="name">Anonymous</h4>
                                 }
                                 else
                                 {
-                                    <p>@Model.users.FirstName @Model.users.LastName</p>
+                                    string name = @Model.users.FirstName + " "+@Model.users.LastName[0] + ".";
+                                    <h4 class="name">@name</h4>
                                 }
-                                string d1 = item.date.ToShortDateString();
-                                @Html.DisplayFor(modelItem => d1)
+
+                                <span class="searchstars">@item.rating</span>
+                                
+                                if (@item.landlordname != null) 
+                                { 
+                                    <h4 class="miscinfo">Landlord: @item.landlordname</h4>
+                                }
                                 <br />
-                                @Html.DisplayFor(modelItem => item.review1)
+
+                                 <h4 class="reviewtext">@item.review1</h4>
+
                                 <hr />
+                            
                             }
                             @Html.PagedListPager((IPagedList)(@Model.PagedReviews), page => Url.Action("Details", new { @id = Model.propertyID, @pagenum = page }))
 
@@ -100,7 +113,7 @@
             <div class="col-md-4">
                 <div class="content-block">
                     <div class="map_container">
-                        <div id="map-canvas" style="height:250px;"></div>
+                        <div id="map-canvas" style="height:310px;"></div>
                     </div>
                 </div>
             </div>
@@ -112,4 +125,24 @@
 </div>
 
 
-<script>SetMapDetails(@Model.latitude, @Model.longitude);</script>
+<script>
+    $(function() {
+        $('span.searchstars').searchstars();
+    });
+
+    $.fn.searchstars = function () {
+        return $(this).each(function() {
+            // Get the value
+            var val = parseFloat($(this).html());
+            // Make sure that the value is in 0 - 5 range, multiply to get width
+            var size = Math.max(0, (Math.min(5, val))) * 20;
+            // Create stars holder
+            var $span = $('<span />').width(size + "%");
+            // Replace the numerical value with stars
+            $(this).html($span);
+        });
+    }
+
+
+    SetMapDetails(@Model.latitude, @Model.longitude);
+ </script>

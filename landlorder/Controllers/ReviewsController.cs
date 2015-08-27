@@ -132,7 +132,7 @@ namespace landlorder.Controllers
                     overallRating = (double?)(a.Reviews.Select(b => b.rating).Average()) ?? 0.0,
                     repairRating = (double?)(a.Reviews.Select(b => b.repairrating).Average()) ?? 0.0,
                     communicationRating = (double?)(a.Reviews.Select(b => b.communicationrating).Average()) ?? 0.0 ,
-                    Reviews = a.Reviews,
+                    Reviews = a.Reviews.OrderByDescending(x=>x.date),
                     users = db.AspNetUsers.Where((c=>c.Id == 
                         (c.Reviews.Where(d=> d.propertyID == a.propertyID).Select(e=>e.userID).FirstOrDefault()))).FirstOrDefault()
                 }).FirstOrDefault(); 

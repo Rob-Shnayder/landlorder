@@ -251,3 +251,22 @@
 .squaredThree input[type=checkbox]:checked + label:after {
   opacity: 1;
 }
+
+.submitbutton{
+    border-color: #C4C4C4;
+    background: #FFF none repeat scroll 0% 0%;
+    color: #565A5C;
+    padding: 7px 21px;
+    font-size: 15px;
+    display: inline-block;
+    margin-bottom: 0px;
+    border-radius: 2px;
+    border: 1px solid;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+    line-height: 1.43;
+    -moz-user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+}

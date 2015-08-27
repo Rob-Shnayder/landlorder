@@ -23,7 +23,7 @@ namespace landlorder.ViewModels
         [DisplayFormat(DataFormatString = "{0:n1}", ApplyFormatInEditMode = true)]
         public double communicationRating { get; set; }   
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual IOrderedEnumerable<Review> Reviews { get; set; }
 
         public virtual AspNetUser users { get; set; }
 
