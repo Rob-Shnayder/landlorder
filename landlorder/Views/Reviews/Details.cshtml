@@ -1,7 +1,10 @@
 ﻿@model landlorder.ViewModels.DetailsViewModel
+@using PagedList;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = ViewBag.address + " landlord reviews | landlorder";
 }
+
 
 
 <div class="review-section">
@@ -62,7 +65,7 @@
 
                         @if (Model.Reviews.Count > 0)
                         {
-                            foreach (var item in Model.Reviews)
+                            foreach (var item in Model.PagedReviews)
                             {
                                 if (item.anonymous == true)
                                 {
@@ -78,6 +81,8 @@
                                 @Html.DisplayFor(modelItem => item.review1)
                                 <hr />
                             }
+                            @Html.PagedListPager((IPagedList)(@Model.PagedReviews), page => Url.Action("Details", new { @id = Model.propertyID, @pagenum = page }))
+
                         }
                         else
                         {

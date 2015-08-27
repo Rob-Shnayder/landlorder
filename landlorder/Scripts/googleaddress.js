@@ -89,12 +89,14 @@ function GrabLocationData() {
 
 }
 function SetMap(lat, lng) {
+    var icon = '../images/red-dot3.png';
+
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         center: new google.maps.LatLng(lat, lng),
         disableDefaultUI: false,
         navigationControl: false,
         mapTypeControl: false,
-        zoom: 12
+        zoom: 13
     });
     
    if (lat == null || lng == null) {
@@ -103,10 +105,12 @@ function SetMap(lat, lng) {
 
    var location = new google.maps.LatLng(lat, lng);
 
-    var marker = new google.maps.Marker({
+   var marker = new google.maps.Marker({
         map: map,
         position: location
-    });
+   });
+   marker.setIcon(icon);
+   markerarray.push(marker);
 
 
 }
@@ -156,7 +160,7 @@ function createMarker(lat, lng, href, address) {
     if (lat == null || lng == null) {
         return;
     }
-    var icon = '../images/red-dot.png';
+    var icon = '../images/red-dot3.png';
     
     infowindow = new google.maps.InfoWindow();
     var location = new google.maps.LatLng(lat, lng);
@@ -215,11 +219,11 @@ function MarkerZoomTo(markerIdentifier, icon) {
    */
     var hoverIcon;
     if (icon == "yellow") {
-        hoverIcon = '../images/yellow-dot.png';
+        hoverIcon = '../images/yellow-dot2.png';
         markerarray[markerIdentifier].setIcon(hoverIcon);
     }
     else if (icon == "default") {
-        hoverIcon = '../images/red-dot.png';
+        hoverIcon = '../images/red-dot3.png';
         markerarray[markerIdentifier].setIcon(hoverIcon);
     }
 }

@@ -843,7 +843,7 @@ span.searchstars span {
     width:100%;
 }
 .explore-holder .explore-4{
-    background-image: url("../images/explorepics/Chicago/Chicago2_med.jpg");
+    background-image: url("../images/explorepics/Chicago/Chicago3_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -1069,6 +1069,8 @@ margin-left: 500px;
 
 .reviewlink{
     float: right;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .details-iconholder{

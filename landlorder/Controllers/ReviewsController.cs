@@ -62,13 +62,25 @@ namespace landlorder.Controllers
         private StaticPagedList<SearchResultsViewModel> OnePageOfResults(List<SearchResultsViewModel> r,int? pagenum)
         {
             var pageIndex = (pagenum ?? 1) - 1;
-            var pageSize = 10;
+            var pageSize = 8;
             int skip = pageSize * pageIndex;
 
             var results = new StaticPagedList<SearchResultsViewModel>(r.Skip(skip).Take(pageSize),
                 pageIndex + 1, pageSize, r.Count());
 
             results = GetLocationDataForRelated(results);
+
+            return results;
+        }
+
+        private StaticPagedList<Review> OnePageOfResults(List<Review> r, int? pagenum)
+        {
+            var pageIndex = (pagenum ?? 1) - 1;
+            var pageSize = 15;
+            int skip = pageSize * pageIndex;
+
+            var results = new StaticPagedList<Review>(r.Skip(skip).Take(pageSize),
+                pageIndex + 1, pageSize, r.Count());
 
             return results;
         }
@@ -103,9 +115,10 @@ namespace landlorder.Controllers
 
             return View(noreview);
         }
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? pagenum)
         {
             if (id == null) { return RedirectToAction("Index", "Home"); }
+            if (pagenum == null) { pagenum = 1; }
 
             
             var p = db.Properties.Where(x => x.propertyID == id).Select(a => new DetailsViewModel
@@ -136,7 +149,7 @@ namespace landlorder.Controllers
                 p.longitude = locationData.longitude;
             }
 
-            //p.repairRating = Math.Round(p.repairRating,1);
+            p.PagedReviews = OnePageOfResults(p.Reviews.ToList(), pagenum);
 
             ViewBag.address = p.formatted_address;
             return View(p);

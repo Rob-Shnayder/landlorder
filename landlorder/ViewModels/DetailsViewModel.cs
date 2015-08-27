@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using landlorder.Models;
 using System.ComponentModel.DataAnnotations;
+using PagedList;
+using PagedList.Mvc;
 
 namespace landlorder.ViewModels
 {
@@ -24,6 +26,8 @@ namespace landlorder.ViewModels
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual AspNetUser users { get; set; }
+
+        public StaticPagedList<Review> PagedReviews { get; set; }
         
     }
 }
