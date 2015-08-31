@@ -128,7 +128,6 @@ pre code {
   text-decoration: none;
 }
 .header .main-nav button {
-  background: #074f66;
   color: #fff !important;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -253,7 +252,7 @@ pre code {
     margin-bottom: 180px;
     font-size: 1.3em;  
     float:left;
-    width:90%;
+    width:80%;
 }
 
 .subscribe.form-control:focus {
@@ -266,11 +265,10 @@ pre code {
     background-color: #17baef;
     border: 0 none;
     color: white;
-    padding: 15px 20px;
-    position: absolute;
+    padding: 15.5px 20px;
     overflow: hidden;
     float: left;
-    margin-left: -40px;
+    right: 15px;
     -moz-transition: all .2s ease-in;
     -o-transition: all .2s ease-in;
     -webkit-transition: all .2s ease-in;
@@ -636,8 +634,11 @@ pre code {
     margin-right: 0;
   }
   .header .main-nav .navbar-collapse {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    background-color: #344A61;
+    z-index: 9999;
+    margin-top:15px;
+    padding-bottom: 10px;
   }
   .promo .btns .btn {
     margin-right: 0;
@@ -646,7 +647,7 @@ pre code {
     margin-bottom: 30px;
   }
   .promo .title {
-    font-size: 66px;
+    font-size: 55px;
   }
   .promo .meta {
     margin-top: 60px;
