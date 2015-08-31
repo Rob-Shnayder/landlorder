@@ -3,38 +3,43 @@
 @{
     ViewBag.Title = "Login | landlorder";
 }
+<div class="container">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="form-wrap">
+            <div class="tabs-content">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <h1 class="logintitle">Welcome to landlorder</h1>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="login-form">
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email", autofocus = "" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
+                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "rememberme" })
+                            @Html.DisplayNameFor(m => m.RememberMe)<br />
+                            <input type="submit" value="Log in" class="button" />
+                        </div>
+                        <hr />
+                        <p>
+                            @Html.ActionLink("Don't have an account? Sign Up!", "Register")
+                        </p>
+                        <p>
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                        </p>
+                    }
+                </section>
 
-<div class="form-wrap">
-    <div class="tabs-content">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal"}))
-            {
-                @Html.AntiForgeryToken()
-                <h1 class="logintitle">Welcome to landlorder</h1>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="login-form">
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    @Html.TextBoxFor(m => m.Email, new { @class = "input", @placeholder = "Email", autofocus = "" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    @Html.PasswordFor(m => m.Password, new { @class = "input", @placeholder = "Password", @autocomplete = "off" })
-                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "rememberme" })
-                    @Html.DisplayNameFor(m => m.RememberMe)<br />
-                    <input type="submit" value="Log in" class="button" />
-                </div>
-                <hr />
-                <p>
-                    @Html.ActionLink("Don't have an account? Sign Up!", "Register")
-                </p>
-                 <p>
-                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                </p>
-            }
-        </section>
-
-    </div>    
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3"></div>
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

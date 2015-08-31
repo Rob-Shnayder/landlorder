@@ -5,10 +5,7 @@
 
 .form-wrap {
   margin: 0;
-  padding: 0;
-  background-color: #fff;
-  width: 520px;
-  margin: 3em auto; }
+  padding: 0; }
   .form-wrap .tabs {
     overflow: hidden; }
     .form-wrap .tabs h3 {
@@ -23,7 +20,6 @@
         .form-wrap .tabs h3 a.active {
           color: #0074e4;
           border-bottom: 2px solid #0074e4;
-          background: #fff;
         }
   .form-wrap .tabs-content {
     padding: 1.5em; }

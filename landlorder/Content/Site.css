@@ -28,6 +28,9 @@ h6 {
   padding-right: 0;
   padding-left: 0;
 }
+
+
+
     
   
 
@@ -147,6 +150,7 @@ pre code {
 .header .main-nav .navbar-collapse {
   padding: 0;
   margin-right:55px;
+  position: relative;
 }
 .header .main-nav .nav .nav-item {
   font-weight: bolder;
@@ -628,18 +632,43 @@ pre code {
 .footer .fa-heart {
   color: #fb866a;
 }
-/* Extra small devices (phones, less than 768px) */
-@media (max-width: 767px) {
-  .header .main-nav button {
-    margin-right: 0;
+
+
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px) {
+ 
+   .header .main-nav button {
+    margin-right: -10px;
+    margin-top: 14px;
+  }
+  .header .logo {
+    margin: 0;
+    font-size: 23px;
+    padding-top: 20px;
+    margin-left: 0px;
   }
   .header .main-nav .navbar-collapse {
     padding-left: 25px;
     background-color: #344A61;
     z-index: 9999;
-    margin-top:15px;
+    margin-top:10px;
     padding-bottom: 10px;
   }
+
+
+.header .search-bar{
+  position: absolute;
+   top: 18px;
+   left: 138px;
+   display:none;
+}
+
+.header .search-item{
+    display:none;
+}
+
   .promo .btns .btn {
     margin-right: 0;
     clear: both;
@@ -649,41 +678,64 @@ pre code {
   .promo .title {
     font-size: 55px;
   }
-  .promo .meta {
-    margin-top: 60px;
-  }
-  .promo .meta li {
-    float: none;
-    display: block;
-    margin-bottom: 5px;
-  }
-  .contact .author-message {
-    text-align: center;
-  }
-  .contact .author-message .profile {
-    position: static;
-    margin: 0 auto;
-    margin-bottom: 30px;
-  }
-  .contact .author-message .speech-bubble {
-    margin-left: 0;
-  }
-  .contact .author-message .speech-bubble:after {
-    display: none;
-  }
-  .contact .social-icons a {
-    width: 36px;
-    height: 36px;
-    padding-top: 7px;
-    margin-right: 2px;
-  }
-  .contact .social-icons a .fa:before {
-    font-size: 18px;
-  }
+
 }
-/* Small devices (tablets, 768px and up) */
-/* Medium devices (desktops, 992px and up) */
-/* Large devices (large desktops, 1200px and up) */
+
+
+/* Extra small devices (phones, less than 768px) */
+@media only screen 
+  and (min-device-width: 320px)  and (max-width: 767px) {
+    .header .main-nav button {
+        margin-right: 0;
+        margin-top: 14px;
+    }
+
+    .header .logo {
+        margin: 0;
+        font-size: 23px;
+        padding-top: 20px;
+        margin-left: 0px;
+    }
+
+    .header .main-nav .navbar-collapse {
+        padding-left: 25px;
+        margin-top: 10px;
+        padding-bottom: 10px;
+    }
+
+
+    .header .search-bar {
+        position: absolute;
+        top: 18px;
+        left: 138px;
+        display: none;
+    }
+
+     .header .search-bar .icon-search {
+            display: none;
+        }
+
+        .header .search-bar .search-item {
+            display:none;
+        }
+
+    .promo .btns .btn {
+        margin-right: 0;
+        clear: both;
+        display: block;
+        margin-bottom: 30px;
+    }
+
+    .promo .title {
+        font-size: 55px;
+    }
+        
+}
+
+
+
+
+
 
 .logintitle{
   font-family: 'open sans';
@@ -1132,6 +1184,7 @@ margin-left: 500px;
 .details-iconholder i{
     color: #929292;
 }
+
 .search-bar{
   position: absolute;
     top: 18px;
