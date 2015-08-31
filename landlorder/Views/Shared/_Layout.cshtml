@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/icon.ico" />
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/plugins")
@@ -67,7 +68,7 @@
         <hr /> <!--//end body-->
         <footer>
             <div class="container-fluid text-center">
-                <p>&copy; @DateTime.Now.Year - landlorder - All Rights Reserved.</p>
+                <p>&copy; @DateTime.Now.Year - landlorder - All Rights Reserved - @Html.ActionLink("Legal Attribution", "Legal", "Home")</p>
             </div><!--//container-->
         </footer>
     </div>

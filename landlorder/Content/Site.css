@@ -245,7 +245,6 @@ pre code {
 
 
 .subscribe.form-control {
-    width: 530px;
     height: 50px;
     background: white;
     border: none;
@@ -253,7 +252,8 @@ pre code {
     color: black;
     margin-bottom: 180px;
     font-size: 1.3em;  
-    margin-left: -60px;
+    float:left;
+    width:90%;
 }
 
 .subscribe.form-control:focus {
@@ -269,6 +269,8 @@ pre code {
     padding: 15px 20px;
     position: absolute;
     overflow: hidden;
+    float: left;
+    margin-left: -40px;
     -moz-transition: all .2s ease-in;
     -o-transition: all .2s ease-in;
     -webkit-transition: all .2s ease-in;
@@ -330,6 +332,9 @@ pre code {
 
 .about .item .content .info {
   text-align:center;
+  line-height: 1.5;
+  font-size: 17px;
+  font-weight: 300;
 }
 /* ======= Features Section ======= */
 .features {
@@ -819,6 +824,8 @@ span.searchstars span {
 
 
 .explore-holder .explore-1{
+    /* picture of [Lady Lierty NYC] (c) [2015] [Guilherme Nicholas] released under [Creative Commons 2.0] taken from [https://www.flickr.com/photos/guinicholas/19576588460/in/photostream/] */
+
     background-image: url("../images/explorepics/NewYork/NY3_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -828,23 +835,30 @@ span.searchstars span {
 }
 
 .explore-holder .explore-2{
-    background-image: url("../images/explorepics/SanFran/SanFran2.jpg");
+    /* picture of [Space needle and fog] (c) [2013] [Tim Durkan] released under [Creative Commons 2.0] taken from [https://www.flickr.com/photos/timdurkan/10460205174/in/photolist-gWkhz5-dCTtVm-dBTFZ6-4VyeW7-dCTtMC-8bNnzA-r6sxU6-4Ufgch-nz2Pv5-aawDME-86iqET-rbAX2q-m1DKSt-oeUAdH-rUHkr2-8q3mDi-aJRR4-QsK5n-gG39u-3ct3nR-4JjP9j-8etxMT-6dhn1Q-8dDgbz-8oBa8d-aN85mZ-4Jfp6R-8dGwiU-8dDguP-8dDgWZ-6XXezb-8dGx6w-8ewQzY-bymsGB-nzrM4k-2Da9yB-o4NVEi-aLf15Z-dN4xgm-6Pvjbx-5pU3cr-4Qg7QL-5Uzs5h-9dNfnq-5kAnoz-5kAnAg-47SBt-neLWgZ-mEUjX-fDuNjw] */
+
+    background-image: url("../images/explorepics/Seattle/Seattle4.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: top left;
+    background-position: center top;
     height:100%;
     width:100%;
 }
 .explore-holder .explore-3{
-    background-image: url("../images/explorepics/Miami/Miami1_med.jpg");
+    /* picture of [Brickell] (c) [2006] [alex de carvalho] released under [Creative Commons 2.0] taken from [https://www.flickr.com/photos/adc/246098355/] */
+
+    background-image: url("../images/explorepics/Miami/Miami1-lg-fixed.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     height:100%;
     width:100%;
 }
+
+
 .explore-holder .explore-4{
-    background-image: url("../images/explorepics/Chicago/Chicago2_med.jpg");
+    /* picture of [Chicago Skylines] (c) [2015] [Ernle R] released under [Creative Commons 2.0] taken from [https://www.flickr.com/photos/seyerce/4943975251/in/photostream/] */
+    background-image: url("../images/explorepics/Chicago/chicago7_med.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -920,7 +934,6 @@ span.searchstars span {
   display:inline;
   text-align: center;
   
-  white-space:nowrap;
 }
 
 /* ************************************* */

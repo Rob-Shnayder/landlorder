@@ -238,7 +238,6 @@
     <Content Include="Content\login.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Review.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\Bold\OpenSans-Bold.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\Light\OpenSans-Light.svg" />
@@ -248,12 +247,15 @@
     <Content Include="Geocoding\Google\Google.csproj" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="icon.ico" />
     <Content Include="images\condo-compress.jpg" />
-    <Content Include="images\explorepics\Chicago\Chicago2_med.jpg" />
-    <Content Include="images\explorepics\Miami\Miami1_med.jpg" />
+    <Content Include="images\explorepics\Chicago\chicago7_med.jpg" />
+    <Content Include="images\explorepics\Miami\Miami1-lg-fixed.jpg" />
     <Content Include="images\explorepics\NewYork\NY3_med.jpg" />
-    <Content Include="images\explorepics\SanFran\SanFran2.jpg" />
+    <Content Include="images\explorepics\Seattle\seattle4.jpg" />
+    <Content Include="images\red-dot3.png" />
     <Content Include="images\stars2.png" />
+    <Content Include="images\yellow-dot2.png" />
     <Content Include="Scripts\backup.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\googleaddress.js" />
@@ -346,6 +348,7 @@
     <Content Include="Views\Reviews\DetailsNew.cshtml" />
     <None Include="Properties\PublishProfiles\landlorders - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\landlorders - Web Deploy.pubxml" />
+    <Content Include="Views\Home\Legal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -356,6 +359,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

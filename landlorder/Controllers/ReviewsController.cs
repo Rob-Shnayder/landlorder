@@ -356,9 +356,7 @@ namespace landlorder.Controllers
         }
         private List<SearchResultsViewModel> SearchAllRelatedProperties(SearchCompare array, int id)
         {
-            //.Where(x => (x.propertyID != id) && (x.latitude < (x.latitude - 0.3m) && x.latitude > (x.latitude + 0.3m))
-              //  && (x.longitude < (x.longitude - 0.3m) && x.longitude > (x.longitude + 0.3m)))
-
+            
             var coord = new GeoCoordinate { Latitude = (double?)array.latitude ?? 0, Longitude = (double?)array.longitude ?? 0 };
             var property = db.Properties.Select(x => new SearchResultsViewModel
                 {
@@ -374,7 +372,16 @@ namespace landlorder.Controllers
                 .Where(x => x.propertyID != id)
                 .AsEnumerable()
                 .OrderBy(x => x.geocoord.GetDistanceTo(coord))
-                .Take(1000).ToList();
+                .Take(500).ToList();
+
+             
+            /*
+            var property = db.Database.SqlQuery<Property>("SearchReviews_StreetAddress_Related @lat, @lon, @propertyid",
+            new SqlParameter("@lat", array.latitude),
+            new SqlParameter("@lon", array.longitude),
+            new SqlParameter("@propertyid", array.propertyID)).
+           .ToList();
+             * */
             
             return property;
         }

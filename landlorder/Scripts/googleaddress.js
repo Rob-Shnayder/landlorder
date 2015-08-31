@@ -96,7 +96,7 @@ function SetMap(lat, lng) {
         disableDefaultUI: false,
         navigationControl: false,
         mapTypeControl: false,
-        zoom: 13
+        zoom: 10
     });
     
    if (lat == null || lng == null) {

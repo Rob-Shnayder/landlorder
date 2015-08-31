@@ -19,6 +19,10 @@ namespace landlorder.Controllers
         {
             return View();
         }
+        public ActionResult Legal()
+        {
+            return View();
+        }
 
 
     }
